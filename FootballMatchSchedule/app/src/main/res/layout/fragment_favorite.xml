@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".frontendcontroller.FavoriteFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <!--1-->
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout_fragment_favorite_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabSelectedTextColor="@color/colorAccent"
+        app:tabTextColor="@color/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!--1_1-->
+        <android.support.design.widget.TabItem
+            android:id="@+id/tabItem_fragment_favorite_1_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/s15" />
+
+        <!--1_2-->
+        <android.support.design.widget.TabItem
+            android:id="@+id/tabItem_fragment_favorite_1_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/s17" />
+
+    </android.support.design.widget.TabLayout>
+
+    <!--2-->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager_fragment_favorite_2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout_fragment_favorite_1"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+</android.support.constraint.ConstraintLayout>

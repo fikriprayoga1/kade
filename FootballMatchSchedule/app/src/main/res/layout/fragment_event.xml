@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".frontendcontroller.EventFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <!--1-->
+    <EditText
+        android:id="@+id/editText_fragment_event_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/s18"
+        android:paddingLeft="20dp"
+        android:paddingRight="50dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout_fragment_event_3"
+        android:layout_margin="10dp"/>
+
+    <!--2-->
+    <ImageButton
+        android:id="@+id/imageButton_fragment_event_2"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:src="@drawable/ic_search_black_24dp"
+        app:layout_constraintTop_toTopOf="@+id/editText_fragment_event_1"
+        app:layout_constraintEnd_toEndOf="@+id/editText_fragment_event_1"
+        app:layout_constraintBottom_toBottomOf="@+id/editText_fragment_event_1"
+        android:layout_marginBottom="10dp"
+        android:background="@color/transparent100"/>
+
+    <!--3-->
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout_fragment_event_3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/editText_fragment_event_1"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!--3_1-->
+        <Spinner
+            android:id="@+id/spinner_fragment_event_3_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"/>
+
+        <!--3_2-->
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabLayout_fragment_event_3_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabSelectedTextColor="@color/colorAccent"
+            app:tabTextColor="@color/colorPrimary"
+            app:layout_constraintTop_toBottomOf="@+id/spinner_fragment_event_3_1">
+
+            <!--3_2_1-->
+            <android.support.design.widget.TabItem
+                android:id="@+id/tabItem_fragment_event_3_2_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/s13" />
+
+            <!--3_2_2-->
+            <android.support.design.widget.TabItem
+                android:id="@+id/tabItem_fragment_event_3_2_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/s14" />
+        </android.support.design.widget.TabLayout>
+
+        <!--3_3-->
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager_fragment_event_3_3"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tabLayout_fragment_event_3_2">
+        </android.support.v4.view.ViewPager>
+    </android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>

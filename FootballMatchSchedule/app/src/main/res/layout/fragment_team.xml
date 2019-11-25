@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".frontendcontroller.TeamFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <!--1-->
+    <EditText
+        android:id="@+id/editText_fragment_team_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_margin="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout_fragment_team_3"
+        android:inputType="textPersonName"
+        android:hint="Name" />
+
+    <!--2-->
+    <ImageButton
+        android:id="@+id/imageButton_fragment_team_2"
+        android:layout_width="35dp"
+        android:layout_height="0dp"
+        android:background="@color/transparent100"
+        android:src="@drawable/ic_search_black_24dp"
+        app:layout_constraintTop_toTopOf="@+id/editText_fragment_team_1"
+        app:layout_constraintEnd_toEndOf="@+id/editText_fragment_team_1"
+        app:layout_constraintBottom_toBottomOf="@+id/editText_fragment_team_1"
+        android:layout_marginBottom="10dp"/>
+
+    <!--3-->
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout_fragment_team_3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_fragment_team_1">
+
+        <!--3_1-->
+        <Spinner
+            android:id="@+id/spinner_fragment_team_3_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!--3_2-->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView_fragment_team_3_2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/spinner_fragment_team_3_1"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

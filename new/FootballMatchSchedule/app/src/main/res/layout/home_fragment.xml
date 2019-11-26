@@ -1,13 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.HomeFragment">
 
-    <TextView
+    <!--1-->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_fragment_home_1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <!--2-->
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager_fragment_home_2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/tabLayout_fragment_home_3"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_home_1" />
+
+    <!--3-->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout_fragment_home_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!--3_1-->
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabItem_fragment_home_3_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/a15" />
+
+        <!--3_2-->
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabItem_fragment_home_3_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/a17" />
+
+        <!--3_3-->
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabItem_fragment_home_3_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/a16" />
+
+        <!--3_4-->
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabItem_fragment_home_3_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/a19" />
+    </com.google.android.material.tabs.TabLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

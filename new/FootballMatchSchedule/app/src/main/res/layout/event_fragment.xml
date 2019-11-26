@@ -1,13 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="20dp"
     tools:context=".view.EventFragment">
 
-    <TextView
+    <!--1-->
+    <EditText
+        android:id="@+id/editText_event_fragment_1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:hint="@string/a18"
+        android:inputType="textPersonName"
+        android:paddingLeft="20dp"
+        android:paddingRight="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout_event_fragment_3"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <!--2-->
+    <ImageButton
+        android:id="@+id/imageButton_event_fragment_2"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/transparent100"
+        android:src="@drawable/ic_search_black_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/editText_event_fragment_1"
+        app:layout_constraintEnd_toEndOf="@+id/editText_event_fragment_1"
+        app:layout_constraintTop_toTopOf="@+id/editText_event_fragment_1" />
+
+    <!--3-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout_event_fragment_3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_event_fragment_1">
+
+        <!--3_1-->
+        <Spinner
+            android:id="@+id/spinner_event_fragment_3_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--3_2-->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout_event_fragment_3_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/spinner_event_fragment_3_1">
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tabItem_event_fragment_3_2_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/a13" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tabItem_event_fragment_3_2_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/a14" />
+        </com.google.android.material.tabs.TabLayout>
+
+        <!--3_3-->
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager_event_fragment_3_3"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tabLayout_event_fragment_3_2" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

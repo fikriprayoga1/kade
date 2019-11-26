@@ -1,13 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.PlayerDetailFragment">
 
-    <TextView
+    <!--1-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout_player_detail_fragment_1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <!--1_1-->
+        <ImageView
+            android:id="@+id/imageView_player_detail_fragment_1_1"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/colorPrimary"
+            android:src="@drawable/ic_bug_report_black_24dp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--1_2-->
+        <TextView
+            android:id="@+id/textView_player_detail_fragment_1_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/a6"
+            android:textColor="@color/colorPrimary"
+            android:textSize="10pt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_player_detail_fragment_1_1" />
+
+        <!--1_3-->
+        <TextView
+            android:id="@+id/textView_player_detail_fragment_1_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/a22"
+            android:textColor="@color/secondary_text"
+            android:textSize="7pt"
+            app:layout_constraintEnd_toStartOf="@+id/textView_player_detail_fragment_1_4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView_player_detail_fragment_1_2" />
+
+        <!--1_4-->
+        <TextView
+            android:id="@+id/textView_player_detail_fragment_1_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/a23"
+            android:textColor="@color/secondary_text"
+            android:textSize="7pt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView_player_detail_fragment_1_3"
+            app:layout_constraintTop_toBottomOf="@+id/textView_player_detail_fragment_1_2" />
+
+        <!--1_5-->
+        <TextView
+            android:id="@+id/textView_player_detail_fragment_1_5"
+            android:layout_width="125dp"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="@string/a24"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20pt"
+            app:layout_constraintEnd_toEndOf="@+id/textView_player_detail_fragment_1_3"
+            app:layout_constraintStart_toStartOf="@+id/textView_player_detail_fragment_1_3"
+            app:layout_constraintTop_toBottomOf="@+id/textView_player_detail_fragment_1_3" />
+
+        <!--1_6-->
+        <TextView
+            android:id="@+id/textView_player_detail_fragment_1_6"
+            android:layout_width="125dp"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="@string/a24"
+            android:textSize="20pt"
+            app:layout_constraintEnd_toEndOf="@+id/textView_player_detail_fragment_1_4"
+            app:layout_constraintStart_toStartOf="@+id/textView_player_detail_fragment_1_4"
+            app:layout_constraintTop_toBottomOf="@+id/textView_player_detail_fragment_1_4" />
+
+        <!--1_7-->
+        <TextView
+            android:id="@+id/textView_player_detail_fragment_1_7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="125dp"
+            android:text="@string/a11"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="7pt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView_player_detail_fragment_1_2" />
+
+        <!--1_8-->
+        <TextView
+            android:id="@+id/textView_player_detail_fragment_1_8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="@string/a21"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView_player_detail_fragment_1_7" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

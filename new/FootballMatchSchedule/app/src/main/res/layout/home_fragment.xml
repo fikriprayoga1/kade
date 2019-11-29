@@ -17,46 +17,22 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!--2-->
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager_fragment_home_2"
+    <FrameLayout
+        android:id="@+id/frameLayout_fragment_home_2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/tabLayout_fragment_home_3"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView_home_fragment_3"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_home_1" />
 
-    <!--3-->
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout_fragment_home_3"
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView_home_fragment_3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <!--3_1-->
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabItem_fragment_home_3_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/a15" />
-
-        <!--3_2-->
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabItem_fragment_home_3_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/a17" />
-
-        <!--3_3-->
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabItem_fragment_home_3_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/a16" />
-
-        <!--3_4-->
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabItem_fragment_home_3_4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/a19" />
-    </com.google.android.material.tabs.TabLayout>
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        app:itemIconTint="@color/background"
+        app:itemTextColor="@color/background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/bottomnavigation_menu" />
 </androidx.constraintlayout.widget.ConstraintLayout>

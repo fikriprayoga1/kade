@@ -6,11 +6,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import androidx.lifecycle.Observer
 
 import com.example.footballmatchschedule.R
+import com.example.footballmatchschedule.model.retrofitresponse.RequestLeagueList
+import com.example.footballmatchschedule.other.callback.Event
 import com.example.footballmatchschedule.viewmodel.EventViewModel
+import kotlinx.android.synthetic.main.event_fragment.*
+import kotlinx.coroutines.*
 
 class EventFragment : Fragment() {
+
 
     companion object {
         fun newInstance() = EventFragment()
@@ -28,7 +35,87 @@ class EventFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
-        // TODO: Use the ViewModel
+
     }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.init((activity as MainActivity).viewModel.getUserRepository())
+        spinner_event_fragment_3_1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+
+
+            }
+
+
+        }
+
+        val adapter = viewModel.getAdapter(childFragmentManager)
+        viewPager_event_fragment_3_3.adapter = adapter
+        tabLayout_event_fragment_3_2.setupWithViewPager(viewPager_event_fragment_3_3)
+
+        viewModel.getLeagueList()?.observe(this, Observer {
+            if (it != null) {
+
+                viewModel.getUIScope().launch {
+                    val aa = withContext(Dispatchers.Default) {
+                        viewModel.addSpinner(it, context!!)
+
+                    }
+
+                    spinner_event_fragment_3_1.adapter = aa
+
+                }
+
+
+            }
+
+        })
+
+        val po = (activity as MainActivity)
+
+        po.startLoading(null)
+        viewModel.requestLeagueList((activity as MainActivity), object : Event {
+            override fun requestLeagueList(
+                mainActivity: MainActivity,
+                requestLeagueList: RequestLeagueList
+            ) {
+                mainActivity.stopLoading(null)
+                if (!requestLeagueList.isSuccess) {
+                    mainActivity.popUp(requestLeagueList.message)
+
+                } else {
+                    mainActivity.popUp(requestLeagueList.message)
+
+                }
+
+            }
+
+
+        })
+
+    }
+
+    override fun onStop() {
+        viewModel.getJob().cancel()
+        super.onStop()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+
+    }
+
+
 
 }

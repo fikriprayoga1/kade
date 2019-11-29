@@ -13,13 +13,24 @@
         android:layout_height="match_parent" />
 
     <!--2-->
-    <ProgressBar
-        android:id="@+id/progressBar_activity_main_2"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cardView_activity_main_2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black20"
+        android:clickable="true"
+        android:visibility="gone">
+
+        <!--2_1-->
+        <ProgressBar
+            android:id="@+id/progressBar_activity_main_2_1"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -78,6 +78,17 @@ class EventViewModel : ViewModel() {
     }
 
     fun getJob(): Job { return job }
+
     fun getUIScope(): CoroutineScope { return uiScope }
+
+    fun hasCache(): Boolean {
+        var status = false
+        if (leagueDatabase != null) {
+            status = true
+
+        }
+        return status
+
+    }
 
 }

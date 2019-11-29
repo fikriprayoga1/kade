@@ -38,26 +38,27 @@ class EventFragment : Fragment() {
 
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         viewModel.init((activity as MainActivity).viewModel.getUserRepository())
-        spinner_event_fragment_3_1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
+        spinner_event_fragment_3_1.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                }
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+
+
+                }
+
 
             }
-
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-
-
-            }
-
-
-        }
 
         val adapter = viewModel.getAdapter(childFragmentManager)
         viewPager_event_fragment_3_3.adapter = adapter
@@ -83,17 +84,18 @@ class EventFragment : Fragment() {
 
         val po = (activity as MainActivity)
 
-        po.startLoading(null)
+        if (!viewModel.hasCache()) {
+            po.startLoading(null)
+        }
         viewModel.requestLeagueList((activity as MainActivity), object : Event {
             override fun requestLeagueList(
                 mainActivity: MainActivity,
                 requestLeagueList: RequestLeagueList
             ) {
-                mainActivity.stopLoading(null)
+                if (!viewModel.hasCache()) {
+                    mainActivity.stopLoading(null)
+                }
                 if (!requestLeagueList.isSuccess) {
-                    mainActivity.popUp(requestLeagueList.message)
-
-                } else {
                     mainActivity.popUp(requestLeagueList.message)
 
                 }
@@ -105,17 +107,10 @@ class EventFragment : Fragment() {
 
     }
 
-    override fun onStop() {
+    override fun onPause() {
         viewModel.getJob().cancel()
-        super.onStop()
+        super.onPause()
     }
-
-    override fun onResume() {
-        super.onResume()
-
-
-    }
-
 
 
 }

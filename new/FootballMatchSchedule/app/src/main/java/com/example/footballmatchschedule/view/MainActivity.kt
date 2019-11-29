@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun popUp(message: String) {
-        Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+        runOnUiThread { Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show() }
 
     }
 }

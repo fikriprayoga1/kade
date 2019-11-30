@@ -4,10 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class League (
+data class Note (
     @PrimaryKey
-    var idLeague: Int,
-    var strLeague: String,
-    var strSport: String,
-    var strLeagueAlternate: String
+    var name: String,
+    var value: String
 )

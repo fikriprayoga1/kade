@@ -29,15 +29,6 @@ class AlarmFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(AlarmViewModel::class.java)
 
-        val a = 0
-
-        val b = if (a == 0) {
-            "start"
-        } else {
-            "stop"
-        }
-
-
 
 
     }

@@ -10,8 +10,7 @@ import android.widget.AdapterView
 import androidx.lifecycle.Observer
 
 import com.example.footballmatchschedule.R
-import com.example.footballmatchschedule.model.retrofitresponse.RequestLeagueList
-import com.example.footballmatchschedule.other.callback.Event
+import com.example.footballmatchschedule.model.retrofitresponse.RequestLeague
 import com.example.footballmatchschedule.viewmodel.EventViewModel
 import kotlinx.android.synthetic.main.event_fragment.*
 import kotlinx.coroutines.*
@@ -53,7 +52,7 @@ class EventFragment : Fragment() {
                     position: Int,
                     id: Long
                 ) {
-
+//                    (activity as MainActivity).viewModel.setLeagueIdHolder(viewModel.getLeagueIdList(position))
 
                 }
 
@@ -82,28 +81,26 @@ class EventFragment : Fragment() {
 
         })
 
-        val po = (activity as MainActivity)
-
         if (!viewModel.hasCache()) {
-            po.startLoading(null)
-        }
-        viewModel.requestLeagueList((activity as MainActivity), object : Event {
-            override fun requestLeagueList(
-                mainActivity: MainActivity,
-                requestLeagueList: RequestLeagueList
-            ) {
-                if (!viewModel.hasCache()) {
+            (activity as MainActivity).startLoading(null)
+            viewModel.requestLeagueList((activity as MainActivity), object :
+                com.example.footballmatchschedule.other.callback.RequestLeagueCallback {
+                override fun requestLeagueList(
+                    mainActivity: MainActivity,
+                    requestLeague: RequestLeague
+                ) {
                     mainActivity.stopLoading(null)
-                }
-                if (!requestLeagueList.isSuccess) {
-                    mainActivity.popUp(requestLeagueList.message)
+                    if (!requestLeague.isSuccess) {
+                        mainActivity.popUp(requestLeague.message)
+
+                    }
 
                 }
 
-            }
 
+            })
 
-        })
+        }
 
     }
 
@@ -111,6 +108,5 @@ class EventFragment : Fragment() {
         viewModel.getJob().cancel()
         super.onPause()
     }
-
 
 }

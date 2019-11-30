@@ -1,9 +1,9 @@
 package com.example.footballmatchschedule.model.retrofitresponse
 
-import com.example.footballmatchschedule.model.apiresponse.League
+import com.example.footballmatchschedule.model.apiresponse.LME
 
-data class RequestLeagueList(
+data class RequestLME(
     var isSuccess: Boolean,
     var message: String,
-    var league: League?
+    var lme: LME?
 )

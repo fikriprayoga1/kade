@@ -2,6 +2,8 @@ package com.example.footballmatchschedule.viewmodel
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.room.Room
 import com.example.footballmatchschedule.other.helper.Tag
@@ -20,6 +22,8 @@ class MainActivityViewModel: ViewModel() {
     private val queueInit: Short = 0
     // 3
     private var userRepository: UserRepository? = null
+    // 4
+    private var leagueIdHolder = MutableLiveData<String>()
 
     fun init(context: Context) {
         if (userRepository == null) {
@@ -48,5 +52,11 @@ class MainActivityViewModel: ViewModel() {
     fun getQueueInit(): Short { return queueInit }
 
     fun getUserRepository(): UserRepository { return userRepository!! }
+
+    fun setLeagueIdHolder(idHolder: String) { leagueIdHolder.value = idHolder }
+
+    fun getLeagueIdHolder(): LiveData<String> { return leagueIdHolder }
+
+    fun getLeagueIdHolder2(): String? { return leagueIdHolder.value }
 
 }

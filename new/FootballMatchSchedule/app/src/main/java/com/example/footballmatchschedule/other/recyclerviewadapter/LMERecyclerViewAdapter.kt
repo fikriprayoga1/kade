@@ -1,5 +1,6 @@
 package com.example.footballmatchschedule.other.recyclerviewadapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.footballmatchschedule.R
-import com.example.footballmatchschedule.model.database.LMEDatabase
+import com.example.footballmatchschedule.model.apiresponse.LMEDetail
 import java.text.SimpleDateFormat
 
 class LMERecyclerViewAdapter(internal var context: Context
@@ -32,26 +33,30 @@ class LMERecyclerViewAdapter(internal var context: Context
     }
 
     // this method for init item in every view item
+    @SuppressLint("SimpleDateFormat")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        lateinit var str: String
-        val mLMEDatabase = lmeObject[position].lmeDatabase
+        val mLMEDetail = lmeObject[position].lmeDetail
 
-        try {
-            val inputFormat = SimpleDateFormat("yyyy-MM-dd")
-            val outputFormat = SimpleDateFormat("EEE, d MMM yyyy")
-            val date = inputFormat.parse(mLMEDatabase.dateEvent)
-            str = outputFormat.format(date)
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd")
+        val outputFormat = SimpleDateFormat("EEE, d MMM yyyy")
+        val dateEvent = mLMEDetail.dateEvent
+        if (dateEvent != null) {
+            val date = inputFormat.parse(dateEvent)
+            if (date != null) {
+                val str = outputFormat.format(date)
+                holder.mDate.text = str
+            }
 
-        } catch (e: java.lang.Exception) {}
+        }
 
-        holder.mDate.text = str
-        holder.mTeam1.text = mLMEDatabase.strHomeTeam
-        holder.mTeamScore1.text = mLMEDatabase.intHomeScore
-        holder.mteam2.text = mLMEDatabase.strAwayTeam
-        holder.mTeamScore2.text = mLMEDatabase.intAwayScore
+
+        holder.mTeam1.text = mLMEDetail.strHomeTeam
+        holder.mTeamScore1.text = mLMEDetail.intHomeScore
+        holder.mteam2.text = mLMEDetail.strAwayTeam
+        holder.mTeamScore2.text = mLMEDetail.intAwayScore
 
         holder.itemView.setOnClickListener {
-            lmeListener.itemDetail(mLMEDatabase)
+            lmeListener.itemDetail(mLMEDetail)
 
         }
 
@@ -72,11 +77,11 @@ class LMERecyclerViewAdapter(internal var context: Context
 
     // this interface for handle more button pressed
     interface LMEListener {
-        fun itemDetail(lmeDatabase: LMEDatabase)
+        fun itemDetail(lmeDetail: LMEDetail)
 
     }
 
     // this class is object of item in recyclerview
-    class LMEObject(var lmeDatabase: LMEDatabase)
+    class LMEObject(var lmeDetail: LMEDetail)
 
 }

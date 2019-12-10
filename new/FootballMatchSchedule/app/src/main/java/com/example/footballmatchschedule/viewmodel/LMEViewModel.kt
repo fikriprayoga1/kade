@@ -1,10 +1,11 @@
 package com.example.footballmatchschedule.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.footballmatchschedule.model.database.LMEDatabase
+import com.example.footballmatchschedule.model.apiresponse.LMEDetail
+import com.example.footballmatchschedule.other.ResponseListener
 import com.example.footballmatchschedule.other.jetpack.UserRepository
 import com.example.footballmatchschedule.other.recyclerviewadapter.LMERecyclerViewAdapter
+import com.example.footballmatchschedule.view.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -13,7 +14,7 @@ class LMEViewModel : ViewModel() {
     // 1
     private lateinit var userRepository: UserRepository
     // 2
-    private var lmeDatabase: LiveData<List<LMEDatabase>>? = null
+    private lateinit var mainActivity: MainActivity
     // 4
     private val job = Job()
     // 5
@@ -23,35 +24,21 @@ class LMEViewModel : ViewModel() {
     // 7
     private lateinit var lmeObject: LMERecyclerViewAdapter.LMEObject
 
-    fun init(userRepository: UserRepository) {
+    fun init(userRepository: UserRepository, mainActivity: MainActivity) {
         this.userRepository = userRepository
-
-        if (lmeDatabase == null) {
-            lmeDatabase = userRepository.getDatabase().readLastMatchEventList()
-
-        }
+        this.mainActivity = mainActivity
 
     }
 
-    fun getLMEList(): LiveData<List<LMEDatabase>>? { return lmeDatabase }
-
-    fun getJob(): Job { return job }
-
-    fun getUIScope(): CoroutineScope { return uiScope }
-
-    fun hasCache(): Boolean {
-        var status = false
-        if (lmeDatabase != null) {
-            status = true
-
-        }
-        return status
-
+    fun getJob(): Job {
+        return job
     }
 
-    fun addList(it: String): MutableList<LMERecyclerViewAdapter.LMEObject> {
-        val lmeList = userRepository.getDatabase().readLastMatchEventList2(it)
+    fun getUIScope(): CoroutineScope {
+        return uiScope
+    }
 
+    fun initLMEList(lmeList: List<LMEDetail>) {
         lmeObjects.clear()
 
         for (i in lmeList.indices) {
@@ -60,26 +47,19 @@ class LMEViewModel : ViewModel() {
 
         }
 
-        return lmeObjects
+    }
+
+    fun requestLMEList(id: String, responseListener: ResponseListener) {
+        userRepository.requestLMEList(id, responseListener)
 
     }
 
-    fun addList2(it: String, lmeList: List<LMEDatabase>): MutableList<LMERecyclerViewAdapter.LMEObject> {
-        lmeObjects.clear()
-
-        for (i in lmeList.indices) {
-            if (it == lmeList[i].idLeague) {
-                lmeObject = LMERecyclerViewAdapter.LMEObject(lmeList[i])
-                lmeObjects.add(lmeObject)
-
-            }
-
-        }
-
-        return lmeObjects
-
+    fun getMainActivity(): MainActivity {
+        return mainActivity
     }
 
-//    fun requestLastMatchEventList()
+    fun getLMEObjects(): MutableList<LMERecyclerViewAdapter.LMEObject> {
+        return lmeObjects
+    }
 
 }

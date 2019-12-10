@@ -1,19 +1,16 @@
 package com.example.footballmatchschedule.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.footballmatchschedule.R
-import com.example.footballmatchschedule.other.helper.Tag
 import com.example.footballmatchschedule.viewmodel.MainActivityViewModel
-import com.example.footballmatchschedule.viewmodel.SearchEventViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -25,14 +22,24 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
-        startLoading(null)
-        GlobalScope.launch(Dispatchers.Main) {
-            withContext(Dispatchers.Default) { viewModel.init(applicationContext) }
-            stopLoading(null)
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        startLoading(viewModel.getUIScope())
+        viewModel.getUIScope().launch {
+            withContext(Dispatchers.Default) { viewModel.init() }
+            stopLoading(viewModel.getUIScope())
             changeFragment0(R.id.frameLayout_activity_main_1, HomeFragment())
 
         }
 
+    }
+
+    override fun onPause() {
+        viewModel.getJob().cancel()
+        super.onPause()
     }
 
     fun changeFragment0(layout: Int, fragment: Fragment) {
@@ -52,31 +59,29 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun startLoading(state: String?) {
-        Log.d(Tag().tag, state + "startLoading")
-        cardView_activity_main_2.visibility = View.VISIBLE
-        GlobalScope.launch(Dispatchers.Main) {
-            val loadingQueue = withContext(Dispatchers.Default) {
-                viewModel.addLoading()
-
-            }
-
-            if (loadingQueue == viewModel.getQueueInit()) { cardView_activity_main_2.visibility = View.GONE }
+    fun startLoading(uiScope: CoroutineScope) {
+        uiScope.launch {
+            val loadingQueue = withContext(Dispatchers.Default) { viewModel.addLoading() }
+            processLoading(loadingQueue)
 
         }
 
     }
 
-    fun stopLoading(state: String?) {
-        Log.d(Tag().tag, state + "stopLoading")
-        GlobalScope.launch(Dispatchers.Main) {
-            val loadingQueue = withContext(Dispatchers.Default) {
-                viewModel.reduceLoading()
+    fun stopLoading(uiScope: CoroutineScope) {
+        uiScope.launch {
+            val loadingQueue = withContext(Dispatchers.Default) { viewModel.reduceLoading() }
+            processLoading(loadingQueue)
 
-            }
+        }
 
-            if (loadingQueue == viewModel.getQueueInit()) { cardView_activity_main_2.visibility = View.GONE }
+    }
 
+    private fun processLoading(loadingQueue: Short) {
+        if (loadingQueue == viewModel.getQueueInit()) {
+            cardView_activity_main_2.visibility = View.GONE
+        } else {
+            cardView_activity_main_2.visibility = View.VISIBLE
         }
 
     }
@@ -85,4 +90,5 @@ class MainActivity : AppCompatActivity() {
         runOnUiThread { Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show() }
 
     }
+
 }

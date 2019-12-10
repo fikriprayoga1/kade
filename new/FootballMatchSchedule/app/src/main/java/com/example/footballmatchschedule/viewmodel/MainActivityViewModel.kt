@@ -1,21 +1,15 @@
 package com.example.footballmatchschedule.viewmodel
 
-import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.room.Room
-import com.example.footballmatchschedule.other.helper.Tag
-import com.example.footballmatchschedule.other.jetpack.UserDatabase
 import com.example.footballmatchschedule.other.jetpack.UserRepository
 import com.example.footballmatchschedule.other.jetpack.Webservice
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import java.util.concurrent.Executors
 
-class MainActivityViewModel: ViewModel() {
+class MainActivityViewModel : ViewModel() {
     // 1
     private var loadingQueue: Short = 0
     // 2
@@ -24,12 +18,16 @@ class MainActivityViewModel: ViewModel() {
     private var userRepository: UserRepository? = null
     // 4
     private var leagueIdHolder = MutableLiveData<String>()
+    // 5
+    private val job = Job()
+    // 6
+    private val uiScope = CoroutineScope(Dispatchers.Main + job)
+    // 7
+    private val tag = "football_match_schedule"
 
-    fun init(context: Context) {
+    fun init() {
         if (userRepository == null) {
-            userRepository = UserRepository(
-                Webservice.create(),
-                Room.databaseBuilder(context, UserDatabase::class.java, "ajarin_aja").build().userDao())
+            userRepository = UserRepository(Webservice.create())
 
         }
 
@@ -37,26 +35,47 @@ class MainActivityViewModel: ViewModel() {
 
     fun addLoading(): Short {
         loadingQueue++
-        Log.d(Tag().tag, "MainActivityViewModel/33 : $loadingQueue")
         return loadingQueue
 
     }
 
     fun reduceLoading(): Short {
         loadingQueue--
-        Log.d(Tag().tag, "MainActivityViewModel/33 : $loadingQueue")
         return loadingQueue
 
     }
 
-    fun getQueueInit(): Short { return queueInit }
+    fun getQueueInit(): Short {
+        return queueInit
+    }
 
-    fun getUserRepository(): UserRepository { return userRepository!! }
+    fun getUserRepository(): UserRepository {
+        return userRepository!!
+    }
 
-    fun setLeagueIdHolder(idHolder: String) { leagueIdHolder.value = idHolder }
+    fun setLeagueIdHolder(idHolder: String) {
+        leagueIdHolder.value = idHolder
 
-    fun getLeagueIdHolder(): LiveData<String> { return leagueIdHolder }
+    }
 
-    fun getLeagueIdHolder2(): String? { return leagueIdHolder.value }
+    fun getLeagueIdHolderListener(): LiveData<String> {
+        return leagueIdHolder
+    }
+
+    fun getLeagueIdHolder(): String? {
+        return leagueIdHolder.value
+    }
+
+    fun getJob(): Job {
+        return job
+    }
+
+    fun getUIScope(): CoroutineScope {
+        return uiScope
+    }
+
+    fun getTag(): String {
+        return tag
+    }
 
 }

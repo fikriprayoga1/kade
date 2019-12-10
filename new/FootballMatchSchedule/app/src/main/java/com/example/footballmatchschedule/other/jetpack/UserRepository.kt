@@ -1,14 +1,10 @@
 package com.example.footballmatchschedule.other.jetpack
 
+import android.util.Log
+import com.example.footballmatchschedule.model.RetrofitResponse
 import com.example.footballmatchschedule.model.apiresponse.LME
 import com.example.footballmatchschedule.model.apiresponse.League
-import com.example.footballmatchschedule.model.database.LeagueDatabase
-import com.example.footballmatchschedule.model.retrofitresponse.RequestLME
-import com.example.footballmatchschedule.model.retrofitresponse.RequestLeague
-import com.example.footballmatchschedule.other.callback.RequestLMECallback
-import com.example.footballmatchschedule.other.callback.RequestLeagueCallback
-import com.example.footballmatchschedule.other.helper.DatabaseOperator
-import com.example.footballmatchschedule.view.MainActivity
+import com.example.footballmatchschedule.other.ResponseListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -16,21 +12,25 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class UserRepository(
-    private val webservice: Webservice,
-    private val userDao: UserDao
-) {
-    fun getDatabase(): DatabaseOperator {
-        return DatabaseOperator(userDao)
-    }
+class UserRepository(private val webservice: Webservice) {
+    val tag = "football_match_schedule"
 
-    fun requestLeagueList(mainActivity: MainActivity, requestListener: RequestLeagueCallback) {
+    fun requestLeagueList(responseListener: ResponseListener) {
+        var isSuccess = false
+        var message: String
+
         webservice.requestLeagueList().enqueue(object : Callback<League> {
             override fun onFailure(call: Call<League>, t: Throwable) {
                 GlobalScope.launch(Dispatchers.Default) {
-                    var bug0 = t.message
-                    if (bug0 == null) { bug0 = "Message is null" }
-                    requestListener.requestLeagueList(mainActivity, RequestLeague(false, bug0, null))
+                    Log.d(tag, "UserRepository/23 : ${t.message}")
+                    Log.d(tag, "UserRepository/24 : ${t.cause}")
+                    responseListener.retrofitResponse(
+                        RetrofitResponse(
+                            isSuccess,
+                            "onFailure, requestLeagueList, UserRepository",
+                            null
+                        )
+                    )
 
                 }
 
@@ -43,66 +43,24 @@ class UserRepository(
                     if (rb != null) {
                         val leagueList = rb.leagues
                         if (leagueList != null) {
-                            for (i in leagueList.indices) {
-                                val mObj = leagueList[i]
-
-                                if (mObj != null) {
-                                    val objIdLeague = if(mObj.idLeague != null) {
-                                        mObj.idLeague!!
-
-                                    } else { "null" }
-
-                                    val objStrLeague = if (mObj.strLeague != null) {
-                                        mObj.strLeague!!
-
-                                    } else { "null" }
-
-                                    val objStrSport = if(mObj.strSport != null) {
-                                        mObj.strSport!!
-
-                                    } else { "null" }
-
-                                    val objStrLeagueAlternate = if (mObj.strLeagueAlternate != null) {
-                                        mObj.strLeagueAlternate!!
-
-                                    } else { "null" }
-
-                                    DatabaseOperator(userDao).addLeague(
-                                        LeagueDatabase(
-                                            objIdLeague,
-                                            objStrLeague,
-                                            objStrSport,
-                                            objStrLeagueAlternate
-                                        )
-                                    )
-
-                                }
-
-                            }
-
-                            requestListener.requestLeagueList(mainActivity, RequestLeague(
-                                true,
-                                "Request response is OK",
-                                response.body()
-                            ))
+                            isSuccess = true
+                            message = "Request response is OK"
 
                         } else {
-                            requestListener.requestLeagueList(mainActivity, RequestLeague(
-                                false,
-                                "League list is null",
-                                response.body()
-                            ))
-
+                            message = "League list is null"
                         }
 
                     } else {
-                        requestListener.requestLeagueList(mainActivity, RequestLeague(
-                            false,
-                            "Response body is null",
-                            response.body()
-                        ))
-
+                        message = "Response body is null"
                     }
+
+                    responseListener.retrofitResponse(
+                        RetrofitResponse(
+                            isSuccess,
+                            message,
+                            rb
+                        )
+                    )
 
                 }
 
@@ -112,15 +70,22 @@ class UserRepository(
 
     }
 
-    fun requestLastMatchList(id: String, mainActivity: MainActivity, requestListener: RequestLMECallback) {
+    fun requestLMEList(id: String, responseListener: ResponseListener) {
+        var isSuccess = false
+        var message = ""
+
         val leagueId = id.toInt()
         webservice.readLastMatch(leagueId).enqueue(object : Callback<LME> {
             override fun onFailure(call: Call<LME>, t: Throwable) {
                 GlobalScope.launch(Dispatchers.Default) {
-                    var bug0 = t.message
-                    if (bug0 == null) { bug0 = "Message is null" }
-                    requestListener.requestLMEList(mainActivity,
-                        RequestLME(false, bug0, null)
+                    Log.d(tag, "UserRepository/77 : ${t.message}")
+                    Log.d(tag, "UserRepository/78 : ${t.cause}")
+                    responseListener.retrofitResponse(
+                        RetrofitResponse(
+                            isSuccess,
+                            "onFailure, requestLMEList, UserRepository",
+                            null
+                        )
                     )
 
                 }
@@ -131,25 +96,29 @@ class UserRepository(
                 call: Call<LME>,
                 response: Response<LME>
             ) {
-                val rb = response.body()
-                if (rb != null) {
-                    val lastMatchEventList = rb.events
-                    if (lastMatchEventList != null) {
+                GlobalScope.launch(Dispatchers.Default) {
+                    val rb = response.body()
+                    if (rb != null) {
+                        val lastMatchEventList = rb.events
+                        if (lastMatchEventList != null) {
+                            isSuccess = true
+                            message = "Request response is OK"
 
+                        } else {
+                            message = "Last Match Event List is null"
+                        }
 
                     } else {
-
-
+                        message = "Response body is null"
                     }
 
-                } else {
-                    requestListener
-
-                    requestListener.requestLMEList(mainActivity, RequestLME(
-                        false,
-                        "Response body is null",
-                        response.body()
-                    ))
+                    responseListener.retrofitResponse(
+                        RetrofitResponse(
+                            isSuccess,
+                            message,
+                            rb
+                        )
+                    )
 
                 }
 

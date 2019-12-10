@@ -2,15 +2,12 @@ package com.example.footballmatchschedule.viewmodel
 
 import android.R
 import android.content.Context
-import android.util.Log
 import android.widget.ArrayAdapter
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.footballmatchschedule.model.database.LeagueDatabase
-import com.example.footballmatchschedule.other.callback.RequestLeagueCallback
-import com.example.footballmatchschedule.other.helper.Tag
+import com.example.footballmatchschedule.model.apiresponse.LeagueDetail
+import com.example.footballmatchschedule.other.ResponseListener
 import com.example.footballmatchschedule.other.helper.ViewPagerAdapter
 import com.example.footballmatchschedule.other.jetpack.UserRepository
 import com.example.footballmatchschedule.view.LMEFragment
@@ -24,7 +21,7 @@ class EventViewModel : ViewModel() {
     // 1
     private lateinit var userRepository: UserRepository
     // 2
-    private var leagueDatabase: LiveData<List<LeagueDatabase>>? = null
+    private lateinit var mainActivity: MainActivity
     // 4
     private val job = Job()
     // 5
@@ -34,17 +31,11 @@ class EventViewModel : ViewModel() {
     // 7
     private val spinnerIdList = ArrayList<String>()
 
-    fun init(userRepository: UserRepository) {
+    fun init(userRepository: UserRepository, mainActivity: MainActivity) {
         this.userRepository = userRepository
-
-        if (leagueDatabase == null) {
-            leagueDatabase = userRepository.getDatabase().readLeagueList()
-
-        }
+        this.mainActivity = mainActivity
 
     }
-
-    fun getLeagueList(): LiveData<List<LeagueDatabase>>? { return leagueDatabase }
 
     fun getAdapter(cfm: FragmentManager): ViewPagerAdapter {
         val adapter =
@@ -58,19 +49,18 @@ class EventViewModel : ViewModel() {
 
     }
 
-    fun requestLeagueList(mainActivity: MainActivity, requestLeagueListListener: RequestLeagueCallback) {
-        userRepository.requestLeagueList(mainActivity, requestLeagueListListener)
+    fun requestLeagueList(responseListener: ResponseListener) {
+        userRepository.requestLeagueList(responseListener)
 
     }
 
-    fun addSpinner(it: List<LeagueDatabase>, context: Context): ArrayAdapter<String> {
+    fun addSpinner(it: List<LeagueDetail>, context: Context): ArrayAdapter<String> {
         spinnerIdList.clear()
         spinnerNameList.clear()
 
         for (i in it.indices) {
-            Log.d(Tag().tag, "EventViewModel/60 : $i")
-            spinnerIdList.add(it[i].idLeague)
-            spinnerNameList.add(it[i].strLeague)
+            spinnerIdList.add(it[i].idLeague!!)
+            spinnerNameList.add(it[i].strLeague!!)
 
         }
 
@@ -81,20 +71,20 @@ class EventViewModel : ViewModel() {
 
     }
 
-    fun getLeagueIdList(position: Int): String { return spinnerIdList[position] }
+    fun getLeagueIdList(position: Int): String {
+        return spinnerIdList[position]
+    }
 
-    fun getJob(): Job { return job }
+    fun getJob(): Job {
+        return job
+    }
 
-    fun getUIScope(): CoroutineScope { return uiScope }
+    fun getUIScope(): CoroutineScope {
+        return uiScope
+    }
 
-    fun hasCache(): Boolean {
-        var status = false
-        if (leagueDatabase != null) {
-            status = true
-
-        }
-        return status
-
+    fun getMainActivity(): MainActivity {
+        return mainActivity
     }
 
 }

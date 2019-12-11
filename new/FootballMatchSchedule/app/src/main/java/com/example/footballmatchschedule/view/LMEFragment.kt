@@ -1,7 +1,6 @@
 package com.example.footballmatchschedule.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,21 +53,8 @@ class LMEFragment : Fragment() {
 
         initRecyclerView()
 
-
-        viewModel.init(
-            (activity as MainActivity).viewModel.getUserRepository(),
-            (activity as MainActivity)
-        )
-        initRecyclerView()
-
-        Log.d(
-            (activity as MainActivity).viewModel.getTag(),
-            "LMEFragment/51 : ${(activity as MainActivity).viewModel.getLeagueIdHolder()}"
-        )
-
         (activity as MainActivity).viewModel.getLeagueIdHolderListener()
             .observe(this, Observer {
-                initRecyclerView()
                 showList()
 
             })

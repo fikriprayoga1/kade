@@ -43,18 +43,18 @@ class LMEFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(LMEViewModel::class.java)
 
-        viewModel.init(
-            (activity as MainActivity).viewModel.getUserRepository(),
-            (activity as MainActivity)
-        )
+        viewModel.getUIScope().launch(Dispatchers.Default) {
+            viewModel.init(
+                (activity as MainActivity).viewModel.getUserRepository(),
+                (activity as MainActivity)
+            )
+
+        }
 
         initRecyclerView()
 
         (activity as MainActivity).viewModel.getLeagueIdHolderListener()
-            .observe(this, Observer {
-                showList()
-
-            })
+            .observe(this, Observer { showList() })
 
     }
 
@@ -72,7 +72,6 @@ class LMEFragment : Fragment() {
 
                 }
 
-
             })
         val mLayoutManager = LinearLayoutManager(context)
 
@@ -89,37 +88,37 @@ class LMEFragment : Fragment() {
     }
 
     private fun showList() {
-        viewModel.getUIScope().launch {
+        viewModel.getUIScope().launch(Dispatchers.Default) {
             (activity as MainActivity).startLoading(viewModel.getUIScope())
 
-            withContext(Dispatchers.Default) {
-                val leagueHolder = (activity as MainActivity).viewModel.getLeagueIdHolder()!!
-                viewModel.requestLMEList(leagueHolder, object : ResponseListener {
-                    override fun retrofitResponse(retrofitResponse: RetrofitResponse) {
-                        viewModel.getUIScope().launch {
+            val leagueHolder = (activity as MainActivity).viewModel.getLeagueIdHolder()!!
+            viewModel.requestLMEList(leagueHolder, object : ResponseListener {
+                override fun retrofitResponse(retrofitResponse: RetrofitResponse) {
+                    viewModel.getUIScope().launch {
+                        withContext(Dispatchers.Default) {
                             viewModel.getMainActivity().stopLoading(viewModel.getUIScope())
                             if (retrofitResponse.isSuccess) {
                                 val LMEData = retrofitResponse.responseBody as LME
                                 val LMEList = LMEData.events
 
                                 if (LMEList != null) {
-                                    withContext(Dispatchers.Default) { viewModel.initLMEList(LMEList) }
+                                    viewModel.initLMEList(LMEList)
 
                                 } else {
-                                    viewModel.getMainActivity().popUp(retrofitResponse.message)
+                                    viewModel.getMainActivity().popUp(retrofitResponse.message, viewModel.getUIScope())
                                 }
 
                             } else {
-                                viewModel.getMainActivity().popUp(retrofitResponse.message)
+                                viewModel.getMainActivity().popUp(retrofitResponse.message, viewModel.getUIScope())
                             }
 
-                            lmeAdapter.notifyDataSetChanged()
-
                         }
-                    }
-                })
 
-            }
+                        lmeAdapter.notifyDataSetChanged()
+
+                    }
+                }
+            })
 
         }
 

@@ -3,6 +3,8 @@ package com.example.footballmatchschedule.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.footballmatchschedule.model.apiresponse.SearchEventDetail
+import com.example.footballmatchschedule.model.apiresponse.SearchTeamDetail
 import com.example.footballmatchschedule.other.jetpack.UserRepository
 import com.example.footballmatchschedule.other.jetpack.Webservice
 import kotlinx.coroutines.CoroutineScope
@@ -24,6 +26,10 @@ class MainActivityViewModel : ViewModel() {
     private val uiScope = CoroutineScope(Dispatchers.Main + job)
     // 7
     private val tag = "football_match_schedule"
+    // 8
+    private val searchEventList = MutableLiveData<List<SearchEventDetail>>()
+    // 9
+    private val hasFragmentBackstack = mutableMapOf<String, Boolean>()
 
     fun init() {
         if (userRepository == null) {
@@ -77,5 +83,16 @@ class MainActivityViewModel : ViewModel() {
     fun getTag(): String {
         return tag
     }
+
+    fun setSearchEventList(searchEventList: List<SearchEventDetail>?) {
+        this.searchEventList.value = searchEventList
+
+    }
+
+    fun getSearchEventList(): LiveData<List<SearchEventDetail>>? { return searchEventList }
+
+    fun setHasFragmentBackstack(fragmentName: String, state: Boolean) { hasFragmentBackstack[fragmentName] = state }
+
+    fun getHasFragmentBackstack(fragmentName: String): Boolean { return hasFragmentBackstack.get(fragmentName) ?: false }
 
 }

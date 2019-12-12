@@ -42,10 +42,14 @@ class NMEFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(NMEViewModel::class.java)
-        viewModel.init(
-            (activity as MainActivity).viewModel.getUserRepository(),
-            (activity as MainActivity)
-        )
+
+        viewModel.getUIScope().launch(Dispatchers.Default) {
+            viewModel.init(
+                (activity as MainActivity).viewModel.getUserRepository(),
+                (activity as MainActivity)
+            )
+
+        }
 
         initRecyclerView()
 
@@ -88,37 +92,34 @@ class NMEFragment : Fragment() {
     }
 
     private fun showList() {
-        viewModel.getUIScope().launch {
+        viewModel.getUIScope().launch(Dispatchers.Default) {
             (activity as MainActivity).startLoading(viewModel.getUIScope())
-
-            withContext(Dispatchers.Default) {
-                val leagueHolder = (activity as MainActivity).viewModel.getLeagueIdHolder()!!
-                viewModel.requestNMEList(leagueHolder, object : ResponseListener {
-                    override fun retrofitResponse(retrofitResponse: RetrofitResponse) {
-                        viewModel.getUIScope().launch {
+            val leagueHolder = (activity as MainActivity).viewModel.getLeagueIdHolder()!!
+            viewModel.requestNMEList(leagueHolder, object : ResponseListener {
+                override fun retrofitResponse(retrofitResponse: RetrofitResponse) {
+                    viewModel.getUIScope().launch {
+                        withContext(Dispatchers.Default) {
                             viewModel.getMainActivity().stopLoading(viewModel.getUIScope())
                             if (retrofitResponse.isSuccess) {
                                 val NMEData = retrofitResponse.responseBody as NME
                                 val NMEList = NMEData.events
 
                                 if (NMEList != null) {
-                                    withContext(Dispatchers.Default) { viewModel.initNMEList(NMEList) }
+                                    viewModel.initNMEList(NMEList)
 
                                 } else {
-                                    viewModel.getMainActivity().popUp(retrofitResponse.message)
+                                    viewModel.getMainActivity().popUp(retrofitResponse.message, viewModel.getUIScope())
                                 }
 
-                            } else {
-                                viewModel.getMainActivity().popUp(retrofitResponse.message)
-                            }
-
-                            nmeAdapter.notifyDataSetChanged()
+                            } else { viewModel.getMainActivity().popUp(retrofitResponse.message, viewModel.getUIScope()) }
 
                         }
-                    }
-                })
 
-            }
+                        nmeAdapter.notifyDataSetChanged()
+
+                    }
+                }
+            })
 
         }
 

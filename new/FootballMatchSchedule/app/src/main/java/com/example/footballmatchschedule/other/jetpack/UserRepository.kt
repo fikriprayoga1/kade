@@ -2,9 +2,7 @@ package com.example.footballmatchschedule.other.jetpack
 
 import android.util.Log
 import com.example.footballmatchschedule.model.RetrofitResponse
-import com.example.footballmatchschedule.model.apiresponse.LME
-import com.example.footballmatchschedule.model.apiresponse.League
-import com.example.footballmatchschedule.model.apiresponse.NME
+import com.example.footballmatchschedule.model.apiresponse.*
 import com.example.footballmatchschedule.other.ResponseListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -20,7 +18,7 @@ class UserRepository(private val webservice: Webservice) {
         var isSuccess = false
         var message: String
 
-        webservice.requestLeagueList().enqueue(object : Callback<League> {
+        webservice.requestLeague().enqueue(object : Callback<League> {
             override fun onFailure(call: Call<League>, t: Throwable) {
                 GlobalScope.launch(Dispatchers.Default) {
                     Log.d(tag, "UserRepository/25 : ${t.message}")
@@ -162,6 +160,114 @@ class UserRepository(private val webservice: Webservice) {
 
                         } else {
                             message = "Next Match Event List is null"
+                        }
+
+                    } else {
+                        message = "Response body is null"
+                    }
+
+                    responseListener.retrofitResponse(
+                        RetrofitResponse(
+                            isSuccess,
+                            message,
+                            rb
+                        )
+                    )
+
+                }
+
+            }
+        })
+
+    }
+
+    fun requestSearchEvent(keyword: String, responseListener: ResponseListener) {
+        var isSuccess = false
+        var message = ""
+
+        webservice.readSearchEvent(keyword).enqueue(object : Callback<SearchEvent> {
+            override fun onFailure(call: Call<SearchEvent>, t: Throwable) {
+                GlobalScope.launch(Dispatchers.Default) {
+                    responseListener.retrofitResponse(
+                        RetrofitResponse(
+                            isSuccess,
+                            "onFailure, requestSearchTeamList, UserRepository",
+                            null
+                        )
+                    )
+
+                }
+
+            }
+
+            override fun onResponse(
+                call: Call<SearchEvent>,
+                response: Response<SearchEvent>
+            ) {
+                GlobalScope.launch(Dispatchers.Default) {
+                    val rb = response.body()
+                    if (rb != null) {
+                        val searchEventList = rb.event
+                        if (searchEventList != null) {
+                            isSuccess = true
+                            message = "Request response is OK"
+
+                        } else {
+                            message = "Search Team List is null"
+                        }
+
+                    } else {
+                        message = "Response body is null"
+                    }
+
+                    responseListener.retrofitResponse(
+                        RetrofitResponse(
+                            isSuccess,
+                            message,
+                            rb
+                        )
+                    )
+
+                }
+
+            }
+        })
+
+    }
+
+    fun requestSearchTeam(keyword: String, responseListener: ResponseListener) {
+        var isSuccess = false
+        var message = ""
+
+        webservice.readSearchTeam(keyword).enqueue(object : Callback<SearchTeam> {
+            override fun onFailure(call: Call<SearchTeam>, t: Throwable) {
+                GlobalScope.launch(Dispatchers.Default) {
+                    responseListener.retrofitResponse(
+                        RetrofitResponse(
+                            isSuccess,
+                            "onFailure, requestSearchTeamList, UserRepository",
+                            null
+                        )
+                    )
+
+                }
+
+            }
+
+            override fun onResponse(
+                call: Call<SearchTeam>,
+                response: Response<SearchTeam>
+            ) {
+                GlobalScope.launch(Dispatchers.Default) {
+                    val rb = response.body()
+                    if (rb != null) {
+                        val searchTeamList = rb.teams
+                        if (searchTeamList != null) {
+                            isSuccess = true
+                            message = "Request response is OK"
+
+                        } else {
+                            message = "Search Team List is null"
                         }
 
                     } else {

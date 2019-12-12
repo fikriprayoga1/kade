@@ -1,7 +1,9 @@
 package com.example.footballmatchschedule.view
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -29,9 +31,12 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         startLoading(viewModel.getUIScope())
         viewModel.getUIScope().launch {
-            withContext(Dispatchers.Default) { viewModel.init() }
-            stopLoading(viewModel.getUIScope())
-            changeFragment0(R.id.frameLayout_activity_main_1, HomeFragment())
+            withContext(Dispatchers.Default) {
+                viewModel.init()
+                stopLoading(viewModel.getUIScope())
+
+            }
+            changeFragment0(R.id.frameLayout_activity_main_1, HomeFragment(), viewModel.getUIScope())
 
         }
 
@@ -42,20 +47,50 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
     }
 
-    fun changeFragment0(layout: Int, fragment: Fragment) {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(layout, fragment)
-            .commitAllowingStateLoss()
+    fun changeFragment0(layout: Int, fragment: Fragment, uiScope: CoroutineScope) {
+        uiScope.launch {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(layout, fragment)
+                .commitAllowingStateLoss()
+
+        }
 
     }
 
-    fun changeFragment1(layout: Int, fragment: Fragment) {
-        supportFragmentManager
-            .beginTransaction()
-            .addToBackStack(null) // detect addbackstack
-            .replace(layout, fragment)
-            .commitAllowingStateLoss()
+    fun changeFragment1(layout: Int, fragment: Fragment, uiScope: CoroutineScope) {
+        uiScope.launch {
+            supportFragmentManager
+                .beginTransaction()
+                .addToBackStack(null) // detect addbackstack
+                .replace(layout, fragment)
+                .commitAllowingStateLoss()
+
+        }
+
+    }
+
+    fun changeFragment2(layout: Int, fragment: Fragment, uiScope: CoroutineScope) {
+        uiScope.launch {
+            supportFragmentManager
+                .beginTransaction()
+                .addToBackStack(null)
+                .add(layout, fragment)
+                .commitAllowingStateLoss()
+
+        }
+
+    }
+
+    fun changeFragment3(layout: Int, fragment: Fragment, uiScope: CoroutineScope) {
+        uiScope.launch {
+            supportFragmentManager
+                .beginTransaction()
+                .addToBackStack(null)
+                .replace(layout, fragment)
+                .commitAllowingStateLoss()
+
+        }
 
     }
 
@@ -86,8 +121,16 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun popUp(message: String) {
-        runOnUiThread { Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show() }
+    fun popUp(message: String, uiScope: CoroutineScope) {
+        uiScope.launch { Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show() }
+
+    }
+
+    fun exitKeyboard(uiScope: CoroutineScope) {
+        uiScope.launch {
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(currentFocus!!.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+        }
 
     }
 

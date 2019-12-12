@@ -28,7 +28,12 @@ class SearchEventFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(SearchEventViewModel::class.java)
-        // TODO: Use the ViewModel
+
+    }
+
+    override fun onDestroy() {
+        (activity as MainActivity).viewModel.setHasFragmentBackstack("SearchEvent", false)
+        super.onDestroy()
     }
 
 }

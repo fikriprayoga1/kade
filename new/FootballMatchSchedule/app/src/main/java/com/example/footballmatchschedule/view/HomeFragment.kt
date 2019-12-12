@@ -41,7 +41,7 @@ class HomeFragment : Fragment() {
                 R.id.item_bottomnavigation_manu_4 -> fragment = AlarmFragment()
             }
 
-            (activity as MainActivity).changeFragment0(R.id.frameLayout_fragment_home_2, fragment)
+            (activity as MainActivity).changeFragment0(R.id.frameLayout_fragment_home_2, fragment, viewModel.getUIScope())
 
             true
         }

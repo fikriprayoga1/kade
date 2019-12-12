@@ -2,9 +2,9 @@ package com.example.footballmatchschedule.other.helper
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentStatePagerAdapter
 
-class ViewPagerAdapter(fm: FragmentManager, behavior: Int) : FragmentPagerAdapter(fm, behavior) {
+class ViewPagerAdapter(fm: FragmentManager, behavior: Int) : FragmentStatePagerAdapter(fm, behavior) {
     private val mFragmentList: MutableList<Fragment> = ArrayList()
     private val mFragmentTitleList: MutableList<String> = ArrayList()
 

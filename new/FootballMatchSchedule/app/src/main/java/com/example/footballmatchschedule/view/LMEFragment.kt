@@ -1,6 +1,7 @@
 package com.example.footballmatchschedule.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,10 +43,6 @@ class LMEFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(LMEViewModel::class.java)
 
-    }
-
-    override fun onResume() {
-        super.onResume()
         viewModel.init(
             (activity as MainActivity).viewModel.getUserRepository(),
             (activity as MainActivity)

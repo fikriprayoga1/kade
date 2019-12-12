@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.footballmatchschedule.model.RetrofitResponse
 import com.example.footballmatchschedule.model.apiresponse.LME
 import com.example.footballmatchschedule.model.apiresponse.League
+import com.example.footballmatchschedule.model.apiresponse.NME
 import com.example.footballmatchschedule.other.ResponseListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -22,8 +23,8 @@ class UserRepository(private val webservice: Webservice) {
         webservice.requestLeagueList().enqueue(object : Callback<League> {
             override fun onFailure(call: Call<League>, t: Throwable) {
                 GlobalScope.launch(Dispatchers.Default) {
-                    Log.d(tag, "UserRepository/23 : ${t.message}")
-                    Log.d(tag, "UserRepository/24 : ${t.cause}")
+                    Log.d(tag, "UserRepository/25 : ${t.message}")
+                    Log.d(tag, "UserRepository/26 : ${t.cause}")
                     responseListener.retrofitResponse(
                         RetrofitResponse(
                             isSuccess,
@@ -78,8 +79,8 @@ class UserRepository(private val webservice: Webservice) {
         webservice.readLastMatch(leagueId).enqueue(object : Callback<LME> {
             override fun onFailure(call: Call<LME>, t: Throwable) {
                 GlobalScope.launch(Dispatchers.Default) {
-                    Log.d(tag, "UserRepository/77 : ${t.message}")
-                    Log.d(tag, "UserRepository/78 : ${t.cause}")
+                    Log.d(tag, "UserRepository/81 : ${t.message}")
+                    Log.d(tag, "UserRepository/82 : ${t.cause}")
                     responseListener.retrofitResponse(
                         RetrofitResponse(
                             isSuccess,
@@ -106,6 +107,61 @@ class UserRepository(private val webservice: Webservice) {
 
                         } else {
                             message = "Last Match Event List is null"
+                        }
+
+                    } else {
+                        message = "Response body is null"
+                    }
+
+                    responseListener.retrofitResponse(
+                        RetrofitResponse(
+                            isSuccess,
+                            message,
+                            rb
+                        )
+                    )
+
+                }
+
+            }
+        })
+
+    }
+
+    fun requestNMEList(id: String, responseListener: ResponseListener) {
+        var isSuccess = false
+        var message = ""
+
+        val leagueId = id.toInt()
+        webservice.readNextMatch(leagueId).enqueue(object : Callback<NME> {
+            override fun onFailure(call: Call<NME>, t: Throwable) {
+                GlobalScope.launch(Dispatchers.Default) {
+                    responseListener.retrofitResponse(
+                        RetrofitResponse(
+                            isSuccess,
+                            "onFailure, requestNMEList, UserRepository",
+                            null
+                        )
+                    )
+
+                }
+
+            }
+
+            override fun onResponse(
+                call: Call<NME>,
+                response: Response<NME>
+            ) {
+                GlobalScope.launch(Dispatchers.Default) {
+                    val rb = response.body()
+                    if (rb != null) {
+                        val nextMatchEventList = rb.events
+                        if (nextMatchEventList != null) {
+                            isSuccess = true
+                            message = "Request response is OK"
+
+                        } else {
+                            message = "Next Match Event List is null"
                         }
 
                     } else {

@@ -63,8 +63,8 @@ class EventViewModel : ViewModel() {
         spinnerNameList.clear()
 
         for (i in it.indices) {
-            spinnerIdList.add(it[i].idLeague!!)
-            spinnerNameList.add(it[i].strLeague!!)
+            spinnerIdList.add(it[i].idLeague)
+            spinnerNameList.add(it[i].strLeague)
 
         }
 

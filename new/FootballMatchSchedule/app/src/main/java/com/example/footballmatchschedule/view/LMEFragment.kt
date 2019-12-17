@@ -99,17 +99,12 @@ class LMEFragment : Fragment() {
                             viewModel.getMainActivity().stopLoading(viewModel.getUIScope())
                             if (retrofitResponse.isSuccess) {
                                 val LMEData = retrofitResponse.responseBody as LME
-                                val LMEList = LMEData.events
 
-                                if (LMEList != null) {
-                                    viewModel.initLMEList(LMEList)
-
-                                } else {
-                                    viewModel.getMainActivity().popUp(retrofitResponse.message, viewModel.getUIScope())
-                                }
+                                viewModel.initLMEList(LMEData.events)
 
                             } else {
-                                viewModel.getMainActivity().popUp(retrofitResponse.message, viewModel.getUIScope())
+                                viewModel.getMainActivity()
+                                    .popUp(retrofitResponse.message, viewModel.getUIScope())
                             }
 
                         }

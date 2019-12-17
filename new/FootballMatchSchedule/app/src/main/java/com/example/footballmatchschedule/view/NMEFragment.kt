@@ -102,16 +102,13 @@ class NMEFragment : Fragment() {
                             viewModel.getMainActivity().stopLoading(viewModel.getUIScope())
                             if (retrofitResponse.isSuccess) {
                                 val NMEData = retrofitResponse.responseBody as NME
-                                val NMEList = NMEData.events
 
-                                if (NMEList != null) {
-                                    viewModel.initNMEList(NMEList)
+                                viewModel.initNMEList(NMEData.events)
 
-                                } else {
-                                    viewModel.getMainActivity().popUp(retrofitResponse.message, viewModel.getUIScope())
-                                }
-
-                            } else { viewModel.getMainActivity().popUp(retrofitResponse.message, viewModel.getUIScope()) }
+                            } else {
+                                viewModel.getMainActivity()
+                                    .popUp(retrofitResponse.message, viewModel.getUIScope())
+                            }
 
                         }
 

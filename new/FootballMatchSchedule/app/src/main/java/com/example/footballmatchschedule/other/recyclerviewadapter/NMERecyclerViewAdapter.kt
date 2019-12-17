@@ -11,9 +11,11 @@ import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.apiresponse.NMEDetail
 import java.text.SimpleDateFormat
 
-class NMERecyclerViewAdapter(internal var context: Context
-                             , private var nmeObject: List<NMEObject>
-                             , private var nmeListener: NMEListener) : RecyclerView.Adapter<NMERecyclerViewAdapter.MyViewHolder>() {
+class NMERecyclerViewAdapter(
+    internal var context: Context
+    , private var nmeObject: List<NMEObject>
+    , private var nmeListener: NMEListener
+) : RecyclerView.Adapter<NMERecyclerViewAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var mDate: TextView = view.findViewById(R.id.textView_main_item_1)
@@ -39,14 +41,10 @@ class NMERecyclerViewAdapter(internal var context: Context
 
         val inputFormat = SimpleDateFormat("yyyy-MM-dd")
         val outputFormat = SimpleDateFormat("EEE, d MMM yyyy")
-        val dateEvent = mNMEDetail.dateEvent
-        if (dateEvent != null) {
-            val date = inputFormat.parse(dateEvent)
-            if (date != null) {
-                val str = outputFormat.format(date)
-                holder.mDate.text = str
-            }
-
+        val date = inputFormat.parse(mNMEDetail.dateEvent)
+        if (date != null) {
+            val str = outputFormat.format(date)
+            holder.mDate.text = str
         }
 
 

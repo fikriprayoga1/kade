@@ -57,11 +57,13 @@ class EventFragment : Fragment() {
                         id: Long
                     ) {
 
-                        (activity as MainActivity).viewModel.setLeagueIdHolder(
-                            viewModel.getLeagueIdList(
-                                position
+                        viewModel.getUIScope().launch {
+                            (activity as MainActivity).viewModel.setLeagueIdHolder(
+                                viewModel.getLeagueIdList(
+                                    position
+                                )
                             )
-                        )
+                        }
 
                     }
 
@@ -74,7 +76,7 @@ class EventFragment : Fragment() {
                         if (retrofitResponse.isSuccess) {
                             val aa = withContext(Dispatchers.Default) {
                                 val ab = retrofitResponse.responseBody as League
-                                viewModel.addSpinner(ab.leagues!!, viewModel.getMainActivity())
+                                viewModel.addSpinner(ab.leagues, viewModel.getMainActivity())
 
                             }
 
@@ -108,19 +110,28 @@ class EventFragment : Fragment() {
                                 viewModel.getUIScope().launch(Dispatchers.Default) {
                                     viewModel.getMainActivity().stopLoading(viewModel.getUIScope())
                                     if (retrofitResponse.isSuccess) {
-                                        if (!viewModel.getMainActivity().viewModel.getHasFragmentBackstack("SearchEvent")) {
+                                        if (!viewModel.getMainActivity().viewModel.getHasFragmentBackstack(
+                                                "SearchEvent"
+                                            )
+                                        ) {
                                             viewModel.getMainActivity().changeFragment2(
                                                 R.id.constraintLayout_event_fragment_2,
                                                 SearchEventFragment(),
                                                 viewModel.getUIScope()
                                             )
-                                            viewModel.getMainActivity().viewModel.setHasFragmentBackstack("SearchEvent", true)
+                                            viewModel.getMainActivity()
+                                                .viewModel.setHasFragmentBackstack(
+                                                "SearchEvent",
+                                                true
+                                            )
 
                                         }
 
-                                        val searchTeam = retrofitResponse.responseBody as SearchEvent
+                                        val searchTeam =
+                                            retrofitResponse.responseBody as SearchEvent
                                         withContext(Dispatchers.Main) {
-                                            viewModel.getMainActivity().viewModel.setSearchEventList(
+                                            viewModel.getMainActivity()
+                                                .viewModel.setSearchEventList(
                                                 searchTeam.event
                                             )
                                         }

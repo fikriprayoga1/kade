@@ -6,9 +6,6 @@ import com.example.footballmatchschedule.other.ResponseListener
 import com.example.footballmatchschedule.other.jetpack.UserRepository
 import com.example.footballmatchschedule.other.recyclerviewadapter.LMERecyclerViewAdapter
 import com.example.footballmatchschedule.view.MainActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 
 class LMEViewModel : ViewModel() {
     // 1
@@ -26,12 +23,15 @@ class LMEViewModel : ViewModel() {
 
     }
 
-    fun initLMEList(lmeList: List<LMEDetail>) {
+    fun initLMEList(lmeList: List<LMEDetail>?) {
         lmeObjects.clear()
 
-        for (i in lmeList.indices) {
-            lmeObject = LMERecyclerViewAdapter.LMEObject(lmeList[i])
-            lmeObjects.add(lmeObject)
+        if (lmeList != null) {
+            for (i in lmeList.indices) {
+                lmeObject = LMERecyclerViewAdapter.LMEObject(lmeList[i])
+                lmeObjects.add(lmeObject)
+
+            }
 
         }
 

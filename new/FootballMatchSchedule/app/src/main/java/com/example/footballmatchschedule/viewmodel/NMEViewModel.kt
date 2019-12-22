@@ -6,22 +6,15 @@ import com.example.footballmatchschedule.other.ResponseListener
 import com.example.footballmatchschedule.other.jetpack.UserRepository
 import com.example.footballmatchschedule.other.recyclerviewadapter.NMERecyclerViewAdapter
 import com.example.footballmatchschedule.view.MainActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 
 class NMEViewModel : ViewModel() {
     // 1
     private lateinit var userRepository: UserRepository
     // 2
     private lateinit var mainActivity: MainActivity
-    // 4
-    private val job = Job()
-    // 5
-    private val uiScope = CoroutineScope(Dispatchers.Main + job)
-    // 6
+    // 3
     private val nmeObjects: MutableList<NMERecyclerViewAdapter.NMEObject> = ArrayList()
-    // 7
+    // 4
     private lateinit var nmeObject: NMERecyclerViewAdapter.NMEObject
 
     fun init(userRepository: UserRepository, mainActivity: MainActivity) {
@@ -30,20 +23,15 @@ class NMEViewModel : ViewModel() {
 
     }
 
-    fun getJob(): Job {
-        return job
-    }
-
-    fun getUIScope(): CoroutineScope {
-        return uiScope
-    }
-
-    fun initNMEList(nmeList: List<NMEDetail>) {
+    fun initNMEList(nmeList: List<NMEDetail>?) {
         nmeObjects.clear()
 
-        for (i in nmeList.indices) {
-            nmeObject = NMERecyclerViewAdapter.NMEObject(nmeList[i])
-            nmeObjects.add(nmeObject)
+        if (nmeList != null) {
+            for (i in nmeList.indices) {
+                nmeObject = NMERecyclerViewAdapter.NMEObject(nmeList[i])
+                nmeObjects.add(nmeObject)
+
+            }
 
         }
 

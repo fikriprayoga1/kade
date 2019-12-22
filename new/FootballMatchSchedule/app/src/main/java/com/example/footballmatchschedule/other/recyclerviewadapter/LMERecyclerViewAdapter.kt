@@ -39,12 +39,16 @@ class LMERecyclerViewAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val mLMEDetail = lmeObject[position].lmeDetail
 
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd")
-        val outputFormat = SimpleDateFormat("EEE, d MMM yyyy")
-        val date = inputFormat.parse(mLMEDetail.dateEvent)
-        if (date != null) {
-            val str = outputFormat.format(date)
-            holder.mDate.text = str
+        val dateEvent = mLMEDetail.dateEvent
+        if (dateEvent != null) {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd")
+            val outputFormat = SimpleDateFormat("EEE, d MMM yyyy")
+            val date = inputFormat.parse(dateEvent)
+            if (date != null) {
+                val str = outputFormat.format(date)
+                holder.mDate.text = str
+            }
+
         }
 
 

@@ -20,40 +20,34 @@ class UserRepository(private val webservice: Webservice) {
 
         webservice.requestLeague().enqueue(object : Callback<League> {
             override fun onFailure(call: Call<League>, t: Throwable) {
-                GlobalScope.launch(Dispatchers.Default) {
-                    Log.d(tag, "UserRepository/24 : ${t.message}")
-                    Log.d(tag, "UserRepository/25 : ${t.cause}")
-                    responseListener.retrofitResponse(
-                        RetrofitResponse(
-                            isSuccess,
-                            "onFailure, requestLeagueList, UserRepository",
-                            null
-                        )
+                Log.d(tag, "UserRepository/23 : ${t.message}")
+                Log.d(tag, "UserRepository/24 : ${t.cause}")
+                responseListener.retrofitResponse(
+                    RetrofitResponse(
+                        isSuccess,
+                        "onFailure, requestLeagueList, UserRepository",
+                        null
                     )
-
-                }
+                )
 
             }
 
             override fun onResponse(call: Call<League>, response: Response<League>) {
-                GlobalScope.launch(Dispatchers.Default) {
-                    val rb = response.body()
+                val rb = response.body()
 
-                    if (rb != null) {
-                        isSuccess = true
-                        message = "Request response is OK"
+                if (rb != null) {
+                    isSuccess = true
+                    message = "Request response is OK"
 
-                    } else { message = "Response body is null" }
+                } else { message = "Response body is null" }
 
-                    responseListener.retrofitResponse(
-                        RetrofitResponse(
-                            isSuccess,
-                            message,
-                            rb
-                        )
+                responseListener.retrofitResponse(
+                    RetrofitResponse(
+                        isSuccess,
+                        message,
+                        rb
                     )
-
-                }
+                )
 
             }
 
@@ -68,18 +62,15 @@ class UserRepository(private val webservice: Webservice) {
         val leagueId = id.toInt()
         webservice.readLastMatch(leagueId).enqueue(object : Callback<LME> {
             override fun onFailure(call: Call<LME>, t: Throwable) {
-                GlobalScope.launch(Dispatchers.Default) {
-                    Log.d(tag, "UserRepository/72 : ${t.message}")
-                    Log.d(tag, "UserRepository/73 : ${t.cause}")
-                    responseListener.retrofitResponse(
-                        RetrofitResponse(
-                            isSuccess,
-                            "onFailure, requestLMEList, UserRepository",
-                            null
-                        )
+                Log.d(tag, "UserRepository/65 : ${t.message}")
+                Log.d(tag, "UserRepository/66 : ${t.cause}")
+                responseListener.retrofitResponse(
+                    RetrofitResponse(
+                        isSuccess,
+                        "onFailure, requestLMEList, UserRepository",
+                        null
                     )
-
-                }
+                )
 
             }
 
@@ -87,23 +78,20 @@ class UserRepository(private val webservice: Webservice) {
                 call: Call<LME>,
                 response: Response<LME>
             ) {
-                GlobalScope.launch(Dispatchers.Default) {
-                    val rb = response.body()
-                    if (rb != null) {
-                        isSuccess = true
-                        message = "Request response is OK"
+                val rb = response.body()
+                if (rb != null) {
+                    isSuccess = true
+                    message = "Request response is OK"
 
-                    } else { message = "Response body is null" }
+                } else { message = "Response body is null" }
 
-                    responseListener.retrofitResponse(
-                        RetrofitResponse(
-                            isSuccess,
-                            message,
-                            rb
-                        )
+                responseListener.retrofitResponse(
+                    RetrofitResponse(
+                        isSuccess,
+                        message,
+                        rb
                     )
-
-                }
+                )
 
             }
         })
@@ -117,18 +105,15 @@ class UserRepository(private val webservice: Webservice) {
         val leagueId = id.toInt()
         webservice.readNextMatch(leagueId).enqueue(object : Callback<NME> {
             override fun onFailure(call: Call<NME>, t: Throwable) {
-                GlobalScope.launch(Dispatchers.Default) {
-                    Log.d(tag, "UserRepository/121 : ${t.message}")
-                    Log.d(tag, "UserRepository/122 : ${t.cause}")
-                    responseListener.retrofitResponse(
-                        RetrofitResponse(
-                            isSuccess,
-                            "onFailure, requestNMEList, UserRepository",
-                            null
-                        )
+                Log.d(tag, "UserRepository/108 : ${t.message}")
+                Log.d(tag, "UserRepository/109 : ${t.cause}")
+                responseListener.retrofitResponse(
+                    RetrofitResponse(
+                        isSuccess,
+                        "onFailure, requestNMEList, UserRepository",
+                        null
                     )
-
-                }
+                )
 
             }
 
@@ -136,23 +121,20 @@ class UserRepository(private val webservice: Webservice) {
                 call: Call<NME>,
                 response: Response<NME>
             ) {
-                GlobalScope.launch(Dispatchers.Default) {
-                    val rb = response.body()
-                    if (rb != null) {
-                        isSuccess = true
-                        message = "Request response is OK"
+                val rb = response.body()
+                if (rb != null) {
+                    isSuccess = true
+                    message = "Request response is OK"
 
-                    } else { message = "Response body is null" }
+                } else { message = "Response body is null" }
 
-                    responseListener.retrofitResponse(
-                        RetrofitResponse(
-                            isSuccess,
-                            message,
-                            rb
-                        )
+                responseListener.retrofitResponse(
+                    RetrofitResponse(
+                        isSuccess,
+                        message,
+                        rb
                     )
-
-                }
+                )
 
             }
         })
@@ -165,18 +147,15 @@ class UserRepository(private val webservice: Webservice) {
 
         webservice.readSearchEvent(keyword).enqueue(object : Callback<SearchEvent> {
             override fun onFailure(call: Call<SearchEvent>, t: Throwable) {
-                GlobalScope.launch(Dispatchers.Default) {
-                    Log.d(tag, "UserRepository/169 : ${t.message}")
-                    Log.d(tag, "UserRepository/170 : ${t.cause}")
-                    responseListener.retrofitResponse(
-                        RetrofitResponse(
-                            isSuccess,
-                            "onFailure, requestSearchEventList, UserRepository",
-                            null
-                        )
+                Log.d(tag, "UserRepository/150 : ${t.message}")
+                Log.d(tag, "UserRepository/151 : ${t.cause}")
+                responseListener.retrofitResponse(
+                    RetrofitResponse(
+                        isSuccess,
+                        "onFailure, requestSearchEventList, UserRepository",
+                        null
                     )
-
-                }
+                )
 
             }
 
@@ -184,23 +163,20 @@ class UserRepository(private val webservice: Webservice) {
                 call: Call<SearchEvent>,
                 response: Response<SearchEvent>
             ) {
-                GlobalScope.launch(Dispatchers.Default) {
-                    val rb = response.body()
-                    if (rb != null) {
-                        isSuccess = true
-                        message = "Request response is OK"
+                val rb = response.body()
+                if (rb != null) {
+                    isSuccess = true
+                    message = "Request response is OK"
 
-                    } else { message = "Response body is null" }
+                } else { message = "Response body is null" }
 
-                    responseListener.retrofitResponse(
-                        RetrofitResponse(
-                            isSuccess,
-                            message,
-                            rb
-                        )
+                responseListener.retrofitResponse(
+                    RetrofitResponse(
+                        isSuccess,
+                        message,
+                        rb
                     )
-
-                }
+                )
 
             }
         })
@@ -209,22 +185,19 @@ class UserRepository(private val webservice: Webservice) {
 
     fun requestSearchTeam(keyword: String, responseListener: ResponseListener) {
         var isSuccess = false
-        var message = ""
+        var message: String
 
         webservice.readSearchTeam(keyword).enqueue(object : Callback<SearchTeam> {
             override fun onFailure(call: Call<SearchTeam>, t: Throwable) {
-                GlobalScope.launch(Dispatchers.Default) {
-                    Log.d(tag, "UserRepository/217 : ${t.message}")
-                    Log.d(tag, "UserRepository/218 : ${t.cause}")
-                    responseListener.retrofitResponse(
-                        RetrofitResponse(
-                            isSuccess,
-                            "onFailure, requestSearchTeamList, UserRepository",
-                            null
-                        )
+                Log.d(tag, "UserRepository/192 : ${t.message}")
+                Log.d(tag, "UserRepository/193 : ${t.cause}")
+                responseListener.retrofitResponse(
+                    RetrofitResponse(
+                        isSuccess,
+                        "onFailure, requestSearchTeamList, UserRepository",
+                        null
                     )
-
-                }
+                )
 
             }
 
@@ -232,23 +205,20 @@ class UserRepository(private val webservice: Webservice) {
                 call: Call<SearchTeam>,
                 response: Response<SearchTeam>
             ) {
-                GlobalScope.launch(Dispatchers.Default) {
-                    val rb = response.body()
-                    if (rb != null) {
-                        isSuccess = true
-                        message = "Request response is OK"
+                val rb = response.body()
+                if (rb != null) {
+                    isSuccess = true
+                    message = "Request response is OK"
 
-                    } else { message = "Response body is null" }
+                } else { message = "Response body is null" }
 
-                    responseListener.retrofitResponse(
-                        RetrofitResponse(
-                            isSuccess,
-                            message,
-                            rb
-                        )
+                responseListener.retrofitResponse(
+                    RetrofitResponse(
+                        isSuccess,
+                        message,
+                        rb
                     )
-
-                }
+                )
 
             }
         })

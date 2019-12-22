@@ -47,13 +47,21 @@ class EventViewModel : ViewModel() {
 
     }
 
-    fun addSpinner(it: List<LeagueDetail>, context: Context): ArrayAdapter<String> {
+    fun addSpinner(it: List<LeagueDetail>?, context: Context): ArrayAdapter<String> {
         spinnerIdList.clear()
         spinnerNameList.clear()
 
-        for (i in it.indices) {
-            spinnerIdList.add(it[i].idLeague)
-            spinnerNameList.add(it[i].strLeague)
+        if (it != null) {
+            for (i in it.indices) {
+                val a1 = it[i].idLeague
+                val a2 = it[i].strLeague
+                if ((a1 != null) && (a2 != null)) {
+                    spinnerIdList.add(a1)
+                    spinnerNameList.add(a2)
+
+                }
+
+            }
 
         }
 

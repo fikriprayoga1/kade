@@ -8,14 +8,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.footballmatchschedule.R
-import com.example.footballmatchschedule.model.apiresponse.NMEDetail
+import com.example.footballmatchschedule.model.apiresponse.SearchEventDetail
 import java.text.SimpleDateFormat
 
-class NMERecyclerViewAdapter(
+class SearchEventRecyclerViewAdapter(
     internal var context: Context
-    , private var nmeObject: List<NMEObject>
-    , private var nmeListener: NMEListener
-) : RecyclerView.Adapter<NMERecyclerViewAdapter.MyViewHolder>() {
+    , private var searchEventObject: List<SearchEventObject>
+    , private var searchEventListener: SearchEventListener
+) : RecyclerView.Adapter<SearchEventRecyclerViewAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var mDate: TextView = view.findViewById(R.id.textView_main_item_1)
@@ -37,9 +37,9 @@ class NMERecyclerViewAdapter(
     // this method for init item in every view item
     @SuppressLint("SimpleDateFormat")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val mNMEDetail = nmeObject[position].nmeDetail
+        val mSearchEventDetail = searchEventObject[position].searchEventDetail
 
-        val dateEvent = mNMEDetail.dateEvent
+        val dateEvent = mSearchEventDetail.dateEvent
         if (dateEvent != null) {
             val inputFormat = SimpleDateFormat("yyyy-MM-dd")
             val outputFormat = SimpleDateFormat("EEE, d MMM yyyy")
@@ -52,13 +52,13 @@ class NMERecyclerViewAdapter(
         }
 
 
-        holder.mTeam1.text = mNMEDetail.strHomeTeam
-        holder.mTeamScore1.text = mNMEDetail.intHomeScore
-        holder.mteam2.text = mNMEDetail.strAwayTeam
-        holder.mTeamScore2.text = mNMEDetail.intAwayScore
+        holder.mTeam1.text = mSearchEventDetail.strHomeTeam
+        holder.mTeamScore1.text = mSearchEventDetail.intHomeScore
+        holder.mteam2.text = mSearchEventDetail.strAwayTeam
+        holder.mTeamScore2.text = mSearchEventDetail.intAwayScore
 
         holder.itemView.setOnClickListener {
-            nmeListener.itemDetail(mNMEDetail)
+            searchEventListener.itemDetail(mSearchEventDetail)
 
         }
 
@@ -69,7 +69,7 @@ class NMERecyclerViewAdapter(
         var itemCount = 0
 
         try {
-            val itemSize = nmeObject.size
+            val itemSize = searchEventObject.size
             itemCount = itemSize
         } catch (e: Exception) {
         }
@@ -78,12 +78,12 @@ class NMERecyclerViewAdapter(
     }
 
     // this interface for handle more button pressed
-    interface NMEListener {
-        fun itemDetail(nmeDetail: NMEDetail)
+    interface SearchEventListener {
+        fun itemDetail(searchEventDetail: SearchEventDetail)
 
     }
 
     // this class is object of item in recyclerview
-    class NMEObject(var nmeDetail: NMEDetail)
+    class SearchEventObject(var searchEventDetail: SearchEventDetail)
 
 }

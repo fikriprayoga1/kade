@@ -1,13 +1,14 @@
 package com.example.footballmatchschedule.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +21,6 @@ import com.example.footballmatchschedule.other.recyclerviewadapter.LMERecyclerVi
 import com.example.footballmatchschedule.viewmodel.LMEViewModel
 import kotlinx.android.synthetic.main.last_match_event_fragment.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class LMEFragment : Fragment() {
@@ -43,24 +43,42 @@ class LMEFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(LMEViewModel::class.java)
 
-        viewModel.getUIScope().launch(Dispatchers.Default) {
-            viewModel.init(
-                (activity as MainActivity).viewModel.getUserRepository(),
-                (activity as MainActivity)
-            )
+        val thisContext = this
+        lifecycleScope.launchWhenStarted {
+            if (lifecycle.currentState >= Lifecycle.State.STARTED) {
+                val loadingStatus0 =
+                    withContext(Dispatchers.Default) {
+                        (activity as MainActivity).viewModel.updateLoading(
+                            true
+                        )
+                    }
+                (activity as MainActivity).updateLoading(loadingStatus0, "LMEFragment/55 : start")
+
+                withContext(Dispatchers.Default) {
+                    viewModel.init(
+                        (activity as MainActivity).viewModel.getUserRepository(),
+                        (activity as MainActivity)
+                    )
+
+                }
+                initRecyclerView()
+                (activity as MainActivity).viewModel.getLeagueIdHolderListener()
+                    .observe(thisContext, Observer { leagueIdHolderListener() })
+
+                val loadingStatus1 =
+                    withContext(Dispatchers.Default) {
+                        (activity as MainActivity).viewModel.updateLoading(
+                            false
+                        )
+                    }
+                (activity as MainActivity).updateLoading(
+                    loadingStatus1, "LMEFragment/148 : stop"
+                )
+
+            }
 
         }
 
-        initRecyclerView()
-
-        (activity as MainActivity).viewModel.getLeagueIdHolderListener()
-            .observe(this, Observer { showList() })
-
-    }
-
-    override fun onDestroy() {
-        viewModel.getJob().cancel()
-        super.onDestroy()
     }
 
     private fun initRecyclerView() {
@@ -87,33 +105,71 @@ class LMEFragment : Fragment() {
 
     }
 
-    private fun showList() {
-        viewModel.getUIScope().launch(Dispatchers.Default) {
-            (activity as MainActivity).startLoading(viewModel.getUIScope())
+    private fun leagueIdHolderListener() {
+        lifecycleScope.launchWhenStarted {
+            if (lifecycle.currentState >= Lifecycle.State.STARTED) {
+                val loadingStatus0 =
+                    withContext(Dispatchers.Default) {
+                        (activity as MainActivity).viewModel.updateLoading(
+                            true
+                        )
+                    }
+                (activity as MainActivity).updateLoading(loadingStatus0, "NMEFragment/55 : start")
 
-            val leagueHolder = (activity as MainActivity).viewModel.getLeagueIdHolder()!!
-            viewModel.requestLMEList(leagueHolder, object : ResponseListener {
-                override fun retrofitResponse(retrofitResponse: RetrofitResponse) {
-                    viewModel.getUIScope().launch {
-                        withContext(Dispatchers.Default) {
-                            viewModel.getMainActivity().stopLoading(viewModel.getUIScope())
-                            if (retrofitResponse.isSuccess) {
-                                val LMEData = retrofitResponse.responseBody as LME
-
-                                viewModel.initLMEList(LMEData.events)
-
-                            } else {
-                                viewModel.getMainActivity()
-                                    .popUp(retrofitResponse.message, viewModel.getUIScope())
+                withContext(Dispatchers.IO) {
+                    val leagueHolder =
+                        (activity as MainActivity).viewModel.getLeagueIdHolder()!!
+                    viewModel.requestLMEList(
+                        leagueHolder,
+                        object : ResponseListener {
+                            override fun retrofitResponse(retrofitResponse: RetrofitResponse) {
+                                responseLMEListener(retrofitResponse)
                             }
+                        })
 
+                }
+
+            }
+
+        }
+
+    }
+
+    private fun responseLMEListener(retrofitResponse: RetrofitResponse) {
+        lifecycleScope.launchWhenStarted {
+            if (lifecycle.currentState >= Lifecycle.State.STARTED) {
+
+                withContext(Dispatchers.Default) {
+                    if (retrofitResponse.isSuccess) {
+                        val LMEData =
+                            retrofitResponse.responseBody as LME
+
+                        viewModel.initLMEList(LMEData.events)
+                        withContext(Dispatchers.Main) { lmeAdapter.notifyDataSetChanged() }
+
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            viewModel.getMainActivity()
+                                .popUp(retrofitResponse.message)
                         }
+                    }
 
-                        lmeAdapter.notifyDataSetChanged()
+                    val loadingStatus1 =
+                        withContext(Dispatchers.Default) {
+                            (activity as MainActivity).viewModel.updateLoading(
+                                false
+                            )
+                        }
+                    withContext(Dispatchers.Main) {
+                        (activity as MainActivity).updateLoading(
+                            loadingStatus1, "NMEFragment/154 : stop"
+                        )
 
                     }
+
                 }
-            })
+
+            }
 
         }
 

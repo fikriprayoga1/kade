@@ -2,15 +2,10 @@ package com.example.footballmatchschedule.viewmodel
 
 import android.R
 import android.content.Context
-import android.view.View
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.ViewModel
-import com.example.footballmatchschedule.model.RetrofitResponse
-import com.example.footballmatchschedule.model.apiresponse.League
 import com.example.footballmatchschedule.model.apiresponse.LeagueDetail
 import com.example.footballmatchschedule.other.ResponseListener
 import com.example.footballmatchschedule.other.helper.ViewPagerAdapter
@@ -18,21 +13,15 @@ import com.example.footballmatchschedule.other.jetpack.UserRepository
 import com.example.footballmatchschedule.view.LMEFragment
 import com.example.footballmatchschedule.view.MainActivity
 import com.example.footballmatchschedule.view.NMEFragment
-import kotlinx.android.synthetic.main.event_fragment.*
-import kotlinx.coroutines.*
 
 class EventViewModel : ViewModel() {
     // 1
     private lateinit var userRepository: UserRepository
     // 2
     private lateinit var mainActivity: MainActivity
-    // 4
-    private val job = Job()
-    // 5
-    private val uiScope = CoroutineScope(Dispatchers.Main + job)
-    // 6
+    // 3
     private val spinnerNameList = ArrayList<String>()
-    // 7
+    // 4
     private val spinnerIdList = ArrayList<String>()
 
     fun init(userRepository: UserRepository, mainActivity: MainActivity) {
@@ -78,10 +67,6 @@ class EventViewModel : ViewModel() {
     fun getLeagueIdList(position: Int): String {
         return spinnerIdList[position]
     }
-
-    fun getJob(): Job { return job }
-
-    fun getUIScope(): CoroutineScope { return uiScope }
 
     fun getMainActivity(): MainActivity {
         return mainActivity

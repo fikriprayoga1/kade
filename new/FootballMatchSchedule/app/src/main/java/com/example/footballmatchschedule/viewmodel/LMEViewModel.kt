@@ -15,27 +15,15 @@ class LMEViewModel : ViewModel() {
     private lateinit var userRepository: UserRepository
     // 2
     private lateinit var mainActivity: MainActivity
-    // 4
-    private val job = Job()
-    // 5
-    private val uiScope = CoroutineScope(Dispatchers.Main + job)
-    // 6
+    // 3
     private val lmeObjects: MutableList<LMERecyclerViewAdapter.LMEObject> = ArrayList()
-    // 7
+    // 4
     private lateinit var lmeObject: LMERecyclerViewAdapter.LMEObject
 
     fun init(userRepository: UserRepository, mainActivity: MainActivity) {
         this.userRepository = userRepository
         this.mainActivity = mainActivity
 
-    }
-
-    fun getJob(): Job {
-        return job
-    }
-
-    fun getUIScope(): CoroutineScope {
-        return uiScope
     }
 
     fun initLMEList(lmeList: List<LMEDetail>) {

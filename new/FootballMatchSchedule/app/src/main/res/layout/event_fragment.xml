@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:queryHint="@string/a18"
+        android:focusable="false"
         android:iconifiedByDefault="false"
         android:queryBackground="@color/background"
         app:layout_constraintTop_toTopOf="parent"/>

@@ -1,15 +1,12 @@
 package com.example.footballmatchschedule.viewmodel
 
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.footballmatchschedule.model.apiresponse.SearchEventDetail
-import com.example.footballmatchschedule.model.apiresponse.SearchTeamDetail
 import com.example.footballmatchschedule.other.jetpack.UserRepository
 import com.example.footballmatchschedule.other.jetpack.Webservice
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 
 class MainActivityViewModel : ViewModel() {
     // 1
@@ -21,14 +18,10 @@ class MainActivityViewModel : ViewModel() {
     // 4
     private var leagueIdHolder = MutableLiveData<String>()
     // 5
-    private val job = Job()
-    // 6
-    private val uiScope = CoroutineScope(Dispatchers.Main + job)
-    // 7
     private val tag = "football_match_schedule"
-    // 8
+    // 6
     private val searchEventList = MutableLiveData<List<SearchEventDetail>>()
-    // 9
+    // 7
     private val hasFragmentBackstack = mutableMapOf<String, Boolean>()
 
     fun init() {
@@ -39,15 +32,10 @@ class MainActivityViewModel : ViewModel() {
 
     }
 
-    fun addLoading(): Short {
-        loadingQueue++
-        return loadingQueue
+    fun updateLoading(isStartLoading: Boolean): Int {
+        if (isStartLoading) { loadingQueue++ } else { loadingQueue-- }
 
-    }
-
-    fun reduceLoading(): Short {
-        loadingQueue--
-        return loadingQueue
+        return if (loadingQueue == getQueueInit()) { View.GONE } else { View.VISIBLE }
 
     }
 
@@ -72,14 +60,6 @@ class MainActivityViewModel : ViewModel() {
         return leagueIdHolder.value
     }
 
-    fun getJob(): Job {
-        return job
-    }
-
-    fun getUIScope(): CoroutineScope {
-        return uiScope
-    }
-
     fun getTag(): String {
         return tag
     }
@@ -89,10 +69,21 @@ class MainActivityViewModel : ViewModel() {
 
     }
 
-    fun getSearchEventList(): LiveData<List<SearchEventDetail>>? { return searchEventList }
+    fun getSearchEventList(): LiveData<List<SearchEventDetail>>? {
+        return searchEventList
+    }
 
-    fun setHasFragmentBackstack(fragmentName: String, state: Boolean) { hasFragmentBackstack[fragmentName] = state }
+    fun setHasFragmentBackstack(fragmentName: String, state: Boolean) {
+        hasFragmentBackstack[fragmentName] = state
+    }
 
-    fun getHasFragmentBackstack(fragmentName: String): Boolean { return hasFragmentBackstack.get(fragmentName) ?: false }
+    fun getHasFragmentBackstack(fragmentName: String): Boolean {
+        return hasFragmentBackstack.get(fragmentName) ?: false
+    }
+
+    fun setInit(view: View) {
+        view.visibility = View.VISIBLE
+
+    }
 
 }

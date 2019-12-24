@@ -167,23 +167,20 @@ class LMEFragment : Fragment() {
                         }
                     }
 
-                    val loadingStatus1 =
-                        withContext(Dispatchers.Default) {
-                            (activity as MainActivity).viewModel.updateLoading(
-                                false
-                            )
-                        }
-                    withContext(Dispatchers.Main) {
-                        (activity as MainActivity).updateLoading(
-                            loadingStatus1,
-                            this.javaClass.name,
-                            Thread.currentThread().stackTrace[2].lineNumber,
-                            "stop"
-                        )
-
-                    }
-
                 }
+
+                val loadingStatus1 =
+                    withContext(Dispatchers.Default) {
+                        (activity as MainActivity).viewModel.updateLoading(
+                            false
+                        )
+                    }
+                (activity as MainActivity).updateLoading(
+                    loadingStatus1,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "stop"
+                )
 
             }
 

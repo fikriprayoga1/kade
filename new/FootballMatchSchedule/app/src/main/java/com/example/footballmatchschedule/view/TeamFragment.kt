@@ -162,21 +162,22 @@ class TeamFragment : Fragment() {
     private fun responseAction(retrofitResponse: RetrofitResponse) {
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
-                if (retrofitResponse.isSuccess) {
-                    val aa = withContext(Dispatchers.Default) {
+                withContext(Dispatchers.Default) {
+                    if (retrofitResponse.isSuccess) {
                         val ab = retrofitResponse.responseBody as League
-                        viewModel.addSpinner(
+                        val aa = viewModel.addSpinner(
                             ab.leagues,
                             viewModel.getMainActivity()
                         )
 
+                        withContext(Dispatchers.Main) { spinner_team_fragment_2_1.adapter = aa }
+
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            viewModel.getMainActivity().popUp(retrofitResponse.message)
+                        }
                     }
 
-                    spinner_team_fragment_2_1.adapter = aa
-
-                } else {
-                    viewModel.getMainActivity()
-                        .popUp(retrofitResponse.message)
                 }
 
                 val loadingStatus1 = withContext(Dispatchers.Default) {
@@ -214,23 +215,20 @@ class TeamFragment : Fragment() {
                         }
                     }
 
-                    val loadingStatus1 =
-                        withContext(Dispatchers.Default) {
-                            (activity as MainActivity).viewModel.updateLoading(
-                                false
-                            )
-                        }
-                    withContext(Dispatchers.Main) {
-                        (activity as MainActivity).updateLoading(
-                            loadingStatus1,
-                            this.javaClass.name,
-                            Thread.currentThread().stackTrace[2].lineNumber,
-                            "stop"
-                        )
-
-                    }
-
                 }
+
+                val loadingStatus1 =
+                    withContext(Dispatchers.Default) {
+                        (activity as MainActivity).viewModel.updateLoading(
+                            false
+                        )
+                    }
+                (activity as MainActivity).updateLoading(
+                    loadingStatus1,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "stop"
+                )
 
             }
 
@@ -299,32 +297,39 @@ class TeamFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
 
-                if (retrofitResponse.isSuccess) {
-                    Log.d("football_match_schedule", "TeamFragment/284 : ")
-                    if (!viewModel.getMainActivity().viewModel.getHasFragmentBackstack(
-                            "SearchTeam"
-                        )
-                    ) {
-                        viewModel.getMainActivity().changeFragment2(
-                            R.id.constraintLayout_team_fragment_2,
-                            SearchTeamFragment()
-                        )
-                        viewModel.getMainActivity()
-                            .viewModel.setHasFragmentBackstack(
-                            "SearchTeam",
-                            true
-                        )
+                withContext(Dispatchers.Default) {
+                    if (retrofitResponse.isSuccess) {
+                        if (!viewModel.getMainActivity().viewModel.getHasFragmentBackstack(
+                                "SearchTeam"
+                            )
+                        ) {
+                            withContext(Dispatchers.Main) {
+                                viewModel.getMainActivity().changeFragment2(
+                                    R.id.constraintLayout_team_fragment_2,
+                                    SearchTeamFragment()
+                                )
+                            }
+                            viewModel.getMainActivity()
+                                .viewModel.setHasFragmentBackstack(
+                                "SearchTeam",
+                                true
+                            )
 
+                        }
+
+                        val searchTeam =
+                            retrofitResponse.responseBody as SearchTeam
+                        withContext(Dispatchers.Main) {
+                            viewModel.getMainActivity()
+                                .viewModel.setSearchTeamList(searchTeam.teams)
+                        }
+
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            viewModel.getMainActivity().popUp(retrofitResponse.message)
+                        }
                     }
 
-                    val searchTeam =
-                        retrofitResponse.responseBody as SearchTeam
-                    viewModel.getMainActivity()
-                        .viewModel.setSearchTeamList(searchTeam.teams)
-
-                } else {
-                    viewModel.getMainActivity()
-                        .popUp(retrofitResponse.message)
                 }
 
                 val loadingStatus1 =

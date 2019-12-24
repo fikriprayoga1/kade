@@ -123,26 +123,27 @@ class EventFragment : Fragment() {
     private fun responseAction(retrofitResponse: RetrofitResponse) {
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
-                if (retrofitResponse.isSuccess) {
-                    val aa = withContext(Dispatchers.Default) {
+                withContext(Dispatchers.Default) {
+                    if (retrofitResponse.isSuccess) {
                         val ab = retrofitResponse.responseBody as League
-                        viewModel.addSpinner(
-                            ab.leagues,
-                            viewModel.getMainActivity()
-                        )
+                        val aa = viewModel.addSpinner(ab.leagues, viewModel.getMainActivity())
 
+                        withContext(Dispatchers.Main) { spinner_event_fragment_2_1.adapter = aa }
+
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            viewModel.getMainActivity().popUp(retrofitResponse.message)
+                        }
                     }
 
-                    spinner_event_fragment_2_1.adapter = aa
-
-                } else {
-                    viewModel.getMainActivity()
-                        .popUp(retrofitResponse.message)
                 }
 
-                val loadingStatus1 = withContext(Dispatchers.Default) {
-                    (activity as MainActivity).viewModel.updateLoading(false)
-                }
+                val loadingStatus1 =
+                    withContext(Dispatchers.Default) {
+                        (activity as MainActivity).viewModel.updateLoading(
+                            false
+                        )
+                    }
                 (activity as MainActivity).updateLoading(
                     loadingStatus1,
                     this.javaClass.name,
@@ -207,32 +208,37 @@ class EventFragment : Fragment() {
     private fun responseSearchListener(retrofitResponse: RetrofitResponse) {
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
+                withContext(Dispatchers.Default) {
+                    if (retrofitResponse.isSuccess) {
+                        if (!viewModel.getMainActivity().viewModel.getHasFragmentBackstack(
+                                "SearchEvent"
+                            )
+                        ) {
+                            withContext(Dispatchers.Main) {
+                                viewModel.getMainActivity().changeFragment2(
+                                    R.id.constraintLayout_event_fragment_2,
+                                    SearchEventFragment()
+                                )
+                            }
+                            viewModel.getMainActivity()
+                                .viewModel.setHasFragmentBackstack(
+                                "SearchEvent",
+                                true
+                            )
 
-                if (retrofitResponse.isSuccess) {
-                    if (!viewModel.getMainActivity().viewModel.getHasFragmentBackstack(
-                            "SearchEvent"
-                        )
-                    ) {
-                        viewModel.getMainActivity().changeFragment2(
-                            R.id.constraintLayout_event_fragment_2,
-                            SearchEventFragment()
-                        )
+                        }
+
+                        val searchTeam =
+                            retrofitResponse.responseBody as SearchEvent
                         viewModel.getMainActivity()
-                            .viewModel.setHasFragmentBackstack(
-                            "SearchEvent",
-                            true
-                        )
+                            .viewModel.setSearchEventList(searchTeam.event)
 
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            viewModel.getMainActivity().popUp(retrofitResponse.message)
+                        }
                     }
 
-                    val searchTeam =
-                        retrofitResponse.responseBody as SearchEvent
-                    viewModel.getMainActivity()
-                        .viewModel.setSearchEventList(searchTeam.event)
-
-                } else {
-                    viewModel.getMainActivity()
-                        .popUp(retrofitResponse.message)
                 }
 
                 val loadingStatus1 =

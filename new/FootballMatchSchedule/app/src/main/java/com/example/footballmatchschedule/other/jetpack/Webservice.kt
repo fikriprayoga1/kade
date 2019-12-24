@@ -21,6 +21,9 @@ interface Webservice {
     @GET("api/v1/json/1/searchevents.php")
     fun readSearchEvent(@Query("e") keyword: String): Call<SearchEvent>
 
+    @GET("api/v1/json/1/search_all_teams.php")
+    fun readTeamList(@Query("l") leagueName: String): Call<Team>
+
     @GET("api/v1/json/1/searchteams.php")
     fun readSearchTeam(@Query("t") keyword: String): Call<SearchTeam>
 

@@ -4,56 +4,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
     tools:context=".view.TeamFragment">
 
     <!--1-->
-    <EditText
-        android:id="@+id/editText_team_fragment_1"
+    <SearchView
+        android:id="@+id/searchView_team_fragment_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:ems="10"
-        android:hint="Name"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout_team_fragment_3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:iconifiedByDefault="false"
+        android:queryBackground="@color/background"
+        android:queryHint="@string/a18"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!--2-->
-    <ImageButton
-        android:id="@+id/imageButton_team_fragment_2"
-        android:layout_width="35dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="10dp"
-        android:background="@color/black0"
-        android:src="@drawable/ic_search_black_24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/editText_team_fragment_1"
-        app:layout_constraintEnd_toEndOf="@+id/editText_team_fragment_1"
-        app:layout_constraintTop_toTopOf="@+id/editText_team_fragment_1" />
-
-    <!--3-->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout_team_fragment_3"
+        android:id="@+id/constraintLayout_team_fragment_2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_team_fragment_1">
+        app:layout_constraintTop_toBottomOf="@+id/searchView_team_fragment_1">
 
-        <!--3_1-->
+        <!--2_1-->
         <Spinner
-            android:id="@+id/spinner_team_fragment_3_1"
+            android:id="@+id/spinner_team_fragment_2_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!--3_2-->
+        <!--2_2-->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView_team_fragment_3_2"
+            android:id="@+id/recyclerView_team_fragment_2_2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinner_team_fragment_3_1" />
+            app:layout_constraintTop_toBottomOf="@+id/spinner_team_fragment_2_1" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

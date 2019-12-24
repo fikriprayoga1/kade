@@ -28,7 +28,7 @@ class NMERecyclerViewAdapter(
 
     // this method for build view
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val itemLayout = R.layout.main_item
+        val itemLayout = R.layout.item_event
         val itemView = LayoutInflater.from(parent.context)
             .inflate(itemLayout, parent, false)
         return MyViewHolder(itemView)

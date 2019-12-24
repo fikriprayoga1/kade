@@ -165,6 +165,53 @@ class UserRepository(private val webservice: Webservice) {
             ) {
                 val rb = response.body()
                 if (rb != null) {
+                    if (rb.event != null) {
+                        isSuccess = true
+                        message = "Request response is OK"
+                    } else {
+                        message = "No search found"
+
+                    }
+
+                } else { message = "Response body is null" }
+
+                responseListener.retrofitResponse(
+                    RetrofitResponse(
+                        isSuccess,
+                        message,
+                        rb
+                    )
+                )
+
+            }
+        })
+
+    }
+
+    fun requestTeamList(responseListener: ResponseListener, leagueName: String) {
+        var isSuccess = false
+        var message: String
+
+        webservice.readTeamList(leagueName).enqueue(object : Callback<Team> {
+            override fun onFailure(call: Call<Team>, t: Throwable) {
+                Log.d(tag, "UserRepository/192 : ${t.message}")
+                Log.d(tag, "UserRepository/193 : ${t.cause}")
+                responseListener.retrofitResponse(
+                    RetrofitResponse(
+                        isSuccess,
+                        "onFailure, requestTeamList, UserRepository",
+                        null
+                    )
+                )
+
+            }
+
+            override fun onResponse(
+                call: Call<Team>,
+                response: Response<Team>
+            ) {
+                val rb = response.body()
+                if (rb != null) {
                     isSuccess = true
                     message = "Request response is OK"
 
@@ -183,14 +230,15 @@ class UserRepository(private val webservice: Webservice) {
 
     }
 
-    fun requestSearchTeam(keyword: String, responseListener: ResponseListener) {
+    fun requestSearchTeam(responseListener: ResponseListener, keyword: String) {
         var isSuccess = false
         var message: String
 
+        Log.d(tag, "UserRepository/232 : ")
         webservice.readSearchTeam(keyword).enqueue(object : Callback<SearchTeam> {
             override fun onFailure(call: Call<SearchTeam>, t: Throwable) {
-                Log.d(tag, "UserRepository/192 : ${t.message}")
-                Log.d(tag, "UserRepository/193 : ${t.cause}")
+                Log.d(tag, "UserRepository/234 : ${t.message}")
+                Log.d(tag, "UserRepository/235 : ${t.cause}")
                 responseListener.retrofitResponse(
                     RetrofitResponse(
                         isSuccess,
@@ -207,8 +255,14 @@ class UserRepository(private val webservice: Webservice) {
             ) {
                 val rb = response.body()
                 if (rb != null) {
-                    isSuccess = true
-                    message = "Request response is OK"
+                    if (rb.teams != null) {
+                        isSuccess = true
+                        message = "Request response is OK"
+
+                    } else {
+                        message = "No search found"
+
+                    }
 
                 } else { message = "Response body is null" }
 

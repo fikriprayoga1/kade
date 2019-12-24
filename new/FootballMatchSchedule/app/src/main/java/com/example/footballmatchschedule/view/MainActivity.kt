@@ -2,8 +2,6 @@ package com.example.footballmatchschedule.view
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -12,11 +10,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.example.footballmatchschedule.R
+import com.example.footballmatchschedule.other.helper.TagHelper
 import com.example.footballmatchschedule.viewmodel.MainActivityViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
@@ -32,7 +29,12 @@ class MainActivity : AppCompatActivity() {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
                 val loadingStatus0 =
                     withContext(Dispatchers.Default) { viewModel.updateLoading(true) }
-                updateLoading(loadingStatus0, "MainActivity/35 : start")
+                updateLoading(
+                    loadingStatus0,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "start"
+                )
 
                 withContext(Dispatchers.Default) { viewModel.init() }
 
@@ -40,7 +42,12 @@ class MainActivity : AppCompatActivity() {
 
                 val loadingStatus1 =
                     withContext(Dispatchers.Default) { viewModel.updateLoading(false) }
-                updateLoading(loadingStatus1, "MainActivity/43 : stop")
+                updateLoading(
+                    loadingStatus1,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "stop"
+                )
 
             }
 
@@ -83,8 +90,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun updateLoading(viewStatus: Int, description: String) {
-        Log.d(viewModel.getTag(), description)
+    fun updateLoading(viewStatus: Int, className: String, line: Int, description: String?) {
+        TagHelper().writeTag(className, line, description)
         cardView_activity_main_2.visibility = viewStatus
 
     }

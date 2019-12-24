@@ -52,7 +52,12 @@ class NMEFragment : Fragment() {
                             true
                         )
                     }
-                (activity as MainActivity).updateLoading(loadingStatus0, "NMEFragment/55 : start")
+                (activity as MainActivity).updateLoading(
+                    loadingStatus0,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "start"
+                )
 
                 withContext(Dispatchers.Default) {
                     viewModel.init(
@@ -75,7 +80,10 @@ class NMEFragment : Fragment() {
                         )
                     }
                 (activity as MainActivity).updateLoading(
-                    loadingStatus1, "LMEFragment/148 : stop"
+                    loadingStatus1,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "stop"
                 )
 
             }
@@ -118,7 +126,12 @@ class NMEFragment : Fragment() {
                             true
                         )
                     }
-                (activity as MainActivity).updateLoading(loadingStatus0, "NMEFragment/55 : start")
+                (activity as MainActivity).updateLoading(
+                    loadingStatus0,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "start"
+                )
 
                 withContext(Dispatchers.IO) {
                     val leagueHolder =
@@ -169,7 +182,10 @@ class NMEFragment : Fragment() {
                         }
                     withContext(Dispatchers.Main) {
                         (activity as MainActivity).updateLoading(
-                            loadingStatus1, "NMEFragment/154 : stop"
+                            loadingStatus1,
+                            this.javaClass.name,
+                            Thread.currentThread().stackTrace[2].lineNumber,
+                            "stop"
                         )
 
                     }

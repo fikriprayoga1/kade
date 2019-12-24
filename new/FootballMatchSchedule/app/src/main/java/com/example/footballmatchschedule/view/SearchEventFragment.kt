@@ -13,9 +13,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.footballmatchschedule.R
-import com.example.footballmatchschedule.model.RetrofitResponse
 import com.example.footballmatchschedule.model.apiresponse.SearchEventDetail
-import com.example.footballmatchschedule.other.ResponseListener
 import com.example.footballmatchschedule.other.recyclerviewadapter.SearchEventRecyclerViewAdapter
 import com.example.footballmatchschedule.viewmodel.SearchEventViewModel
 import kotlinx.android.synthetic.main.search_event_fragment.*
@@ -53,7 +51,9 @@ class SearchEventFragment : Fragment() {
                     }
                 (activity as MainActivity).updateLoading(
                     loadingStatus0,
-                    "SearchEventFragment/46 : start"
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "start"
                 )
 
                 withContext(Dispatchers.Default) {
@@ -64,15 +64,17 @@ class SearchEventFragment : Fragment() {
 
                 }
                 initRecyclerView()
-                (activity as MainActivity).viewModel.getSearchEventList()?.
-                    observe(thisContext, Observer { searchDataHolderListener(it) })
+                (activity as MainActivity).viewModel.getSearchEventList()
+                    ?.observe(thisContext, Observer { searchDataHolderListener(it) })
 
                 val loadingStatus1 = withContext(Dispatchers.Default) {
                     (activity as MainActivity).viewModel.updateLoading(false)
                 }
                 (activity as MainActivity).updateLoading(
                     loadingStatus1,
-                    "SearchEventFragment/116 : stop"
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "stop"
                 )
 
             }
@@ -121,7 +123,9 @@ class SearchEventFragment : Fragment() {
                     }
                 (activity as MainActivity).updateLoading(
                     loadingStatus0,
-                    "SearchEventFragment/46 : start"
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "start"
                 )
 
                 withContext(Dispatchers.Default) { viewModel.initSearchEventList(it) }
@@ -132,7 +136,9 @@ class SearchEventFragment : Fragment() {
                 }
                 (activity as MainActivity).updateLoading(
                     loadingStatus1,
-                    "SearchEventFragment/116 : stop"
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "stop"
                 )
 
             }

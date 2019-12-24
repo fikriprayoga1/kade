@@ -1,27 +1,30 @@
 package com.example.footballmatchschedule.other.jetpack
 
-import android.util.Log
 import com.example.footballmatchschedule.model.RetrofitResponse
 import com.example.footballmatchschedule.model.apiresponse.*
 import com.example.footballmatchschedule.other.ResponseListener
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.example.footballmatchschedule.other.helper.TagHelper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class UserRepository(private val webservice: Webservice) {
-    val tag = "football_match_schedule"
-
     fun requestLeagueList(responseListener: ResponseListener) {
         var isSuccess = false
         var message: String
 
         webservice.requestLeague().enqueue(object : Callback<League> {
             override fun onFailure(call: Call<League>, t: Throwable) {
-                Log.d(tag, "UserRepository/23 : ${t.message}")
-                Log.d(tag, "UserRepository/24 : ${t.cause}")
+                TagHelper().writeTag(
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    t.message
+                )
+                TagHelper().writeTag(
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    t.cause.toString()
+                )
                 responseListener.retrofitResponse(
                     RetrofitResponse(
                         isSuccess,
@@ -39,7 +42,9 @@ class UserRepository(private val webservice: Webservice) {
                     isSuccess = true
                     message = "Request response is OK"
 
-                } else { message = "Response body is null" }
+                } else {
+                    message = "Response body is null"
+                }
 
                 responseListener.retrofitResponse(
                     RetrofitResponse(
@@ -62,8 +67,16 @@ class UserRepository(private val webservice: Webservice) {
         val leagueId = id.toInt()
         webservice.readLastMatch(leagueId).enqueue(object : Callback<LME> {
             override fun onFailure(call: Call<LME>, t: Throwable) {
-                Log.d(tag, "UserRepository/65 : ${t.message}")
-                Log.d(tag, "UserRepository/66 : ${t.cause}")
+                TagHelper().writeTag(
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    t.message
+                )
+                TagHelper().writeTag(
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    t.cause.toString()
+                )
                 responseListener.retrofitResponse(
                     RetrofitResponse(
                         isSuccess,
@@ -83,7 +96,9 @@ class UserRepository(private val webservice: Webservice) {
                     isSuccess = true
                     message = "Request response is OK"
 
-                } else { message = "Response body is null" }
+                } else {
+                    message = "Response body is null"
+                }
 
                 responseListener.retrofitResponse(
                     RetrofitResponse(
@@ -105,8 +120,16 @@ class UserRepository(private val webservice: Webservice) {
         val leagueId = id.toInt()
         webservice.readNextMatch(leagueId).enqueue(object : Callback<NME> {
             override fun onFailure(call: Call<NME>, t: Throwable) {
-                Log.d(tag, "UserRepository/108 : ${t.message}")
-                Log.d(tag, "UserRepository/109 : ${t.cause}")
+                TagHelper().writeTag(
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    t.message
+                )
+                TagHelper().writeTag(
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    t.cause.toString()
+                )
                 responseListener.retrofitResponse(
                     RetrofitResponse(
                         isSuccess,
@@ -126,7 +149,9 @@ class UserRepository(private val webservice: Webservice) {
                     isSuccess = true
                     message = "Request response is OK"
 
-                } else { message = "Response body is null" }
+                } else {
+                    message = "Response body is null"
+                }
 
                 responseListener.retrofitResponse(
                     RetrofitResponse(
@@ -147,8 +172,16 @@ class UserRepository(private val webservice: Webservice) {
 
         webservice.readSearchEvent(keyword).enqueue(object : Callback<SearchEvent> {
             override fun onFailure(call: Call<SearchEvent>, t: Throwable) {
-                Log.d(tag, "UserRepository/150 : ${t.message}")
-                Log.d(tag, "UserRepository/151 : ${t.cause}")
+                TagHelper().writeTag(
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    t.message
+                )
+                TagHelper().writeTag(
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    t.cause.toString()
+                )
                 responseListener.retrofitResponse(
                     RetrofitResponse(
                         isSuccess,
@@ -173,7 +206,9 @@ class UserRepository(private val webservice: Webservice) {
 
                     }
 
-                } else { message = "Response body is null" }
+                } else {
+                    message = "Response body is null"
+                }
 
                 responseListener.retrofitResponse(
                     RetrofitResponse(
@@ -194,8 +229,16 @@ class UserRepository(private val webservice: Webservice) {
 
         webservice.readTeamList(leagueName).enqueue(object : Callback<Team> {
             override fun onFailure(call: Call<Team>, t: Throwable) {
-                Log.d(tag, "UserRepository/192 : ${t.message}")
-                Log.d(tag, "UserRepository/193 : ${t.cause}")
+                TagHelper().writeTag(
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    t.message
+                )
+                TagHelper().writeTag(
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    t.cause.toString()
+                )
                 responseListener.retrofitResponse(
                     RetrofitResponse(
                         isSuccess,
@@ -215,7 +258,9 @@ class UserRepository(private val webservice: Webservice) {
                     isSuccess = true
                     message = "Request response is OK"
 
-                } else { message = "Response body is null" }
+                } else {
+                    message = "Response body is null"
+                }
 
                 responseListener.retrofitResponse(
                     RetrofitResponse(
@@ -234,11 +279,18 @@ class UserRepository(private val webservice: Webservice) {
         var isSuccess = false
         var message: String
 
-        Log.d(tag, "UserRepository/232 : ")
         webservice.readSearchTeam(keyword).enqueue(object : Callback<SearchTeam> {
             override fun onFailure(call: Call<SearchTeam>, t: Throwable) {
-                Log.d(tag, "UserRepository/234 : ${t.message}")
-                Log.d(tag, "UserRepository/235 : ${t.cause}")
+                TagHelper().writeTag(
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    t.message
+                )
+                TagHelper().writeTag(
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    t.cause.toString()
+                )
                 responseListener.retrofitResponse(
                     RetrofitResponse(
                         isSuccess,
@@ -264,7 +316,9 @@ class UserRepository(private val webservice: Webservice) {
 
                     }
 
-                } else { message = "Response body is null" }
+                } else {
+                    message = "Response body is null"
+                }
 
                 responseListener.retrofitResponse(
                     RetrofitResponse(

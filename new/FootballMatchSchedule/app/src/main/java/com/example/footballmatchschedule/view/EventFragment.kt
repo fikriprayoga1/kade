@@ -44,7 +44,12 @@ class EventFragment : Fragment() {
                 val loadingStatus0 = withContext(Dispatchers.Default) {
                     (activity as MainActivity).viewModel.updateLoading(true)
                 }
-                (activity as MainActivity).updateLoading(loadingStatus0, "EventFragemnt/47 : start")
+                (activity as MainActivity).updateLoading(
+                    loadingStatus0,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "start"
+                )
 
                 withContext(Dispatchers.Default) {
                     viewModel.init(
@@ -138,7 +143,12 @@ class EventFragment : Fragment() {
                 val loadingStatus1 = withContext(Dispatchers.Default) {
                     (activity as MainActivity).viewModel.updateLoading(false)
                 }
-                (activity as MainActivity).updateLoading(loadingStatus1, "EventFragment/141 : stop")
+                (activity as MainActivity).updateLoading(
+                    loadingStatus1,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "stop"
+                )
 
             }
 
@@ -170,7 +180,12 @@ class EventFragment : Fragment() {
                             true
                         )
                     }
-                (activity as MainActivity).updateLoading(loadingStatus0, "EventFragment/181 : start")
+                (activity as MainActivity).updateLoading(
+                    loadingStatus0,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "start"
+                )
 
                 searchView_event_fragment_1.clearFocus()
                 viewModel.getMainActivity().exitKeyboard()
@@ -227,7 +242,10 @@ class EventFragment : Fragment() {
                         )
                     }
                 (activity as MainActivity).updateLoading(
-                    loadingStatus1, "EventFragment/238 : stop"
+                    loadingStatus1,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "stop"
                 )
 
             }

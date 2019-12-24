@@ -54,7 +54,12 @@ class TeamFragment : Fragment() {
                             true
                         )
                     }
-                (activity as MainActivity).updateLoading(loadingStatus0, "TeamFragment/56 : start")
+                (activity as MainActivity).updateLoading(
+                    loadingStatus0,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "start"
+                )
 
                 withContext(Dispatchers.Default) {
                     viewModel.init(
@@ -129,7 +134,12 @@ class TeamFragment : Fragment() {
                             true
                         )
                     }
-                (activity as MainActivity).updateLoading(loadingStatus0, "TeamFragment/56 : start")
+                (activity as MainActivity).updateLoading(
+                    loadingStatus0,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "start"
+                )
 
                 withContext(Dispatchers.IO) {
                     viewModel.requestTeamList(object : ResponseListener {
@@ -172,7 +182,12 @@ class TeamFragment : Fragment() {
                 val loadingStatus1 = withContext(Dispatchers.Default) {
                     (activity as MainActivity).viewModel.updateLoading(false)
                 }
-                (activity as MainActivity).updateLoading(loadingStatus1, "EventFragment/141 : stop")
+                (activity as MainActivity).updateLoading(
+                    loadingStatus1,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "stop"
+                )
 
             }
 
@@ -207,7 +222,10 @@ class TeamFragment : Fragment() {
                         }
                     withContext(Dispatchers.Main) {
                         (activity as MainActivity).updateLoading(
-                            loadingStatus1, "TeamFragment/200 : stop"
+                            loadingStatus1,
+                            this.javaClass.name,
+                            Thread.currentThread().stackTrace[2].lineNumber,
+                            "stop"
                         )
 
                     }
@@ -223,7 +241,6 @@ class TeamFragment : Fragment() {
     private fun textSubmitListener(query: String?) {
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
-                Log.d(viewModel.getMainActivity().viewModel.getTag(), "TeamFragment/226 : ")
                 val loadingStatus0 =
                     withContext(Dispatchers.Default) {
                         (activity as MainActivity).viewModel.updateLoading(
@@ -232,7 +249,9 @@ class TeamFragment : Fragment() {
                     }
                 (activity as MainActivity).updateLoading(
                     loadingStatus0,
-                    "EventFragment/181 : start"
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "start"
                 )
 
                 searchView_team_fragment_1.clearFocus()
@@ -315,7 +334,10 @@ class TeamFragment : Fragment() {
                         )
                     }
                 (activity as MainActivity).updateLoading(
-                    loadingStatus1, "EventFragment/238 : stop"
+                    loadingStatus1,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "stop"
                 )
 
             }

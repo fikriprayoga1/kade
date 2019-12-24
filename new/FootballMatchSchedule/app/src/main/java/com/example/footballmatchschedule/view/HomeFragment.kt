@@ -41,14 +41,23 @@ class HomeFragment : Fragment() {
                             true
                         )
                     }
-                (activity as MainActivity).updateLoading(loadingStatus0, "HomeFragment/44 : start")
-
+                (activity as MainActivity).updateLoading(
+                    loadingStatus0,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "start"
+                )
 
 
                 val loadingStatus1 = withContext(Dispatchers.Default) {
                     (activity as MainActivity).viewModel.updateLoading(false)
                 }
-                (activity as MainActivity).updateLoading(loadingStatus1, "HomeFragment/51 : stop")
+                (activity as MainActivity).updateLoading(
+                    loadingStatus1,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "stop"
+                )
 
             }
 
@@ -62,14 +71,24 @@ class HomeFragment : Fragment() {
                             true
                         )
                     }
-                (activity as MainActivity).updateLoading(loadingStatus0, "HomeFragment/65 : start")
+                (activity as MainActivity).updateLoading(
+                    loadingStatus0,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "start"
+                )
 
                 initScreen()
 
                 val loadingStatus1 = withContext(Dispatchers.Default) {
                     (activity as MainActivity).viewModel.updateLoading(false)
                 }
-                (activity as MainActivity).updateLoading(loadingStatus1, "HomeFragment/72 : stop")
+                (activity as MainActivity).updateLoading(
+                    loadingStatus1,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "stop"
+                )
 
             }
 

@@ -19,12 +19,10 @@ class MainActivityViewModel : ViewModel() {
     // 4
     private var leagueIdHolder = MutableLiveData<String>()
     // 5
-    private val tag = "football_match_schedule"
-    // 6
     private val searchEventList = MutableLiveData<List<SearchEventDetail>>()
-    // 7
+    // 6
     private val hasFragmentBackstack = mutableMapOf<String, Boolean>()
-    // 8
+    // 7
     private val searchTeamList = MutableLiveData<List<SearchTeamDetail>>()
 
     fun init() {
@@ -36,9 +34,17 @@ class MainActivityViewModel : ViewModel() {
     }
 
     fun updateLoading(isStartLoading: Boolean): Int {
-        if (isStartLoading) { loadingQueue++ } else { loadingQueue-- }
+        if (isStartLoading) {
+            loadingQueue++
+        } else {
+            loadingQueue--
+        }
 
-        return if (loadingQueue == getQueueInit()) { View.GONE } else { View.VISIBLE }
+        return if (loadingQueue == getQueueInit()) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
 
     }
 
@@ -61,10 +67,6 @@ class MainActivityViewModel : ViewModel() {
 
     fun getLeagueIdHolder(): String? {
         return leagueIdHolder.value
-    }
-
-    fun getTag(): String {
-        return tag
     }
 
     fun setSearchEventList(searchEventList: List<SearchEventDetail>?) {

@@ -1,17 +1,28 @@
 package com.example.footballmatchschedule.view
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.footballmatchschedule.R
+import com.example.footballmatchschedule.model.apiresponse.SearchTeamDetail
+import com.example.footballmatchschedule.other.recyclerviewadapter.SearchTeamRecyclerViewAdapter
 import com.example.footballmatchschedule.viewmodel.SearchTeamViewModel
+import kotlinx.android.synthetic.main.search_event_fragment.*
+import kotlinx.android.synthetic.main.search_team_fragment.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class SearchTeamFragment : Fragment() {
+    lateinit var searchTeamAdapter: SearchTeamRecyclerViewAdapter
 
     companion object {
         fun newInstance() = SearchTeamFragment()
@@ -29,7 +40,107 @@ class SearchTeamFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(SearchTeamViewModel::class.java)
-        // TODO: Use the ViewModel
+
+        val thisContext = this
+        lifecycleScope.launchWhenStarted {
+            if (lifecycle.currentState >= Lifecycle.State.STARTED) {
+                val loadingStatus0 =
+                    withContext(Dispatchers.Default) {
+                        (activity as MainActivity).viewModel.updateLoading(
+                            true
+                        )
+                    }
+                (activity as MainActivity).updateLoading(
+                    loadingStatus0,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "start"
+                )
+
+                withContext(Dispatchers.Default) {
+                    viewModel.init(
+                        (activity as MainActivity).viewModel.getUserRepository(),
+                        (activity as MainActivity)
+                    )
+
+                }
+                initRecyclerView()
+                (activity as MainActivity).viewModel.getSearchTeamList()
+                    ?.observe(thisContext, Observer { searchDataHolderListener(it) })
+
+                val loadingStatus1 = withContext(Dispatchers.Default) {
+                    (activity as MainActivity).viewModel.updateLoading(false)
+                }
+                (activity as MainActivity).updateLoading(
+                    loadingStatus1,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "stop"
+                )
+
+            }
+
+        }
+
+    }
+
+    private fun initRecyclerView() {
+        searchTeamAdapter = SearchTeamRecyclerViewAdapter(
+            context!!,
+            viewModel.getSearchTeamObjects(),
+            object : SearchTeamRecyclerViewAdapter.SearchTeamListener {
+                override fun itemDetail(searchTeamDetail: SearchTeamDetail) {
+
+                }
+
+            })
+        val mLayoutManager = LinearLayoutManager(context)
+
+        recyclerView_search_team_fragment_1.layoutManager = mLayoutManager
+        recyclerView_search_team_fragment_1.itemAnimator = DefaultItemAnimator()
+        recyclerView_search_team_fragment_1.addItemDecoration(
+            DividerItemDecoration(
+                activity,
+                LinearLayoutManager.VERTICAL
+            )
+        )
+        recyclerView_search_team_fragment_1.adapter = searchTeamAdapter
+
+    }
+
+    private fun searchDataHolderListener(it: List<SearchTeamDetail>?) {
+        lifecycleScope.launchWhenStarted {
+            if (lifecycle.currentState >= Lifecycle.State.STARTED) {
+                val loadingStatus0 =
+                    withContext(Dispatchers.Default) {
+                        (activity as MainActivity).viewModel.updateLoading(
+                            true
+                        )
+                    }
+                (activity as MainActivity).updateLoading(
+                    loadingStatus0,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "start"
+                )
+
+                withContext(Dispatchers.Default) { viewModel.initSearchTeamList(it) }
+                searchTeamAdapter.notifyDataSetChanged()
+
+                val loadingStatus1 = withContext(Dispatchers.Default) {
+                    (activity as MainActivity).viewModel.updateLoading(false)
+                }
+                (activity as MainActivity).updateLoading(
+                    loadingStatus1,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "stop"
+                )
+
+            }
+
+        }
+
     }
 
     override fun onDestroy() {

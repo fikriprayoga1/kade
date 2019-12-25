@@ -83,7 +83,6 @@ class TeamViewModel : ViewModel() {
     }
 
     fun requestSearchTeam(responseListener: ResponseListener, keyword: String?) {
-        Log.d("football_match_schedule", "TeamViewModel/86 : ")
         val keyword2 = keyword ?: ""
         userRepository.requestSearchTeam(responseListener, keyword2)
 

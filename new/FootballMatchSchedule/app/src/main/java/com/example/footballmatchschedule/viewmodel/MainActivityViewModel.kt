@@ -98,11 +98,6 @@ class MainActivityViewModel : ViewModel() {
         return hasFragmentBackstack.get(fragmentName) ?: false
     }
 
-    fun setInit(view: View) {
-        view.visibility = View.VISIBLE
-
-    }
-
     fun setSelectedEvent(selectedEvent: SelectedEvent) {
         this.selectedEvent = selectedEvent
 

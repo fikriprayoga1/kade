@@ -90,6 +90,7 @@ class SearchEventFragment : Fragment() {
             viewModel.getSearchEventObjects(),
             object : SearchEventRecyclerViewAdapter.SearchEventListener {
                 override fun itemDetail(searchEventDetail: SearchEventDetail) {
+                    selectedItemListener(searchEventDetail)
 
                 }
 

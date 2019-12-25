@@ -333,4 +333,56 @@ class UserRepository(private val webservice: Webservice) {
 
     }
 
+    fun requestTeamDetail(responseListener: ResponseListener, id: String) {
+        var isSuccess = false
+        var message: String
+
+        webservice.readTeamDetail(id).enqueue(object : Callback<TeamDetail> {
+            override fun onFailure(call: Call<TeamDetail>, t: Throwable) {
+                TagHelper().writeTag(
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    t.message
+                )
+                TagHelper().writeTag(
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    t.cause.toString()
+                )
+                responseListener.retrofitResponse(
+                    RetrofitResponse(
+                        isSuccess,
+                        "onFailure, requestTeamDetail, UserRepository",
+                        null
+                    )
+                )
+
+            }
+
+            override fun onResponse(
+                call: Call<TeamDetail>,
+                response: Response<TeamDetail>
+            ) {
+                val rb = response.body()
+                if (rb != null) {
+                    isSuccess = true
+                    message = "Request response is OK"
+
+                } else {
+                    message = "Response body is null"
+                }
+
+                responseListener.retrofitResponse(
+                    RetrofitResponse(
+                        isSuccess,
+                        message,
+                        rb
+                    )
+                )
+
+            }
+        })
+
+    }
+
 }

@@ -63,7 +63,6 @@ class HomeFragment : Fragment() {
             }
 
         }
-
         // -----------------
 
         lifecycleScope.launchWhenStarted {

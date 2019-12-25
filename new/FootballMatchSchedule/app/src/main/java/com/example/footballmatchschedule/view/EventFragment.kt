@@ -219,6 +219,11 @@ class EventFragment : Fragment() {
                                     R.id.constraintLayout_event_fragment_2,
                                     SearchEventFragment()
                                 )
+
+                                val searchTeam =
+                                    retrofitResponse.responseBody as SearchEvent
+                                viewModel.getMainActivity()
+                                    .viewModel.setSearchEventList(searchTeam.event)
                             }
                             viewModel.getMainActivity()
                                 .viewModel.setHasFragmentBackstack(
@@ -227,11 +232,6 @@ class EventFragment : Fragment() {
                             )
 
                         }
-
-                        val searchTeam =
-                            retrofitResponse.responseBody as SearchEvent
-                        viewModel.getMainActivity()
-                            .viewModel.setSearchEventList(searchTeam.event)
 
                     } else {
                         withContext(Dispatchers.Main) {

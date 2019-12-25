@@ -56,4 +56,8 @@ class SearchEventViewModel : ViewModel() {
 
     }
 
+    fun getMainActivity(): MainActivity {
+        return mainActivity
+    }
+
 }

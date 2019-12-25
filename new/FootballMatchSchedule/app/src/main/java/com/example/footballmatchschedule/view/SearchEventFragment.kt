@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.footballmatchschedule.R
+import com.example.footballmatchschedule.model.SelectedEvent
 import com.example.footballmatchschedule.model.apiresponse.SearchEventDetail
 import com.example.footballmatchschedule.other.recyclerviewadapter.SearchEventRecyclerViewAdapter
 import com.example.footballmatchschedule.viewmodel.SearchEventViewModel
@@ -130,6 +131,69 @@ class SearchEventFragment : Fragment() {
 
                 withContext(Dispatchers.Default) { viewModel.initSearchEventList(it) }
                 searchEventAdapter.notifyDataSetChanged()
+
+                val loadingStatus1 = withContext(Dispatchers.Default) {
+                    (activity as MainActivity).viewModel.updateLoading(false)
+                }
+                (activity as MainActivity).updateLoading(
+                    loadingStatus1,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "stop"
+                )
+
+            }
+
+        }
+
+    }
+
+    private fun selectedItemListener(searchEventDetail: SearchEventDetail) {
+        lifecycleScope.launchWhenStarted {
+            if (lifecycle.currentState >= Lifecycle.State.STARTED) {
+                val loadingStatus0 =
+                    withContext(Dispatchers.Default) {
+                        (activity as MainActivity).viewModel.updateLoading(
+                            true
+                        )
+                    }
+                (activity as MainActivity).updateLoading(
+                    loadingStatus0,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "start"
+                )
+
+                withContext(Dispatchers.Default) {
+                    viewModel.getMainActivity().viewModel.setSelectedEvent(
+                        SelectedEvent(
+                            searchEventDetail.dateEvent,
+                            searchEventDetail.idHomeTeam,
+                            searchEventDetail.idAwayTeam,
+                            searchEventDetail.strHomeTeam,
+                            searchEventDetail.strAwayTeam,
+                            searchEventDetail.intHomeScore,
+                            searchEventDetail.intAwayScore,
+                            searchEventDetail.intHomeShots,
+                            searchEventDetail.intAwayShots,
+                            searchEventDetail.strHomeGoalDetails,
+                            searchEventDetail.strAwayGoalDetails,
+                            searchEventDetail.strHomeLineupGoalkeeper,
+                            searchEventDetail.strAwayLineupGoalkeeper,
+                            searchEventDetail.strHomeLineupDefense,
+                            searchEventDetail.strAwayLineupDefense,
+                            searchEventDetail.strHomeLineupMidfield,
+                            searchEventDetail.strAwayLineupMidfield,
+                            searchEventDetail.strHomeLineupForward,
+                            searchEventDetail.strAwayLineupForward,
+                            searchEventDetail.strHomeLineupSubstitutes,
+                            searchEventDetail.strAwayLineupSubstitutes
+                        )
+                    )
+                }
+
+                viewModel.getMainActivity()
+                    .changeFragment2(R.id.frameLayout_activity_main_1, EventDetailFragment())
 
                 val loadingStatus1 = withContext(Dispatchers.Default) {
                     (activity as MainActivity).viewModel.updateLoading(false)

@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">Football Match Schedule</string>
 
-    <string name="a1">Thursday, 25 October 2018</string>
+    <string name="a1">date</string>
     <string name="a2">vs</string>
-    <string name="a3">00</string>
-    <string name="a4">Barcelona</string>
+    <string name="a3">shots_count</string>
+    <string name="a4">team_name</string>
     <string name="a5">Shots</string>
-    <string name="a6">Mohamed Salah</string>
+    <string name="a6">players_name</string>
     <string name="a7">Goals</string>
     <string name="a8">Goal Keeper</string>
     <string name="a9">Defense</string>
@@ -26,6 +26,9 @@
     <string name="a23">Height(m)</string>
     <string name="a24">66</string>
     <string name="a25">ImageView</string>
+    <string name="a26">alarm_icon</string>
+    <string name="a27">team_logo</string>
+    <string name="a28">favorite_icon</string>
 
     <string name="channel_name">Football Match Schedule</string>
     <string name="channel_description">Best football schedule app</string>

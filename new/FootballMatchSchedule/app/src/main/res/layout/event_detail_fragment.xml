@@ -1,142 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.EventDetailFragment">
 
     <!--1-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout_event_detail_fragment_1"
-        android:padding="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/background"
+        android:padding="20dp">
 
         <!--1_1-->
-        <TextView
-            android:id="@+id/textView_event_detail_fragment_1_1"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:text="@string/a1"
-            android:textColor="@color/colorPrimary"
-            android:textSize="8pt"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout_event_detail_fragment_1_1"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!--1_1_1-->
+            <TextView
+                android:id="@+id/textView_event_detail_fragment_1_1_1"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="@string/a1"
+                android:textColor="@color/colorPrimary"
+                android:textSize="8pt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!--1_1_2-->
+            <ImageButton
+                android:id="@+id/imageButton_event_detail_fragment_1_1_2"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@color/black0"
+                android:contentDescription="@string/a26"
+                android:src="@drawable/ic_notifications_none_accent_24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView_event_detail_fragment_1_1_1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView_event_detail_fragment_1_1_1"
+                app:layout_constraintTop_toTopOf="@+id/textView_event_detail_fragment_1_1_1" />
+
+            <!--1_1_3-->
+            <ImageView
+                android:id="@+id/imageView_event_detail_fragment_1_1_3"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="30dp"
+                android:contentDescription="@string/a27"
+                android:src="@drawable/ic_autorenew_primary_dark_24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_event_detail_fragment_1_1_1" />
+
+            <!--1_1_4-->
+            <TextView
+                android:id="@+id/textView_event_detail_fragment_1_1_4"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="@string/a4"
+                android:textColor="@color/colorPrimary"
+                android:textSize="8pt"
+                app:layout_constraintEnd_toEndOf="@+id/imageView_event_detail_fragment_1_1_3"
+                app:layout_constraintStart_toStartOf="@+id/imageView_event_detail_fragment_1_1_3"
+                app:layout_constraintTop_toBottomOf="@+id/imageView_event_detail_fragment_1_1_3" />
+
+            <!--1_1_5-->
+            <TextView
+                android:id="@+id/textView_event_detail_fragment_1_1_5"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="20pt"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView_event_detail_fragment_1_1_3"
+                app:layout_constraintEnd_toStartOf="@+id/textView_event_detail_fragment_1_1_6"
+                app:layout_constraintStart_toEndOf="@+id/imageView_event_detail_fragment_1_1_3"
+                app:layout_constraintTop_toTopOf="@+id/imageView_event_detail_fragment_1_1_3" />
+
+            <!--1_1_6-->
+            <TextView
+                android:id="@+id/textView_event_detail_fragment_1_1_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/a2"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView_event_detail_fragment_1_1_3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/imageView_event_detail_fragment_1_1_3" />
+
+            <!--1_1_7-->
+            <TextView
+                android:id="@+id/textView_event_detail_fragment_1_1_7"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="20pt"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/imageView_event_detail_fragment_1_1_8"
+                app:layout_constraintEnd_toStartOf="@id/imageView_event_detail_fragment_1_1_8"
+                app:layout_constraintStart_toEndOf="@id/textView_event_detail_fragment_1_1_6"
+                app:layout_constraintTop_toTopOf="@id/imageView_event_detail_fragment_1_1_8" />
+
+            <!--1_1_8-->
+            <ImageView
+                android:id="@+id/imageView_event_detail_fragment_1_1_8"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:contentDescription="@string/a27"
+                android:src="@drawable/ic_autorenew_primary_dark_24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_event_detail_fragment_1_1_1" />
+
+            <!--1_1_9-->
+            <TextView
+                android:id="@+id/textView_event_detail_fragment_1_1_9"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="@string/a4"
+                android:textColor="@color/colorPrimary"
+                android:textSize="8pt"
+                app:layout_constraintEnd_toEndOf="@+id/imageView_event_detail_fragment_1_1_8"
+                app:layout_constraintStart_toStartOf="@+id/imageView_event_detail_fragment_1_1_8"
+                app:layout_constraintTop_toBottomOf="@+id/imageView_event_detail_fragment_1_1_8" />
+
+            <!--1_1_10-->
+            <ImageButton
+                android:id="@+id/imageButton_event_detail_fragment_1_1_10"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="30dp"
+                android:background="@color/black0"
+                android:contentDescription="@string/a28"
+                android:src="@drawable/ic_favorite_border_red_24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_event_detail_fragment_1_1_6" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!--1_2-->
-        <ImageView
-            android:id="@+id/imageView_event_detail_fragment_1_2"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/ic_bug_report_black_24dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_event_detail_fragment_1_1" />
+        <View
+            android:id="@+id/view_event_detail_fragment_1_2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/divider"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout_event_detail_fragment_1_1" />
 
         <!--1_3-->
         <TextView
             android:id="@+id/textView_event_detail_fragment_1_3"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:text="@string/a4"
-            android:textColor="@color/colorPrimary"
-            android:textSize="8pt"
-            app:layout_constraintEnd_toEndOf="@+id/imageView_event_detail_fragment_1_2"
-            app:layout_constraintStart_toStartOf="@+id/imageView_event_detail_fragment_1_2"
-            app:layout_constraintTop_toBottomOf="@+id/imageView_event_detail_fragment_1_2" />
-
-        <!--1_4-->
-        <TextView
-            android:id="@+id/textView_event_detail_fragment_1_4"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/a3"
-            android:textSize="20pt"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView_event_detail_fragment_1_2"
-            app:layout_constraintEnd_toStartOf="@+id/textView_event_detail_fragment_1_5"
-            app:layout_constraintStart_toEndOf="@+id/imageView_event_detail_fragment_1_2"
-            app:layout_constraintTop_toTopOf="@+id/imageView_event_detail_fragment_1_2" />
-
-        <!--1_5-->
-        <TextView
-            android:id="@+id/textView_event_detail_fragment_1_5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/a2"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView_event_detail_fragment_1_2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imageView_event_detail_fragment_1_2" />
-
-        <!--1_6-->
-        <TextView
-            android:id="@+id/textView_event_detail_fragment_1_6"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/a3"
-            android:textSize="20pt"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/imageView_event_detail_fragment_1_7"
-            app:layout_constraintEnd_toStartOf="@id/imageView_event_detail_fragment_1_7"
-            app:layout_constraintStart_toEndOf="@id/textView_event_detail_fragment_1_5"
-            app:layout_constraintTop_toTopOf="@id/imageView_event_detail_fragment_1_7" />
-
-        <!--1_7-->
-        <ImageView
-            android:id="@+id/imageView_event_detail_fragment_1_7"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/ic_bug_report_black_24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_event_detail_fragment_1_1" />
-
-        <!--1_8-->
-        <TextView
-            android:id="@+id/textView_event_detail_fragment_1_8"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:text="@string/a4"
-            android:textColor="@color/colorPrimary"
-            android:textSize="8pt"
-            app:layout_constraintEnd_toEndOf="@+id/imageView_event_detail_fragment_1_7"
-            app:layout_constraintStart_toStartOf="@+id/imageView_event_detail_fragment_1_7"
-            app:layout_constraintTop_toBottomOf="@+id/imageView_event_detail_fragment_1_7" />
-
-        <!--1_9-->
-        <View
-            android:id="@+id/view_event_detail_fragment_1_9"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="25dp"
-            android:background="@color/divider"
-            app:layout_constraintTop_toBottomOf="@+id/textView_event_detail_fragment_1_8" />
-
-        <!--1_10-->
-        <TextView
-            android:id="@+id/textView_event_detail_fragment_1_10"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:text="@string/a3"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView_event_detail_fragment_1_11" />
+            app:layout_constraintTop_toTopOf="@+id/textView_event_detail_fragment_1_4" />
 
-        <!--1_11-->
+        <!--1_4-->
         <TextView
-            android:id="@+id/textView_event_detail_fragment_1_11"
+            android:id="@+id/textView_event_detail_fragment_1_4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
@@ -145,48 +182,48 @@
             android:textSize="8pt"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_event_detail_fragment_1_9" />
+            app:layout_constraintTop_toBottomOf="@+id/view_event_detail_fragment_1_2" />
 
-        <!--1_12-->
+        <!--1_5-->
         <TextView
-            android:id="@+id/textView_event_detail_fragment_1_12"
+            android:id="@+id/textView_event_detail_fragment_1_5"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:gravity="right"
+            android:gravity="end"
             android:text="@string/a3"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView_event_detail_fragment_1_11" />
+            app:layout_constraintTop_toTopOf="@+id/textView_event_detail_fragment_1_4" />
 
-        <!--1_13-->
+        <!--1_6-->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout_event_detail_fragment_1_13"
+            android:id="@+id/constraintLayout_fragment_event_detail_1_6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_event_detail_fragment_1_12">
+            app:layout_constraintTop_toBottomOf="@+id/textView_event_detail_fragment_1_4">
 
-            <!--1_13_1-->
+            <!--1_6_1-->
             <View
-                app:layout_constraintTop_toTopOf="parent"
-                android:id="@+id/view_event_detail_fragment_1_13_1"
+                android:id="@+id/view_fragment_event_detail_1_6_1"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/divider" />
+                android:background="@color/divider"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <!--1_13_2-->
+            <!--1_6_2-->
             <TextView
-                android:id="@+id/textView_event_detail_fragment_1_13_2"
+                android:id="@+id/textView_fragment_event_detail_1_6_2"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:text="@string/a6"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView_event_detail_fragment_1_13_3" />
+                app:layout_constraintTop_toTopOf="@+id/textView_fragment_event_detail_1_6_3" />
 
-            <!--1_13_3-->
+            <!--1_6_3-->
             <TextView
-                android:id="@+id/textView_event_detail_fragment_1_13_3"
+                android:id="@+id/textView_fragment_event_detail_1_6_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
@@ -195,49 +232,49 @@
                 android:textSize="8pt"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view_event_detail_fragment_1_13_1" />
+                app:layout_constraintTop_toBottomOf="@+id/view_fragment_event_detail_1_6_1" />
 
-            <!--1_13_4-->
+            <!--1_6_4-->
             <TextView
-                android:id="@+id/textView_event_detail_fragment_1_13_4"
+                android:id="@+id/textView_fragment_event_detail_1_6_4"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:gravity="end"
                 android:text="@string/a6"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView_event_detail_fragment_1_13_3" />
+                app:layout_constraintTop_toTopOf="@+id/textView_fragment_event_detail_1_6_3" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!--1_14-->
+        <!--1_7-->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout_event_detail_fragment_1_14"
+            android:id="@+id/constraintLayout_fragment_event_detail_1_7"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout_event_detail_fragment_1_13">
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout_fragment_event_detail_1_6">
 
-            <!--1_14_1-->
+            <!--1_7_1-->
             <View
-                app:layout_constraintTop_toTopOf="parent"
-                android:id="@+id/view_event_detail_fragment_1_14_1"
+                android:id="@+id/view_fragment_event_detail_1_7_1"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/divider" />
+                android:background="@color/divider"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <!--1_14_2-->
+            <!--1_7_2-->
             <TextView
-                android:id="@+id/textView_event_detail_fragment_1_14_2"
+                android:id="@+id/textView_fragment_event_detail_1_7_2"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:text="@string/a6"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView_event_detail_fragment_1_14_3" />
+                app:layout_constraintTop_toTopOf="@+id/textView_fragment_event_detail_1_7_3" />
 
-            <!--1_14_3-->
+            <!--1_7_3-->
             <TextView
-                android:id="@+id/textView_event_detail_fragment_1_14_3"
+                android:id="@+id/textView_fragment_event_detail_1_7_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
@@ -246,49 +283,49 @@
                 android:textSize="8pt"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view_event_detail_fragment_1_14_1" />
+                app:layout_constraintTop_toBottomOf="@+id/view_fragment_event_detail_1_7_1" />
 
-            <!--1_14_4-->
+            <!--1_7_4-->
             <TextView
-                android:id="@+id/textView_event_detail_fragment_1_14_4"
+                android:id="@+id/textView_fragment_event_detail_1_7_4"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:gravity="end"
                 android:text="@string/a6"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView_event_detail_fragment_1_14_3" />
+                app:layout_constraintTop_toTopOf="@+id/textView_fragment_event_detail_1_7_3" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!--1_15-->
+        <!--1_8-->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout_event_detail_fragment_1_15"
+            android:id="@+id/constraintLayout_fragment_event_detail_1_8"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout_event_detail_fragment_1_14">
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout_fragment_event_detail_1_7">
 
-            <!--1_15_1-->
+            <!--1_8_1-->
             <View
-                app:layout_constraintTop_toTopOf="parent"
-                android:id="@+id/view_event_detail_fragment_1_15_1"
+                android:id="@+id/view_fragment_event_detail_1_8_1"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/divider" />
+                android:background="@color/divider"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <!--1_15_2-->
+            <!--1_8_2-->
             <TextView
-                android:id="@+id/textView_event_detail_fragment_1_15_2"
+                android:id="@+id/textView_fragment_event_detail_1_8_2"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:text="@string/a6"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView_event_detail_fragment_1_15_3" />
+                app:layout_constraintTop_toTopOf="@+id/textView_fragment_event_detail_1_8_3" />
 
-            <!--1_15_3-->
+            <!--1_8_3-->
             <TextView
-                android:id="@+id/textView_event_detail_fragment_1_15_3"
+                android:id="@+id/textView_fragment_event_detail_1_8_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
@@ -297,49 +334,49 @@
                 android:textSize="8pt"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view_event_detail_fragment_1_15_1" />
+                app:layout_constraintTop_toBottomOf="@+id/view_fragment_event_detail_1_8_1" />
 
-            <!--1_15_4-->
+            <!--1_8_4-->
             <TextView
-                android:id="@+id/textView_event_detail_fragment_1_15_4"
+                android:id="@+id/textView_fragment_event_detail_1_8_4"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:gravity="end"
                 android:text="@string/a6"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView_event_detail_fragment_1_15_3" />
+                app:layout_constraintTop_toTopOf="@+id/textView_fragment_event_detail_1_8_3" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!--1_16-->
+        <!--1_9-->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout_event_detail_fragment_1_16"
+            android:id="@+id/constraintLayout_fragment_event_detail_1_9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout_event_detail_fragment_1_15">
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout_fragment_event_detail_1_8">
 
-            <!--1_16_1-->
+            <!--1_9_1-->
             <View
-                app:layout_constraintTop_toTopOf="parent"
-                android:id="@+id/view_event_detail_fragment_1_16_1"
+                android:id="@+id/view_fragment_event_detail_1_9_1"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/divider" />
+                android:background="@color/divider"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <!--1_16_2-->
+            <!--1_9_2-->
             <TextView
-                android:id="@+id/textView_event_detail_fragment_1_16_2"
+                android:id="@+id/textView_fragment_event_detail_1_9_2"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:text="@string/a6"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView_event_detail_fragment_1_16_3" />
+                app:layout_constraintTop_toTopOf="@+id/textView_fragment_event_detail_1_9_3" />
 
-            <!--1_16_3-->
+            <!--1_9_3-->
             <TextView
-                android:id="@+id/textView_event_detail_fragment_1_16_3"
+                android:id="@+id/textView_fragment_event_detail_1_9_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
@@ -348,49 +385,49 @@
                 android:textSize="8pt"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view_event_detail_fragment_1_16_1" />
+                app:layout_constraintTop_toBottomOf="@+id/view_fragment_event_detail_1_9_1" />
 
-            <!--1_16_4-->
+            <!--1_9_4-->
             <TextView
-                android:id="@+id/textView_event_detail_fragment_1_16_4"
+                android:id="@+id/textView_fragment_event_detail_1_9_4"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:gravity="end"
                 android:text="@string/a6"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView_event_detail_fragment_1_16_3" />
+                app:layout_constraintTop_toTopOf="@+id/textView_fragment_event_detail_1_9_3" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!--1_17-->
+        <!--1_10-->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout_event_detail_fragment_1_17"
+            android:id="@+id/constraintLayout_fragment_event_detail_1_10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout_event_detail_fragment_1_16">
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout_fragment_event_detail_1_9">
 
-            <!--1_17_1-->
+            <!--1_10_1-->
             <View
-                app:layout_constraintTop_toTopOf="parent"
-                android:id="@+id/view_event_detail_fragment_1_17_1"
+                android:id="@+id/view_fragment_event_detail_1_10_1"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/divider" />
+                android:background="@color/divider"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <!--1_17_2-->
+            <!--1_10_2-->
             <TextView
-                android:id="@+id/textView_event_detail_fragment_1_17_2"
+                android:id="@+id/textView_fragment_event_detail_1_10_2"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:text="@string/a6"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView_event_detail_fragment_1_17_3" />
+                app:layout_constraintTop_toTopOf="@+id/textView_fragment_event_detail_1_10_3" />
 
-            <!--1_17_3-->
+            <!--1_10_3-->
             <TextView
-                android:id="@+id/textView_event_detail_fragment_1_17_3"
+                android:id="@+id/textView_fragment_event_detail_1_10_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
@@ -399,49 +436,49 @@
                 android:textSize="8pt"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view_event_detail_fragment_1_17_1" />
+                app:layout_constraintTop_toBottomOf="@+id/view_fragment_event_detail_1_10_1" />
 
-            <!--1_17_4-->
+            <!--1_10_4-->
             <TextView
-                android:id="@+id/textView_event_detail_fragment_1_17_4"
+                android:id="@+id/textView_fragment_event_detail_1_10_4"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:gravity="end"
                 android:text="@string/a6"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView_event_detail_fragment_1_17_3" />
+                app:layout_constraintTop_toTopOf="@+id/textView_fragment_event_detail_1_10_3" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!--1_18-->
+        <!--1_11-->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout_event_detail_fragment_1_18"
+            android:id="@+id/constraintLayout_fragment_event_detail_1_11"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout_event_detail_fragment_1_17">
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout_fragment_event_detail_1_10">
 
-            <!--1_18_1-->
+            <!--1_11_1-->
             <View
-                app:layout_constraintTop_toTopOf="parent"
-                android:id="@+id/view_event_detail_fragment_1_18_1"
+                android:id="@+id/view_fragment_event_detail_1_11_1"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/divider" />
+                android:background="@color/divider"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <!--1_18_2-->
+            <!--1_11_2-->
             <TextView
-                android:id="@+id/textView_event_detail_fragment_1_18_2"
+                android:id="@+id/textView_fragment_event_detail_1_11_2"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:text="@string/a6"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView_event_detail_fragment_1_18_3" />
+                app:layout_constraintTop_toTopOf="@+id/textView_fragment_event_detail_1_11_3" />
 
-            <!--1_18_3-->
+            <!--1_11_3-->
             <TextView
-                android:id="@+id/textView_event_detail_fragment_1_18_3"
+                android:id="@+id/textView_fragment_event_detail_1_11_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
@@ -450,39 +487,17 @@
                 android:textSize="8pt"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view_event_detail_fragment_1_18_1" />
+                app:layout_constraintTop_toBottomOf="@+id/view_fragment_event_detail_1_11_1" />
 
-            <!--1_18_4-->
+            <!--1_11_4-->
             <TextView
-                android:id="@+id/textView_event_detail_fragment_1_18_4"
+                android:id="@+id/textView_fragment_event_detail_1_11_4"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:gravity="end"
                 android:text="@string/a6"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView_event_detail_fragment_1_18_3" />
+                app:layout_constraintTop_toTopOf="@+id/textView_fragment_event_detail_1_11_3" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <!--1_19-->
-        <ImageView
-            android:id="@+id/imageView_event_detail_fragment_1_19"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/ic_favorite_border_red_24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_event_detail_fragment_1_5" />
-
-        <!--1_20-->
-        <ImageButton
-            android:id="@+id/imageButton_event_detail_fragment_1_20"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:src="@drawable/ic_notifications_none_accent_24dp"
-            android:background="@color/black0"
-            app:layout_constraintStart_toEndOf="@+id/textView_event_detail_fragment_1_1"
-            app:layout_constraintTop_toTopOf="@+id/textView_event_detail_fragment_1_1"
-            app:layout_constraintBottom_toBottomOf="@+id/textView_event_detail_fragment_1_1"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

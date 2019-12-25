@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.RetrofitResponse
+import com.example.footballmatchschedule.model.SelectedEvent
 import com.example.footballmatchschedule.model.apiresponse.LME
 import com.example.footballmatchschedule.model.apiresponse.LMEDetail
 import com.example.footballmatchschedule.other.ResponseListener
@@ -24,7 +25,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class LMEFragment : Fragment() {
-    lateinit var lmeAdapter: LMERecyclerViewAdapter
+    private lateinit var lmeAdapter: LMERecyclerViewAdapter
 
     companion object {
         fun newInstance() = LMEFragment()
@@ -95,6 +96,7 @@ class LMEFragment : Fragment() {
             viewModel.getLMEObjects(),
             object : LMERecyclerViewAdapter.LMEListener {
                 override fun itemDetail(lmeDetail: LMEDetail) {
+                    selectedItemListener(lmeDetail)
 
                 }
 
@@ -133,12 +135,11 @@ class LMEFragment : Fragment() {
                     val leagueHolder =
                         (activity as MainActivity).viewModel.getLeagueIdHolder()!!
                     viewModel.requestLMEList(
-                        leagueHolder,
                         object : ResponseListener {
                             override fun retrofitResponse(retrofitResponse: RetrofitResponse) {
                                 responseLMEListener(retrofitResponse)
                             }
-                        })
+                        }, leagueHolder)
 
                 }
 
@@ -175,6 +176,69 @@ class LMEFragment : Fragment() {
                             false
                         )
                     }
+                (activity as MainActivity).updateLoading(
+                    loadingStatus1,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "stop"
+                )
+
+            }
+
+        }
+
+    }
+
+    private fun selectedItemListener(lmeDetail: LMEDetail) {
+        lifecycleScope.launchWhenStarted {
+            if (lifecycle.currentState >= Lifecycle.State.STARTED) {
+                val loadingStatus0 =
+                    withContext(Dispatchers.Default) {
+                        (activity as MainActivity).viewModel.updateLoading(
+                            true
+                        )
+                    }
+                (activity as MainActivity).updateLoading(
+                    loadingStatus0,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "start"
+                )
+
+                withContext(Dispatchers.Default) {
+                    viewModel.getMainActivity().viewModel.setSelectedEvent(
+                        SelectedEvent(
+                            lmeDetail.dateEvent,
+                            lmeDetail.idHomeTeam,
+                            lmeDetail.idAwayTeam,
+                            lmeDetail.strHomeTeam,
+                            lmeDetail.strAwayTeam,
+                            lmeDetail.intHomeScore,
+                            lmeDetail.intAwayScore,
+                            lmeDetail.intHomeShots,
+                            lmeDetail.intAwayShots,
+                            lmeDetail.strHomeGoalDetails,
+                            lmeDetail.strAwayGoalDetails,
+                            lmeDetail.strHomeLineupGoalkeeper,
+                            lmeDetail.strAwayLineupGoalkeeper,
+                            lmeDetail.strHomeLineupDefense,
+                            lmeDetail.strAwayLineupDefense,
+                            lmeDetail.strHomeLineupMidfield,
+                            lmeDetail.strAwayLineupMidfield,
+                            lmeDetail.strHomeLineupForward,
+                            lmeDetail.strAwayLineupForward,
+                            lmeDetail.strHomeLineupSubstitutes,
+                            lmeDetail.strAwayLineupSubstitutes
+                        )
+                    )
+                }
+
+                viewModel.getMainActivity()
+                    .changeFragment2(R.id.frameLayout_activity_main_1, EventDetailFragment())
+
+                val loadingStatus1 = withContext(Dispatchers.Default) {
+                    (activity as MainActivity).viewModel.updateLoading(false)
+                }
                 (activity as MainActivity).updateLoading(
                     loadingStatus1,
                     this.javaClass.name,

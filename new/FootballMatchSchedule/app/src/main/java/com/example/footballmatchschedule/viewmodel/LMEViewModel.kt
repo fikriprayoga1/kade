@@ -37,7 +37,7 @@ class LMEViewModel : ViewModel() {
 
     }
 
-    fun requestLMEList(id: String, responseListener: ResponseListener) {
+    fun requestLMEList(responseListener: ResponseListener, id: String) {
         userRepository.requestLMEList(id, responseListener)
 
     }

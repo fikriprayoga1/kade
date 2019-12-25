@@ -4,6 +4,7 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.footballmatchschedule.model.SelectedEvent
 import com.example.footballmatchschedule.model.apiresponse.SearchEventDetail
 import com.example.footballmatchschedule.model.apiresponse.SearchTeamDetail
 import com.example.footballmatchschedule.other.jetpack.UserRepository
@@ -24,6 +25,8 @@ class MainActivityViewModel : ViewModel() {
     private val hasFragmentBackstack = mutableMapOf<String, Boolean>()
     // 7
     private val searchTeamList = MutableLiveData<List<SearchTeamDetail>>()
+    // 8
+    private lateinit var selectedEvent: SelectedEvent
 
     fun init() {
         if (userRepository == null) {
@@ -99,5 +102,12 @@ class MainActivityViewModel : ViewModel() {
         view.visibility = View.VISIBLE
 
     }
+
+    fun setSelectedEvent(selectedEvent: SelectedEvent) {
+        this.selectedEvent = selectedEvent
+
+    }
+
+    fun getSelectedEvent(): SelectedEvent { return selectedEvent }
 
 }

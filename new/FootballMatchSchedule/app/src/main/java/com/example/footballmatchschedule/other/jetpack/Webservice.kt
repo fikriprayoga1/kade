@@ -27,6 +27,9 @@ interface Webservice {
     @GET("api/v1/json/1/searchteams.php")
     fun readSearchTeam(@Query("t") keyword: String): Call<SearchTeam>
 
+    @GET("api/v1/json/1/lookupteam.php")
+    fun readTeamDetail(@Query("id") id: String): Call<TeamDetail>
+
     companion object Factory {
         fun create(): Webservice {
             val retrofit = Retrofit.Builder()

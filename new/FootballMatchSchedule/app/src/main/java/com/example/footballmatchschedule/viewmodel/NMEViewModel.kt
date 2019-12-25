@@ -37,7 +37,7 @@ class NMEViewModel : ViewModel() {
 
     }
 
-    fun requestNMEList(id: String, responseListener: ResponseListener) {
+    fun requestNMEList(responseListener: ResponseListener, id: String) {
         userRepository.requestNMEList(id, responseListener)
 
     }

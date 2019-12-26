@@ -14,9 +14,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.RetrofitResponse
-import com.example.footballmatchschedule.model.SelectedEvent
+import com.example.footballmatchschedule.model.apiresponse.EventDetail
 import com.example.footballmatchschedule.model.apiresponse.LME
-import com.example.footballmatchschedule.model.apiresponse.LMEDetail
 import com.example.footballmatchschedule.other.ResponseListener
 import com.example.footballmatchschedule.other.recyclerviewadapter.LMERecyclerViewAdapter
 import com.example.footballmatchschedule.viewmodel.LMEViewModel
@@ -95,8 +94,8 @@ class LMEFragment : Fragment() {
             context!!,
             viewModel.getLMEObjects(),
             object : LMERecyclerViewAdapter.LMEListener {
-                override fun itemDetail(lmeDetail: LMEDetail) {
-                    selectedItemListener(lmeDetail)
+                override fun itemDetail(eventDetail: EventDetail) {
+                    selectedItemListener(eventDetail)
 
                 }
 
@@ -139,7 +138,8 @@ class LMEFragment : Fragment() {
                             override fun retrofitResponse(retrofitResponse: RetrofitResponse) {
                                 responseLMEListener(retrofitResponse)
                             }
-                        }, leagueHolder)
+                        }, leagueHolder
+                    )
 
                 }
 
@@ -158,7 +158,7 @@ class LMEFragment : Fragment() {
                         val LMEData =
                             retrofitResponse.responseBody as LME
 
-                        viewModel.initLMEList(LMEData.events)
+                        viewModel.initEventList(LMEData.events)
                         withContext(Dispatchers.Main) { lmeAdapter.notifyDataSetChanged() }
 
                     } else {
@@ -189,7 +189,7 @@ class LMEFragment : Fragment() {
 
     }
 
-    private fun selectedItemListener(lmeDetail: LMEDetail) {
+    private fun selectedItemListener(eventDetail: EventDetail) {
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
                 val loadingStatus0 =
@@ -206,31 +206,7 @@ class LMEFragment : Fragment() {
                 )
 
                 withContext(Dispatchers.Default) {
-                    viewModel.getMainActivity().viewModel.setSelectedEvent(
-                        SelectedEvent(
-                            lmeDetail.dateEvent,
-                            lmeDetail.idHomeTeam,
-                            lmeDetail.idAwayTeam,
-                            lmeDetail.strHomeTeam,
-                            lmeDetail.strAwayTeam,
-                            lmeDetail.intHomeScore,
-                            lmeDetail.intAwayScore,
-                            lmeDetail.intHomeShots,
-                            lmeDetail.intAwayShots,
-                            lmeDetail.strHomeGoalDetails,
-                            lmeDetail.strAwayGoalDetails,
-                            lmeDetail.strHomeLineupGoalkeeper,
-                            lmeDetail.strAwayLineupGoalkeeper,
-                            lmeDetail.strHomeLineupDefense,
-                            lmeDetail.strAwayLineupDefense,
-                            lmeDetail.strHomeLineupMidfield,
-                            lmeDetail.strAwayLineupMidfield,
-                            lmeDetail.strHomeLineupForward,
-                            lmeDetail.strAwayLineupForward,
-                            lmeDetail.strHomeLineupSubstitutes,
-                            lmeDetail.strAwayLineupSubstitutes
-                        )
-                    )
+                    viewModel.getMainActivity().viewModel.setSelectedEvent(eventDetail)
                 }
 
                 viewModel.getMainActivity()

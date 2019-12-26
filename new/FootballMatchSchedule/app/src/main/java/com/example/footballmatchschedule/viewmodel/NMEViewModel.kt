@@ -1,7 +1,7 @@
 package com.example.footballmatchschedule.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.example.footballmatchschedule.model.apiresponse.NMEDetail
+import com.example.footballmatchschedule.model.apiresponse.EventDetail
 import com.example.footballmatchschedule.other.ResponseListener
 import com.example.footballmatchschedule.other.jetpack.UserRepository
 import com.example.footballmatchschedule.other.recyclerviewadapter.NMERecyclerViewAdapter
@@ -23,12 +23,12 @@ class NMEViewModel : ViewModel() {
 
     }
 
-    fun initNMEList(nmeList: List<NMEDetail>?) {
+    fun initEventList(eventList: List<EventDetail>?) {
         nmeObjects.clear()
 
-        if (nmeList != null) {
-            for (i in nmeList.indices) {
-                nmeObject = NMERecyclerViewAdapter.NMEObject(nmeList[i])
+        if (eventList != null) {
+            for (i in eventList.indices) {
+                nmeObject = NMERecyclerViewAdapter.NMEObject(eventList[i])
                 nmeObjects.add(nmeObject)
 
             }

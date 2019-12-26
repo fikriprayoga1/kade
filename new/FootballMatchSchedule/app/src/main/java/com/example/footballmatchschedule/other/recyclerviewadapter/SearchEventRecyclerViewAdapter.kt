@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.footballmatchschedule.R
-import com.example.footballmatchschedule.model.apiresponse.SearchEventDetail
+import com.example.footballmatchschedule.model.apiresponse.EventDetail
 import java.text.SimpleDateFormat
 
 class SearchEventRecyclerViewAdapter(
@@ -79,11 +79,11 @@ class SearchEventRecyclerViewAdapter(
 
     // this interface for handle more button pressed
     interface SearchEventListener {
-        fun itemDetail(searchEventDetail: SearchEventDetail)
+        fun itemDetail(eventDetail: EventDetail)
 
     }
 
     // this class is object of item in recyclerview
-    class SearchEventObject(var searchEventDetail: SearchEventDetail)
+    class SearchEventObject(var searchEventDetail: EventDetail)
 
 }

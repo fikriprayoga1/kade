@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.footballmatchschedule.R
-import com.example.footballmatchschedule.model.apiresponse.LMEDetail
+import com.example.footballmatchschedule.model.apiresponse.EventDetail
 import java.text.SimpleDateFormat
 
 class LMERecyclerViewAdapter(
@@ -79,11 +79,11 @@ class LMERecyclerViewAdapter(
 
     // this interface for handle more button pressed
     interface LMEListener {
-        fun itemDetail(lmeDetail: LMEDetail)
+        fun itemDetail(eventDetail: EventDetail)
 
     }
 
     // this class is object of item in recyclerview
-    class LMEObject(var lmeDetail: LMEDetail)
+    class LMEObject(var lmeDetail: EventDetail)
 
 }

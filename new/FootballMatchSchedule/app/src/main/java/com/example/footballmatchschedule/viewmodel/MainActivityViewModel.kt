@@ -4,9 +4,8 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.footballmatchschedule.model.SelectedEvent
-import com.example.footballmatchschedule.model.apiresponse.SearchEventDetail
-import com.example.footballmatchschedule.model.apiresponse.SearchTeamDetail
+import com.example.footballmatchschedule.model.apiresponse.EventDetail
+import com.example.footballmatchschedule.model.apiresponse.TeamDetail
 import com.example.footballmatchschedule.other.jetpack.UserRepository
 import com.example.footballmatchschedule.other.jetpack.Webservice
 
@@ -20,13 +19,13 @@ class MainActivityViewModel : ViewModel() {
     // 4
     private var leagueIdHolder = MutableLiveData<String>()
     // 5
-    private val searchEventList = MutableLiveData<List<SearchEventDetail>>()
+    private val searchEventList = MutableLiveData<List<EventDetail>>()
     // 6
     private val hasFragmentBackstack = mutableMapOf<String, Boolean>()
     // 7
-    private val searchTeamList = MutableLiveData<List<SearchTeamDetail>>()
+    private val searchTeamList = MutableLiveData<List<TeamDetail>>()
     // 8
-    private lateinit var selectedEvent: SelectedEvent
+    private lateinit var selectedEvent: EventDetail
 
     fun init() {
         if (userRepository == null) {
@@ -72,21 +71,21 @@ class MainActivityViewModel : ViewModel() {
         return leagueIdHolder.value
     }
 
-    fun setSearchEventList(searchEventList: List<SearchEventDetail>?) {
+    fun setSearchEventList(searchEventList: List<EventDetail>?) {
         this.searchEventList.value = searchEventList
 
     }
 
-    fun getSearchEventList(): LiveData<List<SearchEventDetail>>? {
+    fun getSearchEventList(): LiveData<List<EventDetail>>? {
         return searchEventList
     }
 
-    fun setSearchTeamList(searchTeamList: List<SearchTeamDetail>?) {
+    fun setSearchTeamList(searchTeamList: List<TeamDetail>?) {
         this.searchTeamList.value = searchTeamList
 
     }
 
-    fun getSearchTeamList(): LiveData<List<SearchTeamDetail>>? {
+    fun getSearchTeamList(): LiveData<List<TeamDetail>>? {
         return searchTeamList
     }
 
@@ -98,11 +97,11 @@ class MainActivityViewModel : ViewModel() {
         return hasFragmentBackstack.get(fragmentName) ?: false
     }
 
-    fun setSelectedEvent(selectedEvent: SelectedEvent) {
+    fun setSelectedEvent(selectedEvent: EventDetail) {
         this.selectedEvent = selectedEvent
 
     }
 
-    fun getSelectedEvent(): SelectedEvent { return selectedEvent }
+    fun getSelectedEvent(): EventDetail { return selectedEvent }
 
 }

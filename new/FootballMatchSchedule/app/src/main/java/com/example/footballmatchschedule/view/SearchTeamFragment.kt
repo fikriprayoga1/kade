@@ -13,10 +13,9 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.footballmatchschedule.R
-import com.example.footballmatchschedule.model.apiresponse.SearchTeamDetail
+import com.example.footballmatchschedule.model.apiresponse.TeamDetail
 import com.example.footballmatchschedule.other.recyclerviewadapter.SearchTeamRecyclerViewAdapter
 import com.example.footballmatchschedule.viewmodel.SearchTeamViewModel
-import kotlinx.android.synthetic.main.search_event_fragment.*
 import kotlinx.android.synthetic.main.search_team_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -89,7 +88,7 @@ class SearchTeamFragment : Fragment() {
             context!!,
             viewModel.getSearchTeamObjects(),
             object : SearchTeamRecyclerViewAdapter.SearchTeamListener {
-                override fun itemDetail(searchTeamDetail: SearchTeamDetail) {
+                override fun itemDetail(teamDetail: TeamDetail) {
 
                 }
 
@@ -108,7 +107,7 @@ class SearchTeamFragment : Fragment() {
 
     }
 
-    private fun searchDataHolderListener(it: List<SearchTeamDetail>?) {
+    private fun searchDataHolderListener(it: List<TeamDetail>?) {
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
                 val loadingStatus0 =

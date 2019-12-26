@@ -279,8 +279,8 @@ class UserRepository(private val webservice: Webservice) {
         var isSuccess = false
         var message: String
 
-        webservice.readSearchTeam(keyword).enqueue(object : Callback<SearchTeam> {
-            override fun onFailure(call: Call<SearchTeam>, t: Throwable) {
+        webservice.readSearchTeam(keyword).enqueue(object : Callback<Team> {
+            override fun onFailure(call: Call<Team>, t: Throwable) {
                 TagHelper().writeTag(
                     this.javaClass.name,
                     Thread.currentThread().stackTrace[2].lineNumber,
@@ -302,8 +302,8 @@ class UserRepository(private val webservice: Webservice) {
             }
 
             override fun onResponse(
-                call: Call<SearchTeam>,
-                response: Response<SearchTeam>
+                call: Call<Team>,
+                response: Response<Team>
             ) {
                 val rb = response.body()
                 if (rb != null) {

@@ -14,9 +14,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.RetrofitResponse
-import com.example.footballmatchschedule.model.SelectedEvent
+import com.example.footballmatchschedule.model.apiresponse.EventDetail
 import com.example.footballmatchschedule.model.apiresponse.NME
-import com.example.footballmatchschedule.model.apiresponse.NMEDetail
 import com.example.footballmatchschedule.other.ResponseListener
 import com.example.footballmatchschedule.other.recyclerviewadapter.NMERecyclerViewAdapter
 import com.example.footballmatchschedule.viewmodel.NMEViewModel
@@ -98,8 +97,8 @@ class NMEFragment : Fragment() {
             context!!,
             viewModel.getNMEObjects(),
             object : NMERecyclerViewAdapter.NMEListener {
-                override fun itemDetail(nmeDetail: NMEDetail) {
-                    selectedItemListener(nmeDetail)
+                override fun itemDetail(eventDetail: EventDetail) {
+                    selectedItemListener(eventDetail)
 
                 }
 
@@ -143,7 +142,8 @@ class NMEFragment : Fragment() {
                             override fun retrofitResponse(retrofitResponse: RetrofitResponse) {
                                 responseNMEListener(retrofitResponse)
                             }
-                        }, leagueHolder)
+                        }, leagueHolder
+                    )
 
                 }
 
@@ -161,7 +161,7 @@ class NMEFragment : Fragment() {
                         val NMEData =
                             retrofitResponse.responseBody as NME
 
-                        viewModel.initNMEList(NMEData.events)
+                        viewModel.initEventList(NMEData.events)
                         withContext(Dispatchers.Main) {
                             nmeAdapter.notifyDataSetChanged()
 
@@ -196,7 +196,7 @@ class NMEFragment : Fragment() {
 
     }
 
-    private fun selectedItemListener(nmeDetail: NMEDetail) {
+    private fun selectedItemListener(eventDetail: EventDetail) {
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
                 val loadingStatus0 =
@@ -213,31 +213,7 @@ class NMEFragment : Fragment() {
                 )
 
                 withContext(Dispatchers.Default) {
-                    viewModel.getMainActivity().viewModel.setSelectedEvent(
-                        SelectedEvent(
-                            nmeDetail.dateEvent,
-                            nmeDetail.idHomeTeam,
-                            nmeDetail.idAwayTeam,
-                            nmeDetail.strHomeTeam,
-                            nmeDetail.strAwayTeam,
-                            nmeDetail.intHomeScore,
-                            nmeDetail.intAwayScore,
-                            nmeDetail.intHomeShots,
-                            nmeDetail.intAwayShots,
-                            nmeDetail.strHomeGoalDetails,
-                            nmeDetail.strAwayGoalDetails,
-                            nmeDetail.strHomeLineupGoalkeeper,
-                            nmeDetail.strAwayLineupGoalkeeper,
-                            nmeDetail.strHomeLineupDefense,
-                            nmeDetail.strAwayLineupDefense,
-                            nmeDetail.strHomeLineupMidfield,
-                            nmeDetail.strAwayLineupMidfield,
-                            nmeDetail.strHomeLineupForward,
-                            nmeDetail.strAwayLineupForward,
-                            nmeDetail.strHomeLineupSubstitutes,
-                            nmeDetail.strAwayLineupSubstitutes
-                        )
-                    )
+                    viewModel.getMainActivity().viewModel.setSelectedEvent(eventDetail)
                 }
 
                 viewModel.getMainActivity()

@@ -1,7 +1,7 @@
 package com.example.footballmatchschedule.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.example.footballmatchschedule.model.apiresponse.SearchEventDetail
+import com.example.footballmatchschedule.model.apiresponse.EventDetail
 import com.example.footballmatchschedule.other.jetpack.UserRepository
 import com.example.footballmatchschedule.other.recyclerviewadapter.SearchEventRecyclerViewAdapter
 import com.example.footballmatchschedule.view.MainActivity
@@ -23,13 +23,13 @@ class SearchEventViewModel : ViewModel() {
 
     }
 
-    fun initLMEList(searchEventList: List<SearchEventDetail>?) {
+    fun initEventList(eventList: List<EventDetail>?) {
         searchEventObjects.clear()
 
-        if (searchEventList != null) {
-            for (i in searchEventList.indices) {
+        if (eventList != null) {
+            for (i in eventList.indices) {
                 searchEventObject =
-                    SearchEventRecyclerViewAdapter.SearchEventObject(searchEventList[i])
+                    SearchEventRecyclerViewAdapter.SearchEventObject(eventList[i])
                 searchEventObjects.add(searchEventObject)
 
             }
@@ -42,7 +42,7 @@ class SearchEventViewModel : ViewModel() {
         return searchEventObjects
     }
 
-    fun initSearchEventList(it: List<SearchEventDetail>?) {
+    fun initSearchEventList(it: List<EventDetail>?) {
         searchEventObjects.clear()
 
         if (it != null) {

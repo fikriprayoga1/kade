@@ -13,8 +13,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.footballmatchschedule.R
-import com.example.footballmatchschedule.model.SelectedEvent
-import com.example.footballmatchschedule.model.apiresponse.SearchEventDetail
+import com.example.footballmatchschedule.model.apiresponse.EventDetail
 import com.example.footballmatchschedule.other.recyclerviewadapter.SearchEventRecyclerViewAdapter
 import com.example.footballmatchschedule.viewmodel.SearchEventViewModel
 import kotlinx.android.synthetic.main.search_event_fragment.*
@@ -89,8 +88,8 @@ class SearchEventFragment : Fragment() {
             context!!,
             viewModel.getSearchEventObjects(),
             object : SearchEventRecyclerViewAdapter.SearchEventListener {
-                override fun itemDetail(searchEventDetail: SearchEventDetail) {
-                    selectedItemListener(searchEventDetail)
+                override fun itemDetail(eventDetail: EventDetail) {
+                    selectedItemListener(eventDetail)
 
                 }
 
@@ -114,7 +113,7 @@ class SearchEventFragment : Fragment() {
         super.onDestroy()
     }
 
-    private fun searchDataHolderListener(it: List<SearchEventDetail>?) {
+    private fun searchDataHolderListener(it: List<EventDetail>?) {
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
                 val loadingStatus0 =
@@ -149,7 +148,7 @@ class SearchEventFragment : Fragment() {
 
     }
 
-    private fun selectedItemListener(searchEventDetail: SearchEventDetail) {
+    private fun selectedItemListener(eventDetail: EventDetail) {
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
                 val loadingStatus0 =
@@ -166,31 +165,7 @@ class SearchEventFragment : Fragment() {
                 )
 
                 withContext(Dispatchers.Default) {
-                    viewModel.getMainActivity().viewModel.setSelectedEvent(
-                        SelectedEvent(
-                            searchEventDetail.dateEvent,
-                            searchEventDetail.idHomeTeam,
-                            searchEventDetail.idAwayTeam,
-                            searchEventDetail.strHomeTeam,
-                            searchEventDetail.strAwayTeam,
-                            searchEventDetail.intHomeScore,
-                            searchEventDetail.intAwayScore,
-                            searchEventDetail.intHomeShots,
-                            searchEventDetail.intAwayShots,
-                            searchEventDetail.strHomeGoalDetails,
-                            searchEventDetail.strAwayGoalDetails,
-                            searchEventDetail.strHomeLineupGoalkeeper,
-                            searchEventDetail.strAwayLineupGoalkeeper,
-                            searchEventDetail.strHomeLineupDefense,
-                            searchEventDetail.strAwayLineupDefense,
-                            searchEventDetail.strHomeLineupMidfield,
-                            searchEventDetail.strAwayLineupMidfield,
-                            searchEventDetail.strHomeLineupForward,
-                            searchEventDetail.strAwayLineupForward,
-                            searchEventDetail.strHomeLineupSubstitutes,
-                            searchEventDetail.strAwayLineupSubstitutes
-                        )
-                    )
+                    viewModel.getMainActivity().viewModel.setSelectedEvent(eventDetail)
                 }
 
                 viewModel.getMainActivity()

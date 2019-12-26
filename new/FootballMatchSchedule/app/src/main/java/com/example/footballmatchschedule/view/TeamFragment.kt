@@ -1,7 +1,6 @@
 package com.example.footballmatchschedule.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.RetrofitResponse
 import com.example.footballmatchschedule.model.apiresponse.League
-import com.example.footballmatchschedule.model.apiresponse.SearchTeam
 import com.example.footballmatchschedule.model.apiresponse.Team
 import com.example.footballmatchschedule.model.apiresponse.TeamDetail
 import com.example.footballmatchschedule.other.ResponseListener
@@ -318,7 +316,7 @@ class TeamFragment : Fragment() {
                         }
 
                         val searchTeam =
-                            retrofitResponse.responseBody as SearchTeam
+                            retrofitResponse.responseBody as Team
                         withContext(Dispatchers.Main) {
                             viewModel.getMainActivity()
                                 .viewModel.setSearchTeamList(searchTeam.teams)

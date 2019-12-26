@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.footballmatchschedule.R
-import com.example.footballmatchschedule.model.apiresponse.SearchTeamDetail
+import com.example.footballmatchschedule.model.apiresponse.TeamDetail
 import com.squareup.picasso.Picasso
 
 class SearchTeamRecyclerViewAdapter(
@@ -66,11 +66,11 @@ class SearchTeamRecyclerViewAdapter(
 
     // this interface for handle more button pressed
     interface SearchTeamListener {
-        fun itemDetail(searchTeamDetail: SearchTeamDetail)
+        fun itemDetail(teamDetail: TeamDetail)
 
     }
 
     // this class is object of item in recyclerview
-    class SearchTeamObject(var searchTeamDetail: SearchTeamDetail)
+    class SearchTeamObject(var searchTeamDetail: TeamDetail)
 
 }

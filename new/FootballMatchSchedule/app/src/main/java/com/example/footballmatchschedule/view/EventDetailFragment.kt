@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.RetrofitResponse
+import com.example.footballmatchschedule.model.apiresponse.EventDetail
 import com.example.footballmatchschedule.model.apiresponse.TeamDetail
 import com.example.footballmatchschedule.other.ResponseListener
 import com.example.footballmatchschedule.viewmodel.EventDetailViewModel
@@ -109,6 +110,39 @@ class EventDetailFragment : Fragment() {
                 textView_fragment_event_detail_1_11_4.text =
                     withContext(Dispatchers.Default) { viewModel.getNameList2(dataSource.strAwayLineupSubstitutes) }
 
+                withContext(Dispatchers.Default) {
+                    if (viewModel.isAlarm(dataSource.idEvent)) {
+                        withContext(Dispatchers.Main) {
+                            imageButton_event_detail_fragment_1_1_2.setImageResource(R.drawable.ic_notifications_accent_24dp)
+
+                        }
+
+                    }
+
+                }
+
+                withContext(Dispatchers.Default) {
+                    if (viewModel.isFavorite(dataSource.idEvent)) {
+                        withContext(Dispatchers.Main) {
+                            imageButton_event_detail_fragment_1_1_10.setImageResource(
+                                R.drawable.ic_favorite_red_24dp
+                            )
+                        }
+
+                    }
+
+                }
+
+                imageButton_event_detail_fragment_1_1_2.setOnClickListener {
+                    alarmClickListener(dataSource)
+
+                }
+
+                imageButton_event_detail_fragment_1_1_10.setOnClickListener {
+                    favoriteClickListener(dataSource)
+
+                }
+
                 val loadingStatus1 = withContext(Dispatchers.Default) {
                     (activity as MainActivity).viewModel.updateLoading(false)
                 }
@@ -161,6 +195,114 @@ class EventDetailFragment : Fragment() {
                     }
 
                 }
+
+                val loadingStatus1 = withContext(Dispatchers.Default) {
+                    (activity as MainActivity).viewModel.updateLoading(false)
+                }
+                (activity as MainActivity).updateLoading(
+                    loadingStatus1,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "stop"
+                )
+
+            }
+
+        }
+
+    }
+
+    private fun alarmClickListener(eventDetail: EventDetail) {
+        lifecycleScope.launchWhenStarted {
+            if (lifecycle.currentState >= Lifecycle.State.STARTED) {
+                val loadingStatus0 =
+                    withContext(Dispatchers.Default) {
+                        (activity as MainActivity).viewModel.updateLoading(
+                            true
+                        )
+                    }
+                (activity as MainActivity).updateLoading(
+                    loadingStatus0,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "start"
+                )
+
+                withContext(Dispatchers.Default) {
+                    if (viewModel.isAlarm(eventDetail.idEvent)) {
+                        viewModel.setAlarm(false, eventDetail)
+                        withContext(Dispatchers.Main) {
+                            imageButton_event_detail_fragment_1_1_2.setImageResource(
+                                R.drawable.ic_notifications_none_accent_24dp
+                            )
+                        }
+
+                    } else {
+                        viewModel.setAlarm(true, eventDetail)
+                        withContext(Dispatchers.Main) {
+                            imageButton_event_detail_fragment_1_1_2.setImageResource(
+                                R.drawable.ic_notifications_accent_24dp
+                            )
+                        }
+
+                    }
+
+                }
+
+
+                val loadingStatus1 = withContext(Dispatchers.Default) {
+                    (activity as MainActivity).viewModel.updateLoading(false)
+                }
+                (activity as MainActivity).updateLoading(
+                    loadingStatus1,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "stop"
+                )
+
+            }
+
+        }
+
+    }
+
+    private fun favoriteClickListener(eventDetail: EventDetail) {
+        lifecycleScope.launchWhenStarted {
+            if (lifecycle.currentState >= Lifecycle.State.STARTED) {
+                val loadingStatus0 =
+                    withContext(Dispatchers.Default) {
+                        (activity as MainActivity).viewModel.updateLoading(
+                            true
+                        )
+                    }
+                (activity as MainActivity).updateLoading(
+                    loadingStatus0,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "start"
+                )
+
+                withContext(Dispatchers.Default) {
+                    if (viewModel.isFavorite(eventDetail.idEvent)) {
+                        viewModel.setFavorite(false, eventDetail)
+                        withContext(Dispatchers.Main) {
+                            imageButton_event_detail_fragment_1_1_10.setImageResource(
+                                R.drawable.ic_favorite_border_red_24dp
+                            )
+                        }
+
+                    } else {
+                        viewModel.setFavorite(true, eventDetail)
+                        withContext(Dispatchers.Main) {
+                            imageButton_event_detail_fragment_1_1_10.setImageResource(
+                                R.drawable.ic_favorite_red_24dp
+                            )
+                        }
+
+                    }
+
+                }
+
 
                 val loadingStatus1 = withContext(Dispatchers.Default) {
                     (activity as MainActivity).viewModel.updateLoading(false)

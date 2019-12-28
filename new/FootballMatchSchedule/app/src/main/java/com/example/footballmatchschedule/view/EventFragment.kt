@@ -223,7 +223,7 @@ class EventFragment : Fragment() {
                                 val searchTeam =
                                     retrofitResponse.responseBody as SearchEvent
                                 viewModel.getMainActivity()
-                                    .viewModel.setSearchEventList(searchTeam.event)
+                                    .viewModel.setEventList(searchTeam.event)
                             }
                             viewModel.getMainActivity()
                                 .viewModel.setHasFragmentBackstack(

@@ -11,23 +11,7 @@
         android:id="@+id/tabLayout_favorite_fragment_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <!--1_1-->
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabItem_favorite_fragment_1_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/a15" />
-
-        <!--1_2-->
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabItem_favorite_fragment_1_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/a17" />
-
-    </com.google.android.material.tabs.TabLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!--2-->
     <androidx.viewpager.widget.ViewPager

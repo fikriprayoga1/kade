@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.example.footballmatchschedule.model.apiresponse.EventDetail
 import com.example.footballmatchschedule.other.ResponseListener
 import com.example.footballmatchschedule.other.jetpack.UserRepository
-import com.example.footballmatchschedule.other.recyclerviewadapter.LMERecyclerViewAdapter
+import com.example.footballmatchschedule.other.recyclerviewadapter.EventRecyclerViewAdapter
 import com.example.footballmatchschedule.view.MainActivity
 
 class LMEViewModel : ViewModel() {
@@ -13,9 +13,9 @@ class LMEViewModel : ViewModel() {
     // 2
     private lateinit var mainActivity: MainActivity
     // 3
-    private val lmeObjects: MutableList<LMERecyclerViewAdapter.LMEObject> = ArrayList()
+    private val eventObjects: MutableList<EventRecyclerViewAdapter.EventObject> = ArrayList()
     // 4
-    private lateinit var lmeObject: LMERecyclerViewAdapter.LMEObject
+    private lateinit var eventObject: EventRecyclerViewAdapter.EventObject
 
     fun init(userRepository: UserRepository, mainActivity: MainActivity) {
         this.userRepository = userRepository
@@ -24,12 +24,12 @@ class LMEViewModel : ViewModel() {
     }
 
     fun initEventList(eventList: List<EventDetail>?) {
-        lmeObjects.clear()
+        eventObjects.clear()
 
         if (eventList != null) {
             for (i in eventList.indices) {
-                lmeObject = LMERecyclerViewAdapter.LMEObject(eventList[i])
-                lmeObjects.add(lmeObject)
+                eventObject = EventRecyclerViewAdapter.EventObject(eventList[i])
+                eventObjects.add(eventObject)
 
             }
 
@@ -46,8 +46,8 @@ class LMEViewModel : ViewModel() {
         return mainActivity
     }
 
-    fun getLMEObjects(): MutableList<LMERecyclerViewAdapter.LMEObject> {
-        return lmeObjects
+    fun getEventObjects(): MutableList<EventRecyclerViewAdapter.EventObject> {
+        return eventObjects
     }
 
 }

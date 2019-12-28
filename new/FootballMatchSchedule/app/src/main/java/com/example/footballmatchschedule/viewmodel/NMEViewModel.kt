@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.example.footballmatchschedule.model.apiresponse.EventDetail
 import com.example.footballmatchschedule.other.ResponseListener
 import com.example.footballmatchschedule.other.jetpack.UserRepository
-import com.example.footballmatchschedule.other.recyclerviewadapter.NMERecyclerViewAdapter
+import com.example.footballmatchschedule.other.recyclerviewadapter.EventRecyclerViewAdapter
 import com.example.footballmatchschedule.view.MainActivity
 
 class NMEViewModel : ViewModel() {
@@ -13,9 +13,9 @@ class NMEViewModel : ViewModel() {
     // 2
     private lateinit var mainActivity: MainActivity
     // 3
-    private val nmeObjects: MutableList<NMERecyclerViewAdapter.NMEObject> = ArrayList()
+    private val nmeObjects: MutableList<EventRecyclerViewAdapter.EventObject> = ArrayList()
     // 4
-    private lateinit var nmeObject: NMERecyclerViewAdapter.NMEObject
+    private lateinit var nmeObject: EventRecyclerViewAdapter.EventObject
 
     fun init(userRepository: UserRepository, mainActivity: MainActivity) {
         this.userRepository = userRepository
@@ -28,7 +28,7 @@ class NMEViewModel : ViewModel() {
 
         if (eventList != null) {
             for (i in eventList.indices) {
-                nmeObject = NMERecyclerViewAdapter.NMEObject(eventList[i])
+                nmeObject = EventRecyclerViewAdapter.EventObject(eventList[i])
                 nmeObjects.add(nmeObject)
 
             }
@@ -37,7 +37,7 @@ class NMEViewModel : ViewModel() {
 
     }
 
-    fun requestNMEList(responseListener: ResponseListener, id: String) {
+    fun requestEventList(responseListener: ResponseListener, id: String) {
         userRepository.requestNMEList(id, responseListener)
 
     }
@@ -46,7 +46,7 @@ class NMEViewModel : ViewModel() {
         return mainActivity
     }
 
-    fun getNMEObjects(): MutableList<NMERecyclerViewAdapter.NMEObject> {
+    fun getEventObjects(): MutableList<EventRecyclerViewAdapter.EventObject> {
         return nmeObjects
     }
 }

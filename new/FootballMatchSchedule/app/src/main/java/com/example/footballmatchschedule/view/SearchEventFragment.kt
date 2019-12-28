@@ -14,14 +14,14 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.apiresponse.EventDetail
-import com.example.footballmatchschedule.other.recyclerviewadapter.SearchEventRecyclerViewAdapter
+import com.example.footballmatchschedule.other.recyclerviewadapter.EventRecyclerViewAdapter
 import com.example.footballmatchschedule.viewmodel.SearchEventViewModel
 import kotlinx.android.synthetic.main.search_event_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class SearchEventFragment : Fragment() {
-    lateinit var searchEventAdapter: SearchEventRecyclerViewAdapter
+    lateinit var eventAdapter: EventRecyclerViewAdapter
 
     companion object {
         fun newInstance() = SearchEventFragment()
@@ -64,7 +64,7 @@ class SearchEventFragment : Fragment() {
 
                 }
                 initRecyclerView()
-                (activity as MainActivity).viewModel.getSearchEventList()
+                (activity as MainActivity).viewModel.getEventList()
                     ?.observe(thisContext, Observer { searchDataHolderListener(it) })
 
                 val loadingStatus1 = withContext(Dispatchers.Default) {
@@ -84,10 +84,10 @@ class SearchEventFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        searchEventAdapter = SearchEventRecyclerViewAdapter(
+        eventAdapter = EventRecyclerViewAdapter(
             context!!,
-            viewModel.getSearchEventObjects(),
-            object : SearchEventRecyclerViewAdapter.SearchEventListener {
+            viewModel.getEventObjects(),
+            object : EventRecyclerViewAdapter.EventListener {
                 override fun itemDetail(eventDetail: EventDetail) {
                     selectedItemListener(eventDetail)
 
@@ -104,12 +104,12 @@ class SearchEventFragment : Fragment() {
                 LinearLayoutManager.VERTICAL
             )
         )
-        recyclerView_search_event_fragment_1.adapter = searchEventAdapter
+        recyclerView_search_event_fragment_1.adapter = eventAdapter
 
     }
 
     override fun onDestroy() {
-        (activity as MainActivity).viewModel.setHasFragmentBackstack("SearchEvent", false)
+        (activity as MainActivity).viewModel.setHasFragmentBackstack("Event", false)
         super.onDestroy()
     }
 
@@ -129,8 +129,8 @@ class SearchEventFragment : Fragment() {
                     "start"
                 )
 
-                withContext(Dispatchers.Default) { viewModel.initSearchEventList(it) }
-                searchEventAdapter.notifyDataSetChanged()
+                withContext(Dispatchers.Default) { viewModel.initEventList(it) }
+                eventAdapter.notifyDataSetChanged()
 
                 val loadingStatus1 = withContext(Dispatchers.Default) {
                     (activity as MainActivity).viewModel.updateLoading(false)

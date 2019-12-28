@@ -9,6 +9,7 @@ import android.view.ViewGroup
 
 import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.viewmodel.FavoriteViewModel
+import kotlinx.android.synthetic.main.favorite_fragment.*
 
 class FavoriteFragment : Fragment() {
 
@@ -28,7 +29,11 @@ class FavoriteFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(FavoriteViewModel::class.java)
-        // TODO: Use the ViewModel
+
+        val adapter = viewModel.getAdapter(childFragmentManager)
+        viewPager_favorite_fragment_2.adapter = adapter
+        tabLayout_favorite_fragment_1.setupWithViewPager(viewPager_favorite_fragment_2)
+
     }
 
 }

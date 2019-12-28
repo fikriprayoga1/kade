@@ -1,5 +1,5 @@
 package com.example.footballmatchschedule.model.apiresponse
 
-data class NME(
+data class Event(
     var events: List<EventDetail>?
 )

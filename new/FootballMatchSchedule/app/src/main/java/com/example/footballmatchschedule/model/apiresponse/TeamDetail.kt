@@ -1,30 +1,35 @@
 package com.example.footballmatchschedule.model.apiresponse
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
 data class TeamDetail(
     var idLeague: String?,
     var idSoccerXML: String?,
-    var idTeam: String?,
+    @PrimaryKey
+    var idTeam: String,
     var intFormedYear: String?,
     var intLoved: String?,
     var intStadiumCapacity: String?,
     var strAlternate: String?,
     var strCountry: String?,
-    var strDescriptionCN: Any?,
+    var strDescriptionCN: String?,
     var strDescriptionDE: String?,
     var strDescriptionEN: String?,
     var strDescriptionES: String?,
-    var strDescriptionFR: Any?,
-    var strDescriptionHU: Any?,
-    var strDescriptionIL: Any?,
+    var strDescriptionFR: String?,
+    var strDescriptionHU: String?,
+    var strDescriptionIL: String?,
     var strDescriptionIT: String?,
-    var strDescriptionJP: Any?,
-    var strDescriptionNL: Any?,
-    var strDescriptionNO: Any?,
-    var strDescriptionPL: Any?,
-    var strDescriptionPT: Any?,
-    var strDescriptionRU: Any?,
-    var strDescriptionSE: Any?,
-    var strDivision: Any?,
+    var strDescriptionJP: String?,
+    var strDescriptionNL: String?,
+    var strDescriptionNO: String?,
+    var strDescriptionPL: String?,
+    var strDescriptionPT: String?,
+    var strDescriptionRU: String?,
+    var strDescriptionSE: String?,
+    var strDivision: String?,
     var strFacebook: String?,
     var strGender: String?,
     var strInstagram: String?,
@@ -50,5 +55,6 @@ data class TeamDetail(
     var strTeamShort: String?,
     var strTwitter: String?,
     var strWebsite: String?,
-    var strYoutube: String?
+    var strYoutube: String?,
+    var isFavorite: Boolean?
 )

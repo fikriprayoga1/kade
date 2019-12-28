@@ -11,11 +11,11 @@ import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.apiresponse.EventDetail
 import java.text.SimpleDateFormat
 
-class NMERecyclerViewAdapter(
+class EventRecyclerViewAdapter(
     internal var context: Context
-    , private var nmeObject: List<NMEObject>
-    , private var nmeListener: NMEListener
-) : RecyclerView.Adapter<NMERecyclerViewAdapter.MyViewHolder>() {
+    , private var eventObject: List<EventObject>
+    , private var eventListener: EventListener
+) : RecyclerView.Adapter<EventRecyclerViewAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var mDate: TextView = view.findViewById(R.id.textView_main_item_1)
@@ -37,9 +37,9 @@ class NMERecyclerViewAdapter(
     // this method for init item in every view item
     @SuppressLint("SimpleDateFormat")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val mNMEDetail = nmeObject[position].nmeDetail
+        val mEventDetail = eventObject[position].eventDetail
 
-        val dateEvent = mNMEDetail.dateEvent
+        val dateEvent = mEventDetail.dateEvent
         if (dateEvent != null) {
             val inputFormat = SimpleDateFormat("yyyy-MM-dd")
             val outputFormat = SimpleDateFormat("EEE, d MMM yyyy")
@@ -52,13 +52,13 @@ class NMERecyclerViewAdapter(
         }
 
 
-        holder.mTeam1.text = mNMEDetail.strHomeTeam
-        holder.mTeamScore1.text = mNMEDetail.intHomeScore
-        holder.mteam2.text = mNMEDetail.strAwayTeam
-        holder.mTeamScore2.text = mNMEDetail.intAwayScore
+        holder.mTeam1.text = mEventDetail.strHomeTeam
+        holder.mTeamScore1.text = mEventDetail.intHomeScore
+        holder.mteam2.text = mEventDetail.strAwayTeam
+        holder.mTeamScore2.text = mEventDetail.intAwayScore
 
         holder.itemView.setOnClickListener {
-            nmeListener.itemDetail(mNMEDetail)
+            eventListener.itemDetail(mEventDetail)
 
         }
 
@@ -69,7 +69,7 @@ class NMERecyclerViewAdapter(
         var itemCount = 0
 
         try {
-            val itemSize = nmeObject.size
+            val itemSize = eventObject.size
             itemCount = itemSize
         } catch (e: Exception) {
         }
@@ -78,12 +78,12 @@ class NMERecyclerViewAdapter(
     }
 
     // this interface for handle more button pressed
-    interface NMEListener {
+    interface EventListener {
         fun itemDetail(eventDetail: EventDetail)
 
     }
 
     // this class is object of item in recyclerview
-    class NMEObject(var nmeDetail: EventDetail)
+    class EventObject(var eventDetail: EventDetail)
 
 }

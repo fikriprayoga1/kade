@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
 
+        val thisContext = this
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
                 val loadingStatus0 =
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity() {
                     "start"
                 )
 
-                withContext(Dispatchers.Default) { viewModel.init() }
+                withContext(Dispatchers.Default) { viewModel.init(thisContext) }
 
                 changeFragment0(R.id.frameLayout_activity_main_1, HomeFragment())
 

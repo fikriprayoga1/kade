@@ -1,6 +1,7 @@
 package com.example.footballmatchschedule.viewmodel
 
 import androidx.lifecycle.ViewModel
+import com.example.footballmatchschedule.model.apiresponse.EventDetail
 import com.example.footballmatchschedule.other.ResponseListener
 import com.example.footballmatchschedule.other.jetpack.UserRepository
 import com.example.footballmatchschedule.view.MainActivity
@@ -97,6 +98,162 @@ class EventDetailViewModel : ViewModel() {
 
         }
         return date
+
+    }
+
+    fun isAlarm(idEvent: String): Boolean {
+        val eventData = userRepository.readEvent(idEvent)
+        var mAlarm = false
+
+        for (i in eventData.indices) {
+            if (eventData[i].isAlarm != null) {
+                mAlarm = true
+
+            }
+
+        }
+
+        return mAlarm
+
+    }
+
+    fun isFavorite(idEvent: String): Boolean {
+        val eventData = userRepository.readEvent(idEvent)
+        var mFavorite = false
+
+        for (i in eventData.indices) {
+            if (eventData[i].isFavorite != null) {
+                mFavorite = true
+
+            }
+
+        }
+
+        return mFavorite
+
+    }
+
+    fun setAlarm(isAlarm: Boolean, eventDetail: EventDetail) {
+        val eventData = userRepository.readEvent(eventDetail.idEvent)
+
+        if (isAlarm) {
+            if (eventData.isNotEmpty()) {
+                for (i in eventData.indices) {
+                    setEventDatabase(eventDetail, true, eventData[i].isFavorite)
+
+                }
+
+            } else {
+                setEventDatabase(eventDetail, true, eventDetail.isFavorite)
+
+            }
+
+        } else {
+            for (i in eventData.indices) {
+                if (eventData[i].isFavorite != null) {
+                    setEventDatabase(eventDetail, null, eventData[i].isFavorite)
+
+                } else { userRepository.deleteEvent(eventDetail.idEvent) }
+
+            }
+
+        }
+
+    }
+
+    fun setFavorite(isFavorite: Boolean, eventDetail: EventDetail) {
+        val eventData = userRepository.readEvent(eventDetail.idEvent)
+
+        if (isFavorite) {
+            if (eventData.isNotEmpty()) {
+                for (i in eventData.indices) {
+                    setEventDatabase(eventDetail, eventData[i].isAlarm, true)
+
+                }
+
+            } else {
+                setEventDatabase(eventDetail, eventDetail.isAlarm, true)
+
+            }
+
+        } else {
+            for (i in eventData.indices) {
+                if (eventData[i].isAlarm != null) {
+                    setEventDatabase(eventDetail, eventData[i].isAlarm, null)
+
+                } else { userRepository.deleteEvent(eventDetail.idEvent) }
+
+            }
+
+        }
+
+    }
+
+    private fun setEventDatabase(eventDetail: EventDetail, isAlarm: Boolean?, isFavorite: Boolean?) {
+        userRepository.createEvent(
+            EventDetail(
+                eventDetail.dateEvent,
+                eventDetail.dateEventLocal,
+                eventDetail.idAwayTeam,
+                eventDetail.idEvent,
+                eventDetail.idHomeTeam,
+                eventDetail.idLeague,
+                eventDetail.idSoccerXML,
+                eventDetail.intAwayScore,
+                eventDetail.intAwayShots,
+                eventDetail.intHomeScore,
+                eventDetail.intHomeShots,
+                eventDetail.intRound,
+                eventDetail.intSpectators,
+                eventDetail.strAwayFormation,
+                eventDetail.strAwayGoalDetails,
+                eventDetail.strAwayLineupDefense,
+                eventDetail.strAwayLineupForward,
+                eventDetail.strAwayLineupGoalkeeper,
+                eventDetail.strAwayLineupMidfield,
+                eventDetail.strAwayLineupSubstitutes,
+                eventDetail.strAwayRedCards,
+                eventDetail.strAwayTeam,
+                eventDetail.strAwayYellowCards,
+                eventDetail.strBanner,
+                eventDetail.strCircuit,
+                eventDetail.strCity,
+                eventDetail.strCountry,
+                eventDetail.strDate,
+                eventDetail.strDescriptionEN,
+                eventDetail.strEvent,
+                eventDetail.strEventAlternate,
+                eventDetail.strFanart,
+                eventDetail.strFilename,
+                eventDetail.strHomeFormation,
+                eventDetail.strHomeGoalDetails,
+                eventDetail.strHomeLineupDefense,
+                eventDetail.strHomeLineupForward,
+                eventDetail.strHomeLineupGoalkeeper,
+                eventDetail.strHomeLineupMidfield,
+                eventDetail.strHomeLineupSubstitutes,
+                eventDetail.strHomeRedCards,
+                eventDetail.strHomeTeam,
+                eventDetail.strHomeYellowCards,
+                eventDetail.strLeague,
+                eventDetail.strLocked,
+                eventDetail.strMap,
+                eventDetail.strPoster,
+                eventDetail.strResult,
+                eventDetail.strSeason,
+                eventDetail.strSport,
+                eventDetail.strTVStation,
+                eventDetail.strThumb,
+                eventDetail.strTime,
+                eventDetail.strTimeLocal,
+                eventDetail.strTweet1,
+                eventDetail.strTweet2,
+                eventDetail.strTweet3,
+                eventDetail.strVideo,
+                isAlarm,
+                isFavorite
+            )
+        )
 
     }
 

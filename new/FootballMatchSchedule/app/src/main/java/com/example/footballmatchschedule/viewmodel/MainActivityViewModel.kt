@@ -1,11 +1,14 @@
 package com.example.footballmatchschedule.viewmodel
 
+import android.content.Context
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.room.Room
 import com.example.footballmatchschedule.model.apiresponse.EventDetail
 import com.example.footballmatchschedule.model.apiresponse.TeamDetail
+import com.example.footballmatchschedule.other.jetpack.UserDatabase
 import com.example.footballmatchschedule.other.jetpack.UserRepository
 import com.example.footballmatchschedule.other.jetpack.Webservice
 
@@ -19,7 +22,7 @@ class MainActivityViewModel : ViewModel() {
     // 4
     private var leagueIdHolder = MutableLiveData<String>()
     // 5
-    private val searchEventList = MutableLiveData<List<EventDetail>>()
+    private val eventList = MutableLiveData<List<EventDetail>>()
     // 6
     private val hasFragmentBackstack = mutableMapOf<String, Boolean>()
     // 7
@@ -27,9 +30,9 @@ class MainActivityViewModel : ViewModel() {
     // 8
     private lateinit var selectedEvent: EventDetail
 
-    fun init() {
+    fun init(context: Context) {
         if (userRepository == null) {
-            userRepository = UserRepository(Webservice.create())
+            userRepository = UserRepository(Webservice.create(), Room.databaseBuilder(context, UserDatabase::class.java, "football_match_schedule").build().userDao())
 
         }
 
@@ -71,13 +74,13 @@ class MainActivityViewModel : ViewModel() {
         return leagueIdHolder.value
     }
 
-    fun setSearchEventList(searchEventList: List<EventDetail>?) {
-        this.searchEventList.value = searchEventList
+    fun setEventList(eventList: List<EventDetail>?) {
+        this.eventList.value = eventList
 
     }
 
-    fun getSearchEventList(): LiveData<List<EventDetail>>? {
-        return searchEventList
+    fun getEventList(): LiveData<List<EventDetail>>? {
+        return eventList
     }
 
     fun setSearchTeamList(searchTeamList: List<TeamDetail>?) {
@@ -94,7 +97,7 @@ class MainActivityViewModel : ViewModel() {
     }
 
     fun getHasFragmentBackstack(fragmentName: String): Boolean {
-        return hasFragmentBackstack.get(fragmentName) ?: false
+        return hasFragmentBackstack[fragmentName] ?: false
     }
 
     fun setSelectedEvent(selectedEvent: EventDetail) {

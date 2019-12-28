@@ -14,17 +14,17 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.RetrofitResponse
+import com.example.footballmatchschedule.model.apiresponse.Event
 import com.example.footballmatchschedule.model.apiresponse.EventDetail
-import com.example.footballmatchschedule.model.apiresponse.NME
 import com.example.footballmatchschedule.other.ResponseListener
-import com.example.footballmatchschedule.other.recyclerviewadapter.NMERecyclerViewAdapter
+import com.example.footballmatchschedule.other.recyclerviewadapter.EventRecyclerViewAdapter
 import com.example.footballmatchschedule.viewmodel.NMEViewModel
 import kotlinx.android.synthetic.main.next_match_event_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class NMEFragment : Fragment() {
-    lateinit var nmeAdapter: NMERecyclerViewAdapter
+    lateinit var eventAdapter: EventRecyclerViewAdapter
 
     companion object {
         fun newInstance() = NMEFragment()
@@ -43,7 +43,6 @@ class NMEFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(NMEViewModel::class.java)
 
-        val thisContext = this
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
                 val loadingStatus0 =
@@ -68,7 +67,7 @@ class NMEFragment : Fragment() {
                 }
                 initRecyclerView()
                 (activity as MainActivity).viewModel.getLeagueIdHolderListener()
-                    .observe(thisContext, Observer {
+                    .observe(this@NMEFragment, Observer {
                         leagueIdHolderListener()
 
                     })
@@ -93,10 +92,10 @@ class NMEFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        nmeAdapter = NMERecyclerViewAdapter(
+        eventAdapter = EventRecyclerViewAdapter(
             context!!,
-            viewModel.getNMEObjects(),
-            object : NMERecyclerViewAdapter.NMEListener {
+            viewModel.getEventObjects(),
+            object : EventRecyclerViewAdapter.EventListener {
                 override fun itemDetail(eventDetail: EventDetail) {
                     selectedItemListener(eventDetail)
 
@@ -114,7 +113,7 @@ class NMEFragment : Fragment() {
                 LinearLayoutManager.VERTICAL
             )
         )
-        recyclerView_next_match_event_fragment_1.adapter = nmeAdapter
+        recyclerView_next_match_event_fragment_1.adapter = eventAdapter
 
     }
 
@@ -137,10 +136,10 @@ class NMEFragment : Fragment() {
                 withContext(Dispatchers.IO) {
                     val leagueHolder =
                         (activity as MainActivity).viewModel.getLeagueIdHolder()!!
-                    viewModel.requestNMEList(
+                    viewModel.requestEventList(
                         object : ResponseListener {
                             override fun retrofitResponse(retrofitResponse: RetrofitResponse) {
-                                responseNMEListener(retrofitResponse)
+                                responseEventListener(retrofitResponse)
                             }
                         }, leagueHolder
                     )
@@ -153,17 +152,17 @@ class NMEFragment : Fragment() {
 
     }
 
-    private fun responseNMEListener(retrofitResponse: RetrofitResponse) {
+    private fun responseEventListener(retrofitResponse: RetrofitResponse) {
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
                 withContext(Dispatchers.Default) {
                     if (retrofitResponse.isSuccess) {
-                        val NMEData =
-                            retrofitResponse.responseBody as NME
+                        val EventData =
+                            retrofitResponse.responseBody as Event
 
-                        viewModel.initEventList(NMEData.events)
+                        viewModel.initEventList(EventData.events)
                         withContext(Dispatchers.Main) {
-                            nmeAdapter.notifyDataSetChanged()
+                            eventAdapter.notifyDataSetChanged()
 
                         }
 

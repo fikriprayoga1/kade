@@ -1,5 +1,6 @@
 package com.example.footballmatchschedule.other.jetpack
 
+import androidx.lifecycle.LiveData
 import com.example.footballmatchschedule.model.RetrofitResponse
 import com.example.footballmatchschedule.model.apiresponse.*
 import com.example.footballmatchschedule.other.ResponseListener
@@ -8,7 +9,32 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class UserRepository(private val webservice: Webservice) {
+class UserRepository(private val webservice: Webservice, private val userDao: UserDao) {
+    fun createEvent(eventDetail: EventDetail) {
+        userDao.createEvent(eventDetail)
+
+    }
+
+    fun readEvent(idEvent: String) : List<EventDetail> {
+        return userDao.readEvent(idEvent)
+
+    }
+
+    fun readFavoriteEvent(): LiveData<List<EventDetail>> {
+        return userDao.readFavoriteEvent()
+
+    }
+
+    fun readFavoriteTeam(): LiveData<List<TeamDetail>> {
+        return userDao.readFavoriteTeam()
+
+    }
+
+    fun deleteEvent(idEvent: String) {
+        userDao.deleteEvent(idEvent)
+
+    }
+
     fun requestLeagueList(responseListener: ResponseListener) {
         var isSuccess = false
         var message: String
@@ -65,8 +91,8 @@ class UserRepository(private val webservice: Webservice) {
         var message: String
 
         val leagueId = id.toInt()
-        webservice.readLastMatch(leagueId).enqueue(object : Callback<LME> {
-            override fun onFailure(call: Call<LME>, t: Throwable) {
+        webservice.readLastMatch(leagueId).enqueue(object : Callback<Event> {
+            override fun onFailure(call: Call<Event>, t: Throwable) {
                 TagHelper().writeTag(
                     this.javaClass.name,
                     Thread.currentThread().stackTrace[2].lineNumber,
@@ -88,8 +114,8 @@ class UserRepository(private val webservice: Webservice) {
             }
 
             override fun onResponse(
-                call: Call<LME>,
-                response: Response<LME>
+                call: Call<Event>,
+                response: Response<Event>
             ) {
                 val rb = response.body()
                 if (rb != null) {
@@ -118,8 +144,8 @@ class UserRepository(private val webservice: Webservice) {
         var message: String
 
         val leagueId = id.toInt()
-        webservice.readNextMatch(leagueId).enqueue(object : Callback<NME> {
-            override fun onFailure(call: Call<NME>, t: Throwable) {
+        webservice.readNextMatch(leagueId).enqueue(object : Callback<Event> {
+            override fun onFailure(call: Call<Event>, t: Throwable) {
                 TagHelper().writeTag(
                     this.javaClass.name,
                     Thread.currentThread().stackTrace[2].lineNumber,
@@ -141,8 +167,8 @@ class UserRepository(private val webservice: Webservice) {
             }
 
             override fun onResponse(
-                call: Call<NME>,
-                response: Response<NME>
+                call: Call<Event>,
+                response: Response<Event>
             ) {
                 val rb = response.body()
                 if (rb != null) {

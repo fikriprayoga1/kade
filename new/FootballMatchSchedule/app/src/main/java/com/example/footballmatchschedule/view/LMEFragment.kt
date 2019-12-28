@@ -15,16 +15,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.RetrofitResponse
 import com.example.footballmatchschedule.model.apiresponse.EventDetail
-import com.example.footballmatchschedule.model.apiresponse.LME
+import com.example.footballmatchschedule.model.apiresponse.Event
 import com.example.footballmatchschedule.other.ResponseListener
-import com.example.footballmatchschedule.other.recyclerviewadapter.LMERecyclerViewAdapter
+import com.example.footballmatchschedule.other.recyclerviewadapter.EventRecyclerViewAdapter
 import com.example.footballmatchschedule.viewmodel.LMEViewModel
 import kotlinx.android.synthetic.main.last_match_event_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class LMEFragment : Fragment() {
-    private lateinit var lmeAdapter: LMERecyclerViewAdapter
+    private lateinit var eventAdapter: EventRecyclerViewAdapter
 
     companion object {
         fun newInstance() = LMEFragment()
@@ -43,7 +43,6 @@ class LMEFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(LMEViewModel::class.java)
 
-        val thisContext = this
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
                 val loadingStatus0 =
@@ -68,7 +67,7 @@ class LMEFragment : Fragment() {
                 }
                 initRecyclerView()
                 (activity as MainActivity).viewModel.getLeagueIdHolderListener()
-                    .observe(thisContext, Observer { leagueIdHolderListener() })
+                    .observe(this@LMEFragment, Observer { leagueIdHolderListener() })
 
                 val loadingStatus1 =
                     withContext(Dispatchers.Default) {
@@ -90,10 +89,10 @@ class LMEFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        lmeAdapter = LMERecyclerViewAdapter(
+        eventAdapter = EventRecyclerViewAdapter(
             context!!,
-            viewModel.getLMEObjects(),
-            object : LMERecyclerViewAdapter.LMEListener {
+            viewModel.getEventObjects(),
+            object : EventRecyclerViewAdapter.EventListener {
                 override fun itemDetail(eventDetail: EventDetail) {
                     selectedItemListener(eventDetail)
 
@@ -110,7 +109,7 @@ class LMEFragment : Fragment() {
                 LinearLayoutManager.VERTICAL
             )
         )
-        recyclerView_last_match_event_fragment_1.adapter = lmeAdapter
+        recyclerView_last_match_event_fragment_1.adapter = eventAdapter
 
     }
 
@@ -156,10 +155,10 @@ class LMEFragment : Fragment() {
                 withContext(Dispatchers.Default) {
                     if (retrofitResponse.isSuccess) {
                         val LMEData =
-                            retrofitResponse.responseBody as LME
+                            retrofitResponse.responseBody as Event
 
                         viewModel.initEventList(LMEData.events)
-                        withContext(Dispatchers.Main) { lmeAdapter.notifyDataSetChanged() }
+                        withContext(Dispatchers.Main) { eventAdapter.notifyDataSetChanged() }
 
                     } else {
                         withContext(Dispatchers.Main) {

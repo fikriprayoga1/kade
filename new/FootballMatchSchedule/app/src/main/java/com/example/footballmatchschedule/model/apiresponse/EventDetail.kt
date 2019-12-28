@@ -1,10 +1,15 @@
 package com.example.footballmatchschedule.model.apiresponse
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
 data class EventDetail(
     var dateEvent: String?,
     var dateEventLocal: String?,
     var idAwayTeam: String?,
-    var idEvent: String?,
+    @PrimaryKey
+    var idEvent: String,
     var idHomeTeam: String?,
     var idLeague: String?,
     var idSoccerXML: String?,
@@ -13,8 +18,8 @@ data class EventDetail(
     var intHomeScore: String?,
     var intHomeShots: String?,
     var intRound: String?,
-    var intSpectators: Any?,
-    var strAwayFormation: Any?,
+    var intSpectators: String?,
+    var strAwayFormation: String?,
     var strAwayGoalDetails: String?,
     var strAwayLineupDefense: String?,
     var strAwayLineupForward: String?,
@@ -24,17 +29,17 @@ data class EventDetail(
     var strAwayRedCards: String?,
     var strAwayTeam: String?,
     var strAwayYellowCards: String?,
-    var strBanner: Any?,
-    var strCircuit: Any?,
-    var strCity: Any?,
-    var strCountry: Any?,
+    var strBanner: String?,
+    var strCircuit: String?,
+    var strCity: String?,
+    var strCountry: String?,
     var strDate: String?,
     var strDescriptionEN: String?,
     var strEvent: String?,
     var strEventAlternate: String?,
-    var strFanart: Any?,
+    var strFanart: String?,
     var strFilename: String?,
-    var strHomeFormation: Any?,
+    var strHomeFormation: String?,
     var strHomeGoalDetails: String?,
     var strHomeLineupDefense: String?,
     var strHomeLineupForward: String?,
@@ -46,17 +51,19 @@ data class EventDetail(
     var strHomeYellowCards: String?,
     var strLeague: String?,
     var strLocked: String?,
-    var strMap: Any?,
-    var strPoster: Any?,
+    var strMap: String?,
+    var strPoster: String?,
     var strResult: String?,
     var strSeason: String?,
     var strSport: String?,
-    var strTVStation: Any?,
+    var strTVStation: String?,
     var strThumb: String?,
     var strTime: String?,
     var strTimeLocal: String?,
     var strTweet1: String?,
     var strTweet2: String?,
     var strTweet3: String?,
-    var strVideo: String?
+    var strVideo: String?,
+    var isAlarm: Boolean?,
+    var isFavorite: Boolean?
 )

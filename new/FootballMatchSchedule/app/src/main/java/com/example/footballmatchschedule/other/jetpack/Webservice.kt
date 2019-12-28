@@ -13,10 +13,10 @@ interface Webservice {
     fun requestLeague(): Call<League>
 
     @GET("api/v1/json/1/eventspastleague.php")
-    fun readLastMatch(@Query("id") id: Int): Call<LME>
+    fun readLastMatch(@Query("id") id: Int): Call<Event>
 
     @GET("api/v1/json/1/eventsnextleague.php")
-    fun readNextMatch(@Query("id") id: Int): Call<NME>
+    fun readNextMatch(@Query("id") id: Int): Call<Event>
 
     @GET("api/v1/json/1/searchevents.php")
     fun readSearchEvent(@Query("e") keyword: String): Call<SearchEvent>

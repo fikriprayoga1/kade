@@ -64,6 +64,6 @@ data class EventDetail(
     var strTweet2: String?,
     var strTweet3: String?,
     var strVideo: String?,
-    var isAlarm: Boolean?,
+    var isAlarm: String?,
     var isFavorite: Boolean?
 )

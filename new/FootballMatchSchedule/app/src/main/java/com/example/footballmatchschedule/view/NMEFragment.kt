@@ -16,7 +16,7 @@ import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.RetrofitResponse
 import com.example.footballmatchschedule.model.apiresponse.Event
 import com.example.footballmatchschedule.model.apiresponse.EventDetail
-import com.example.footballmatchschedule.other.ResponseListener
+import com.example.footballmatchschedule.other.helper.ResponseListener
 import com.example.footballmatchschedule.other.recyclerviewadapter.EventRecyclerViewAdapter
 import com.example.footballmatchschedule.viewmodel.NMEViewModel
 import kotlinx.android.synthetic.main.next_match_event_fragment.*
@@ -137,7 +137,8 @@ class NMEFragment : Fragment() {
                     val leagueHolder =
                         (activity as MainActivity).viewModel.getLeagueIdHolder()!!
                     viewModel.requestEventList(
-                        object : ResponseListener {
+                        object :
+                            ResponseListener {
                             override fun retrofitResponse(retrofitResponse: RetrofitResponse) {
                                 responseEventListener(retrofitResponse)
                             }

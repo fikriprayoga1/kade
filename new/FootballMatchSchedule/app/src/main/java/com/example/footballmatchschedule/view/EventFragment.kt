@@ -13,7 +13,7 @@ import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.RetrofitResponse
 import com.example.footballmatchschedule.model.apiresponse.League
 import com.example.footballmatchschedule.model.apiresponse.SearchEvent
-import com.example.footballmatchschedule.other.ResponseListener
+import com.example.footballmatchschedule.other.helper.ResponseListener
 import com.example.footballmatchschedule.viewmodel.EventViewModel
 import kotlinx.android.synthetic.main.event_fragment.*
 import kotlinx.coroutines.Dispatchers
@@ -62,7 +62,8 @@ class EventFragment : Fragment() {
                 initListener()
 
                 withContext(Dispatchers.IO) {
-                    viewModel.requestLeagueList(object : ResponseListener {
+                    viewModel.requestLeagueList(object :
+                        ResponseListener {
                         override fun retrofitResponse(retrofitResponse: RetrofitResponse) {
                             responseAction(retrofitResponse)
 
@@ -190,7 +191,8 @@ class EventFragment : Fragment() {
 
                 searchView_event_fragment_1.clearFocus()
                 viewModel.getMainActivity().exitKeyboard()
-                viewModel.requestSearchEvent(query, object : ResponseListener {
+                viewModel.requestSearchEvent(query, object :
+                    ResponseListener {
                     override fun retrofitResponse(retrofitResponse: RetrofitResponse) {
                         responseSearchListener(retrofitResponse)
 

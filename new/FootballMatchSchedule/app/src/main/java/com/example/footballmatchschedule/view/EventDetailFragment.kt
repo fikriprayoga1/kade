@@ -1,6 +1,7 @@
 package com.example.footballmatchschedule.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,16 +10,27 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequest
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.RetrofitResponse
 import com.example.footballmatchschedule.model.apiresponse.EventDetail
 import com.example.footballmatchschedule.model.apiresponse.TeamDetail
-import com.example.footballmatchschedule.other.ResponseListener
+import com.example.footballmatchschedule.other.helper.AlarmWorker
+import com.example.footballmatchschedule.other.helper.ResponseListener
+import com.example.footballmatchschedule.other.helper.TagHelper
 import com.example.footballmatchschedule.viewmodel.EventDetailViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.event_detail_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.time.DateTimeException
+import java.time.Duration
+import java.util.*
+import java.util.concurrent.TimeUnit
+
 
 class EventDetailFragment : Fragment() {
 
@@ -63,16 +75,21 @@ class EventDetailFragment : Fragment() {
 
                 val dataSource = (activity as MainActivity).viewModel.getSelectedEvent()
 
+                imageButton_event_detail_fragment_1_1_2.visibility =
+                    withContext(Dispatchers.Default) { viewModel.getAlarmVisibility(dataSource) }
+
                 textView_event_detail_fragment_1_1_1.text =
                     withContext(Dispatchers.Default) { viewModel.getDate(dataSource.dateEvent) }
-                viewModel.requestTeamLogo(object : ResponseListener {
+                viewModel.requestTeamLogo(object :
+                    ResponseListener {
                     override fun retrofitResponse(retrofitResponse: RetrofitResponse) {
                         imageResponseHandler(retrofitResponse, true)
 
                     }
 
                 }, dataSource.idHomeTeam)
-                viewModel.requestTeamLogo(object : ResponseListener {
+                viewModel.requestTeamLogo(object :
+                    ResponseListener {
                     override fun retrofitResponse(retrofitResponse: RetrofitResponse) {
                         imageResponseHandler(retrofitResponse, false)
 
@@ -230,7 +247,8 @@ class EventDetailFragment : Fragment() {
 
                 withContext(Dispatchers.Default) {
                     if (viewModel.isAlarm(eventDetail.idEvent)) {
-                        viewModel.setAlarm(false, eventDetail)
+
+                        viewModel.setAlarm(false, eventDetail, context!!)
                         withContext(Dispatchers.Main) {
                             imageButton_event_detail_fragment_1_1_2.setImageResource(
                                 R.drawable.ic_notifications_none_accent_24dp
@@ -238,7 +256,9 @@ class EventDetailFragment : Fragment() {
                         }
 
                     } else {
-                        viewModel.setAlarm(true, eventDetail)
+
+
+                        viewModel.setAlarm(true, eventDetail, context!!)
                         withContext(Dispatchers.Main) {
                             imageButton_event_detail_fragment_1_1_2.setImageResource(
                                 R.drawable.ic_notifications_accent_24dp

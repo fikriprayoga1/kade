@@ -1,11 +1,20 @@
 package com.example.footballmatchschedule.viewmodel
 
+import android.content.Context
+import android.util.Log
+import android.view.View
 import androidx.lifecycle.ViewModel
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.footballmatchschedule.model.apiresponse.EventDetail
-import com.example.footballmatchschedule.other.ResponseListener
+import com.example.footballmatchschedule.other.helper.AlarmWorker
+import com.example.footballmatchschedule.other.helper.ResponseListener
 import com.example.footballmatchschedule.other.jetpack.UserRepository
 import com.example.footballmatchschedule.view.MainActivity
 import java.text.SimpleDateFormat
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 class EventDetailViewModel : ViewModel() {
     // 1
@@ -133,23 +142,41 @@ class EventDetailViewModel : ViewModel() {
 
     }
 
-    fun setAlarm(isAlarm: Boolean, eventDetail: EventDetail) {
+    fun setAlarm(isAlarm: Boolean, eventDetail: EventDetail, context: Context) {
         val eventData = userRepository.readEvent(eventDetail.idEvent)
 
         if (isAlarm) {
+            val uploadWorkRequest = OneTimeWorkRequestBuilder<AlarmWorker>()
+            val data = Data.Builder()
+            data.putString("idEvent", eventDetail.idEvent)
+            data.putString("strLeague", eventDetail.strLeague)
+            data.putString("strEvent", eventDetail.strEvent)
+            val calendar = Calendar.getInstance()
+            calendar.time = Date()
+            calendar.add(Calendar.MINUTE, 1)
+            val duration = (calendar.time.time - Date().time) / 1000
+
+
+            uploadWorkRequest.setInitialDelay(duration, TimeUnit.SECONDS)
+            uploadWorkRequest.setInputData(data.build())
+            val workRequest = uploadWorkRequest.build()
+            WorkManager.getInstance(context).enqueue(workRequest)
+            val workRequestID = workRequest.id.toString()
+
             if (eventData.isNotEmpty()) {
                 for (i in eventData.indices) {
-                    setEventDatabase(eventDetail, true, eventData[i].isFavorite)
+                    setEventDatabase(eventDetail, workRequestID, eventData[i].isFavorite)
 
                 }
 
             } else {
-                setEventDatabase(eventDetail, true, eventDetail.isFavorite)
+                setEventDatabase(eventDetail, workRequestID, eventDetail.isFavorite)
 
             }
 
         } else {
             for (i in eventData.indices) {
+                WorkManager.getInstance(context).cancelWorkById(UUID.fromString(eventData[i].isAlarm))
                 if (eventData[i].isFavorite != null) {
                     setEventDatabase(eventDetail, null, eventData[i].isFavorite)
 
@@ -189,7 +216,28 @@ class EventDetailViewModel : ViewModel() {
 
     }
 
-    private fun setEventDatabase(eventDetail: EventDetail, isAlarm: Boolean?, isFavorite: Boolean?) {
+    fun getAlarmVisibility(eventDetail: EventDetail): Int {
+        val sourceDate = eventDetail.dateEvent
+        val nowDate = Date().time
+        return if (sourceDate != null) {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd")
+            val eventDate = inputFormat.parse(sourceDate).time
+            if (eventDate > nowDate) {
+                View.VISIBLE
+
+            } else {
+                View.GONE
+
+            }
+
+        } else {
+            View.GONE
+
+        }
+
+    }
+
+    private fun setEventDatabase(eventDetail: EventDetail, isAlarm: String?, isFavorite: Boolean?) {
         userRepository.createEvent(
             EventDetail(
                 eventDetail.dateEvent,

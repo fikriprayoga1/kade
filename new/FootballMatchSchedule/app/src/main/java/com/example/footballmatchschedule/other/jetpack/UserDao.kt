@@ -18,6 +18,9 @@ interface UserDao {
     @Query("SELECT * FROM eventdetail WHERE isFavorite = 1")
     fun readFavoriteEvent() : LiveData<List<EventDetail>>
 
+    @Query("SELECT * FROM eventdetail WHERE isAlarm IS NOT NULL")
+    fun readAlarmEvent() : LiveData<List<EventDetail>>
+
     @Query("SELECT * FROM eventdetail WHERE idEvent = :idEvent")
     fun readEvent(idEvent: String) : List<EventDetail>
 

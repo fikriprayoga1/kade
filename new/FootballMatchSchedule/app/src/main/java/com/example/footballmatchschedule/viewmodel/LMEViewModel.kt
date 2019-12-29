@@ -2,7 +2,7 @@ package com.example.footballmatchschedule.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.example.footballmatchschedule.model.apiresponse.EventDetail
-import com.example.footballmatchschedule.other.ResponseListener
+import com.example.footballmatchschedule.other.helper.ResponseListener
 import com.example.footballmatchschedule.other.jetpack.UserRepository
 import com.example.footballmatchschedule.other.recyclerviewadapter.EventRecyclerViewAdapter
 import com.example.footballmatchschedule.view.MainActivity

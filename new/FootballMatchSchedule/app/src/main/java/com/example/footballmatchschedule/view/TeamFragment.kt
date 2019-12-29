@@ -17,7 +17,7 @@ import com.example.footballmatchschedule.model.RetrofitResponse
 import com.example.footballmatchschedule.model.apiresponse.League
 import com.example.footballmatchschedule.model.apiresponse.Team
 import com.example.footballmatchschedule.model.apiresponse.TeamDetail
-import com.example.footballmatchschedule.other.ResponseListener
+import com.example.footballmatchschedule.other.helper.ResponseListener
 import com.example.footballmatchschedule.other.recyclerviewadapter.TeamRecyclerViewAdapter
 import com.example.footballmatchschedule.viewmodel.TeamViewModel
 import kotlinx.android.synthetic.main.team_fragment.*
@@ -70,7 +70,8 @@ class TeamFragment : Fragment() {
                 initRecyclerView()
 
                 withContext(Dispatchers.IO) {
-                    viewModel.requestLeagueList(object : ResponseListener {
+                    viewModel.requestLeagueList(object :
+                        ResponseListener {
                         override fun retrofitResponse(retrofitResponse: RetrofitResponse) {
                             responseAction(retrofitResponse)
 
@@ -140,7 +141,8 @@ class TeamFragment : Fragment() {
                 )
 
                 withContext(Dispatchers.IO) {
-                    viewModel.requestTeamList(object : ResponseListener {
+                    viewModel.requestTeamList(object :
+                        ResponseListener {
                         override fun retrofitResponse(retrofitResponse: RetrofitResponse) {
                             teamListHandler(retrofitResponse)
 
@@ -252,7 +254,8 @@ class TeamFragment : Fragment() {
 
                 searchView_team_fragment_1.clearFocus()
                 viewModel.getMainActivity().exitKeyboard()
-                viewModel.requestSearchTeam(object : ResponseListener {
+                viewModel.requestSearchTeam(object :
+                    ResponseListener {
                     override fun retrofitResponse(retrofitResponse: RetrofitResponse) {
                         responseSearchListener(retrofitResponse)
 

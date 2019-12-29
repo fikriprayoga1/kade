@@ -2,12 +2,11 @@ package com.example.footballmatchschedule.viewmodel
 
 import android.R
 import android.content.Context
-import android.util.Log
 import android.widget.ArrayAdapter
 import androidx.lifecycle.ViewModel
 import com.example.footballmatchschedule.model.apiresponse.LeagueDetail
 import com.example.footballmatchschedule.model.apiresponse.TeamDetail
-import com.example.footballmatchschedule.other.ResponseListener
+import com.example.footballmatchschedule.other.helper.ResponseListener
 import com.example.footballmatchschedule.other.jetpack.UserRepository
 import com.example.footballmatchschedule.other.recyclerviewadapter.TeamRecyclerViewAdapter
 import com.example.footballmatchschedule.view.MainActivity

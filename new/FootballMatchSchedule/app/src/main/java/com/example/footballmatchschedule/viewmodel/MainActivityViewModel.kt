@@ -32,7 +32,7 @@ class MainActivityViewModel : ViewModel() {
 
     fun init(context: Context) {
         if (userRepository == null) {
-            userRepository = UserRepository(Webservice.create(), Room.databaseBuilder(context, UserDatabase::class.java, "football_match_schedule").build().userDao())
+            userRepository = UserRepository(Webservice.create(), UserDatabase.getInstance(context).userDao())
 
         }
 

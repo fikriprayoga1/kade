@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.ViewModel
 import com.example.footballmatchschedule.model.apiresponse.LeagueDetail
-import com.example.footballmatchschedule.other.ResponseListener
+import com.example.footballmatchschedule.other.helper.ResponseListener
 import com.example.footballmatchschedule.other.helper.ViewPagerAdapter
 import com.example.footballmatchschedule.other.jetpack.UserRepository
 import com.example.footballmatchschedule.view.LMEFragment

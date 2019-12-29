@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.apiresponse.EventDetail
+import kotlinx.coroutines.coroutineScope
 import java.text.SimpleDateFormat
 
 class EventRecyclerViewAdapter(

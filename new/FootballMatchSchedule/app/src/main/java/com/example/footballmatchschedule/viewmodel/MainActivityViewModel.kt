@@ -29,6 +29,8 @@ class MainActivityViewModel : ViewModel() {
     private val searchTeamList = MutableLiveData<List<TeamDetail>>()
     // 8
     private lateinit var selectedEvent: EventDetail
+    // 9
+    private lateinit var selectedTeam: TeamDetail
 
     fun init(context: Context) {
         if (userRepository == null) {
@@ -106,5 +108,12 @@ class MainActivityViewModel : ViewModel() {
     }
 
     fun getSelectedEvent(): EventDetail { return selectedEvent }
+
+    fun setSelectedTeam(selectedTeam: TeamDetail) {
+        this.selectedTeam = selectedTeam
+
+    }
+
+    fun getSelectedTeam(): TeamDetail { return selectedTeam }
 
 }

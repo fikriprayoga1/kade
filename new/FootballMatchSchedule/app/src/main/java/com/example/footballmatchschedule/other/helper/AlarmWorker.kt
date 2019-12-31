@@ -17,10 +17,7 @@ class AlarmWorker(appContext: Context, workerParams: WorkerParameters) :
         val strLeague = inputData.getString("strLeague") ?: ""
         val strEvent = inputData.getString("strEvent") ?: ""
 
-        if (idEvent != null) {
-            createAlarm(idEvent.toInt(), strLeague, strEvent)
-
-        }
+        createAlarm(idEvent!!.toInt(), strLeague, strEvent)
 
         return Result.success()
     }

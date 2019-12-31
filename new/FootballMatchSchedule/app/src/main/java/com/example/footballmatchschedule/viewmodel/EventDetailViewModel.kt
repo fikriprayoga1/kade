@@ -146,31 +146,34 @@ class EventDetailViewModel : ViewModel() {
         val eventData = userRepository.readEvent(eventDetail.idEvent)
 
         if (isAlarm) {
-            val uploadWorkRequest = OneTimeWorkRequestBuilder<AlarmWorker>()
-            val data = Data.Builder()
-            data.putString("idEvent", eventDetail.idEvent)
-            data.putString("strLeague", eventDetail.strLeague)
-            data.putString("strEvent", eventDetail.strEvent)
-            val calendar = Calendar.getInstance()
-            calendar.time = Date()
-            calendar.add(Calendar.MINUTE, 1)
-            val duration = (calendar.time.time - Date().time) / 1000
+            if (eventDetail.dateEvent != null) {
+                val uploadWorkRequest = OneTimeWorkRequestBuilder<AlarmWorker>()
+                val data = Data.Builder()
+                data.putString("idEvent", eventDetail.idEvent)
+                data.putString("strLeague", eventDetail.strLeague)
+                data.putString("strEvent", eventDetail.strEvent)
+
+                val inputFormat = SimpleDateFormat("yyyy-MM-dd")
+                val date = inputFormat.parse(eventDetail.dateEvent)
+                val duration = (date.time - Date().time) / 1000
 
 
-            uploadWorkRequest.setInitialDelay(duration, TimeUnit.SECONDS)
-            uploadWorkRequest.setInputData(data.build())
-            val workRequest = uploadWorkRequest.build()
-            WorkManager.getInstance(context).enqueue(workRequest)
-            val workRequestID = workRequest.id.toString()
+                uploadWorkRequest.setInitialDelay(duration, TimeUnit.SECONDS)
+                uploadWorkRequest.setInputData(data.build())
+                val workRequest = uploadWorkRequest.build()
+                WorkManager.getInstance(context).enqueue(workRequest)
+                val workRequestID = workRequest.id.toString()
 
-            if (eventData.isNotEmpty()) {
-                for (i in eventData.indices) {
-                    setEventDatabase(eventDetail, workRequestID, eventData[i].isFavorite)
+                if (eventData.isNotEmpty()) {
+                    for (i in eventData.indices) {
+                        setEventDatabase(eventDetail, workRequestID, eventData[i].isFavorite)
+
+                    }
+
+                } else {
+                    setEventDatabase(eventDetail, workRequestID, eventDetail.isFavorite)
 
                 }
-
-            } else {
-                setEventDatabase(eventDetail, workRequestID, eventDetail.isFavorite)
 
             }
 

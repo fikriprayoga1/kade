@@ -1,13 +1,11 @@
 package com.example.footballmatchschedule.viewmodel
 
 import android.content.Context
-import android.util.Log
-import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.example.footballmatchschedule.model.apiresponse.EventDetail
+import com.example.footballmatchschedule.model.database.EventDatabase
 import com.example.footballmatchschedule.other.helper.AlarmWorker
 import com.example.footballmatchschedule.other.helper.ResponseListener
 import com.example.footballmatchschedule.other.jetpack.UserRepository
@@ -103,9 +101,12 @@ class EventDetailViewModel : ViewModel() {
             val inputFormat = SimpleDateFormat("yyyy-MM-dd")
             val outputFormat = SimpleDateFormat("EEE, d MMM yyyy")
             val sourceDate = inputFormat.parse(inputData)
-            if (sourceDate != null) { date = outputFormat.format(sourceDate) }
+            if (sourceDate != null) {
+                date = outputFormat.format(sourceDate)
+            }
 
         }
+
         return date
 
     }
@@ -126,8 +127,30 @@ class EventDetailViewModel : ViewModel() {
 
     }
 
-    fun isFavorite(idEvent: String): Boolean {
-        val eventData = userRepository.readEvent(idEvent)
+    fun isNextDate(eventDatabase: EventDatabase): Boolean {
+        val sourceDate = eventDatabase.dateEvent
+        return if (sourceDate != null) {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd")
+            val eventDate = inputFormat.parse(sourceDate)
+            if (eventDate != null) {
+                val eventDateLong = eventDate.time
+                val nowDate = Date().time
+                eventDateLong > nowDate
+
+            } else {
+                return false
+
+            }
+
+        } else {
+            false
+
+        }
+
+    }
+
+    fun isFavorite(eventDatabase: EventDatabase): Boolean {
+        val eventData = userRepository.readEvent(eventDatabase.idEvent)
         var mFavorite = false
 
         for (i in eventData.indices) {
@@ -142,19 +165,19 @@ class EventDetailViewModel : ViewModel() {
 
     }
 
-    fun setAlarm(isAlarm: Boolean, eventDetail: EventDetail, context: Context) {
-        val eventData = userRepository.readEvent(eventDetail.idEvent)
+    fun setAlarm(isAlarm: Boolean, eventDatabase: EventDatabase, context: Context) {
+        val eventData = userRepository.readEvent(eventDatabase.idEvent)
 
         if (isAlarm) {
-            if (eventDetail.dateEvent != null) {
+            if (eventDatabase.dateEvent != null) {
                 val uploadWorkRequest = OneTimeWorkRequestBuilder<AlarmWorker>()
                 val data = Data.Builder()
-                data.putString("idEvent", eventDetail.idEvent)
-                data.putString("strLeague", eventDetail.strLeague)
-                data.putString("strEvent", eventDetail.strEvent)
+                data.putString("idEvent", eventDatabase.idEvent)
+                data.putString("strLeague", eventDatabase.strLeague)
+                data.putString("strEvent", eventDatabase.strEvent)
 
                 val inputFormat = SimpleDateFormat("yyyy-MM-dd")
-                val date = inputFormat.parse(eventDetail.dateEvent)
+                val date = inputFormat.parse(eventDatabase.dateEvent)
                 val duration = (date.time - Date().time) / 1000
 
 
@@ -166,12 +189,12 @@ class EventDetailViewModel : ViewModel() {
 
                 if (eventData.isNotEmpty()) {
                     for (i in eventData.indices) {
-                        setEventDatabase(eventDetail, workRequestID, eventData[i].isFavorite)
+                        setEventDatabase(eventDatabase, workRequestID, eventData[i].isFavorite)
 
                     }
 
                 } else {
-                    setEventDatabase(eventDetail, workRequestID, eventDetail.isFavorite)
+                    setEventDatabase(eventDatabase, workRequestID, eventDatabase.isFavorite)
 
                 }
 
@@ -179,11 +202,14 @@ class EventDetailViewModel : ViewModel() {
 
         } else {
             for (i in eventData.indices) {
-                WorkManager.getInstance(context).cancelWorkById(UUID.fromString(eventData[i].isAlarm))
+                WorkManager.getInstance(context)
+                    .cancelWorkById(UUID.fromString(eventData[i].isAlarm))
                 if (eventData[i].isFavorite != null) {
-                    setEventDatabase(eventDetail, null, eventData[i].isFavorite)
+                    setEventDatabase(eventDatabase, null, eventData[i].isFavorite)
 
-                } else { userRepository.deleteEvent(eventDetail.idEvent) }
+                } else {
+                    userRepository.deleteEvent(eventDatabase.idEvent)
+                }
 
             }
 
@@ -191,27 +217,29 @@ class EventDetailViewModel : ViewModel() {
 
     }
 
-    fun setFavorite(isFavorite: Boolean, eventDetail: EventDetail) {
-        val eventData = userRepository.readEvent(eventDetail.idEvent)
+    fun setFavorite(isFavorite: Boolean, eventDatabase: EventDatabase) {
+        val eventData = userRepository.readEvent(eventDatabase.idEvent)
 
         if (isFavorite) {
             if (eventData.isNotEmpty()) {
                 for (i in eventData.indices) {
-                    setEventDatabase(eventDetail, eventData[i].isAlarm, true)
+                    setEventDatabase(eventDatabase, eventData[i].isAlarm, true)
 
                 }
 
             } else {
-                setEventDatabase(eventDetail, eventDetail.isAlarm, true)
+                setEventDatabase(eventDatabase, eventDatabase.isAlarm, true)
 
             }
 
         } else {
             for (i in eventData.indices) {
                 if (eventData[i].isAlarm != null) {
-                    setEventDatabase(eventDetail, eventData[i].isAlarm, null)
+                    setEventDatabase(eventDatabase, eventData[i].isAlarm, null)
 
-                } else { userRepository.deleteEvent(eventDetail.idEvent) }
+                } else {
+                    userRepository.deleteEvent(eventDatabase.idEvent)
+                }
 
             }
 
@@ -219,88 +247,37 @@ class EventDetailViewModel : ViewModel() {
 
     }
 
-    fun getAlarmVisibility(eventDetail: EventDetail): Int {
-        val sourceDate = eventDetail.dateEvent
-        val nowDate = Date().time
-        return if (sourceDate != null) {
-            val inputFormat = SimpleDateFormat("yyyy-MM-dd")
-            val eventDate = inputFormat.parse(sourceDate).time
-            if (eventDate > nowDate) {
-                View.VISIBLE
-
-            } else {
-                View.GONE
-
-            }
-
-        } else {
-            View.GONE
-
-        }
-
-    }
-
-    private fun setEventDatabase(eventDetail: EventDetail, isAlarm: String?, isFavorite: Boolean?) {
+    private fun setEventDatabase(
+        eventDatabase: EventDatabase,
+        isAlarm: String?,
+        isFavorite: Boolean?
+    ) {
         userRepository.createEvent(
-            EventDetail(
-                eventDetail.dateEvent,
-                eventDetail.dateEventLocal,
-                eventDetail.idAwayTeam,
-                eventDetail.idEvent,
-                eventDetail.idHomeTeam,
-                eventDetail.idLeague,
-                eventDetail.idSoccerXML,
-                eventDetail.intAwayScore,
-                eventDetail.intAwayShots,
-                eventDetail.intHomeScore,
-                eventDetail.intHomeShots,
-                eventDetail.intRound,
-                eventDetail.intSpectators,
-                eventDetail.strAwayFormation,
-                eventDetail.strAwayGoalDetails,
-                eventDetail.strAwayLineupDefense,
-                eventDetail.strAwayLineupForward,
-                eventDetail.strAwayLineupGoalkeeper,
-                eventDetail.strAwayLineupMidfield,
-                eventDetail.strAwayLineupSubstitutes,
-                eventDetail.strAwayRedCards,
-                eventDetail.strAwayTeam,
-                eventDetail.strAwayYellowCards,
-                eventDetail.strBanner,
-                eventDetail.strCircuit,
-                eventDetail.strCity,
-                eventDetail.strCountry,
-                eventDetail.strDate,
-                eventDetail.strDescriptionEN,
-                eventDetail.strEvent,
-                eventDetail.strEventAlternate,
-                eventDetail.strFanart,
-                eventDetail.strFilename,
-                eventDetail.strHomeFormation,
-                eventDetail.strHomeGoalDetails,
-                eventDetail.strHomeLineupDefense,
-                eventDetail.strHomeLineupForward,
-                eventDetail.strHomeLineupGoalkeeper,
-                eventDetail.strHomeLineupMidfield,
-                eventDetail.strHomeLineupSubstitutes,
-                eventDetail.strHomeRedCards,
-                eventDetail.strHomeTeam,
-                eventDetail.strHomeYellowCards,
-                eventDetail.strLeague,
-                eventDetail.strLocked,
-                eventDetail.strMap,
-                eventDetail.strPoster,
-                eventDetail.strResult,
-                eventDetail.strSeason,
-                eventDetail.strSport,
-                eventDetail.strTVStation,
-                eventDetail.strThumb,
-                eventDetail.strTime,
-                eventDetail.strTimeLocal,
-                eventDetail.strTweet1,
-                eventDetail.strTweet2,
-                eventDetail.strTweet3,
-                eventDetail.strVideo,
+            EventDatabase(
+                eventDatabase.dateEvent,
+                eventDatabase.idEvent,
+                eventDatabase.strHomeTeam,
+                eventDatabase.strAwayTeam,
+                eventDatabase.intHomeScore,
+                eventDatabase.intAwayScore,
+                eventDatabase.idHomeTeam,
+                eventDatabase.idAwayTeam,
+                eventDatabase.intHomeShots,
+                eventDatabase.intAwayShots,
+                eventDatabase.strHomeGoalDetails,
+                eventDatabase.strAwayGoalDetails,
+                eventDatabase.strHomeLineupGoalkeeper,
+                eventDatabase.strAwayLineupGoalkeeper,
+                eventDatabase.strHomeLineupDefense,
+                eventDatabase.strAwayLineupDefense,
+                eventDatabase.strHomeLineupMidfield,
+                eventDatabase.strAwayLineupMidfield,
+                eventDatabase.strHomeLineupForward,
+                eventDatabase.strAwayLineupForward,
+                eventDatabase.strHomeLineupSubstitutes,
+                eventDatabase.strAwayLineupSubstitutes,
+                eventDatabase.strLeague,
+                eventDatabase.strEvent,
                 isAlarm,
                 isFavorite
             )

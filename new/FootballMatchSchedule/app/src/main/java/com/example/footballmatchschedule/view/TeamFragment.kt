@@ -17,6 +17,7 @@ import com.example.footballmatchschedule.model.RetrofitResponse
 import com.example.footballmatchschedule.model.apiresponse.League
 import com.example.footballmatchschedule.model.apiresponse.Team
 import com.example.footballmatchschedule.model.apiresponse.TeamDetail
+import com.example.footballmatchschedule.model.database.TeamDatabase
 import com.example.footballmatchschedule.other.helper.ResponseListener
 import com.example.footballmatchschedule.other.recyclerviewadapter.TeamRecyclerViewAdapter
 import com.example.footballmatchschedule.viewmodel.TeamViewModel
@@ -275,7 +276,7 @@ class TeamFragment : Fragment() {
             context!!,
             viewModel.getTeamObjects(),
             object : TeamRecyclerViewAdapter.TeamListener {
-                override fun itemDetail(teamDetail: TeamDetail) {
+                override fun itemDetail(teamDatabase: TeamDatabase) {
 
                 }
 

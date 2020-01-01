@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.apiresponse.TeamDetail
+import com.example.footballmatchschedule.model.database.TeamDatabase
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 
@@ -36,17 +37,17 @@ class TeamRecyclerViewAdapter(
     // this method for init item in every view item
     @SuppressLint("SimpleDateFormat")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val mTeamDetail = teamObject[position].teamDetail
+        val mTeamDatabase = teamObject[position].teamDatabase
 
         Picasso.get()
-            .load(mTeamDetail.strTeamBadge)
+            .load(mTeamDatabase.strTeamBadge)
             .resize(100, 100)
             .into(holder.mLogo)
 
-        holder.mTeamName.text = mTeamDetail.strTeam
+        holder.mTeamName.text = mTeamDatabase.strTeam
 
         holder.itemView.setOnClickListener {
-            teamListener.itemDetail(mTeamDetail)
+            teamListener.itemDetail(mTeamDatabase)
 
         }
 
@@ -67,11 +68,11 @@ class TeamRecyclerViewAdapter(
 
     // this interface for handle more button pressed
     interface TeamListener {
-        fun itemDetail(teamDetail: TeamDetail)
+        fun itemDetail(teamDatabase: TeamDatabase)
 
     }
 
     // this class is object of item in recyclerview
-    class TeamObject(var teamDetail: TeamDetail)
+    class TeamObject(var teamDatabase: TeamDatabase)
 
 }

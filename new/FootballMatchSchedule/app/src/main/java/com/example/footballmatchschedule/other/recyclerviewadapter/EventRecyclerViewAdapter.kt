@@ -8,8 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.footballmatchschedule.R
-import com.example.footballmatchschedule.model.apiresponse.EventDetail
-import kotlinx.coroutines.coroutineScope
+import com.example.footballmatchschedule.model.database.EventDatabase
 import java.text.SimpleDateFormat
 
 class EventRecyclerViewAdapter(
@@ -38,9 +37,9 @@ class EventRecyclerViewAdapter(
     // this method for init item in every view item
     @SuppressLint("SimpleDateFormat")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val mEventDetail = eventObject[position].eventDetail
+        val mEventDatabase = eventObject[position].eventDatabase
 
-        val dateEvent = mEventDetail.dateEvent
+        val dateEvent = mEventDatabase.dateEvent
         if (dateEvent != null) {
             val inputFormat = SimpleDateFormat("yyyy-MM-dd")
             val outputFormat = SimpleDateFormat("EEE, d MMM yyyy")
@@ -53,13 +52,13 @@ class EventRecyclerViewAdapter(
         }
 
 
-        holder.mTeam1.text = mEventDetail.strHomeTeam
-        holder.mTeamScore1.text = mEventDetail.intHomeScore
-        holder.mteam2.text = mEventDetail.strAwayTeam
-        holder.mTeamScore2.text = mEventDetail.intAwayScore
+        holder.mTeam1.text = mEventDatabase.strHomeTeam
+        holder.mTeamScore1.text = mEventDatabase.intHomeScore
+        holder.mteam2.text = mEventDatabase.strAwayTeam
+        holder.mTeamScore2.text = mEventDatabase.intAwayScore
 
         holder.itemView.setOnClickListener {
-            eventListener.itemDetail(mEventDetail)
+            eventListener.itemDetail(mEventDatabase)
 
         }
 
@@ -80,11 +79,11 @@ class EventRecyclerViewAdapter(
 
     // this interface for handle more button pressed
     interface EventListener {
-        fun itemDetail(eventDetail: EventDetail)
+        fun itemDetail(eventDatabase: EventDatabase)
 
     }
 
     // this class is object of item in recyclerview
-    class EventObject(var eventDetail: EventDetail)
+    class EventObject(var eventDatabase: EventDatabase)
 
 }

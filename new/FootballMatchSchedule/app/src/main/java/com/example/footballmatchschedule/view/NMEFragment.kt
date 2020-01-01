@@ -16,6 +16,7 @@ import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.RetrofitResponse
 import com.example.footballmatchschedule.model.apiresponse.Event
 import com.example.footballmatchschedule.model.apiresponse.EventDetail
+import com.example.footballmatchschedule.model.database.EventDatabase
 import com.example.footballmatchschedule.other.helper.ResponseListener
 import com.example.footballmatchschedule.other.recyclerviewadapter.EventRecyclerViewAdapter
 import com.example.footballmatchschedule.viewmodel.NMEViewModel
@@ -96,8 +97,8 @@ class NMEFragment : Fragment() {
             context!!,
             viewModel.getEventObjects(),
             object : EventRecyclerViewAdapter.EventListener {
-                override fun itemDetail(eventDetail: EventDetail) {
-                    selectedItemListener(eventDetail)
+                override fun itemDetail(eventDatabase: EventDatabase) {
+                    selectedItemListener(eventDatabase)
 
                 }
 
@@ -196,7 +197,7 @@ class NMEFragment : Fragment() {
 
     }
 
-    private fun selectedItemListener(eventDetail: EventDetail) {
+    private fun selectedItemListener(eventDatabase: EventDatabase) {
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
                 val loadingStatus0 =
@@ -213,7 +214,7 @@ class NMEFragment : Fragment() {
                 )
 
                 withContext(Dispatchers.Default) {
-                    viewModel.getMainActivity().viewModel.setSelectedEvent(eventDetail)
+                    viewModel.getMainActivity().viewModel.setSelectedEvent(eventDatabase)
                 }
 
                 viewModel.getMainActivity()

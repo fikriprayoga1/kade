@@ -1,15 +1,10 @@
 package com.example.footballmatchschedule.model.apiresponse
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-
-@Entity
 data class EventDetail(
     var dateEvent: String?,
     var dateEventLocal: String?,
     var idAwayTeam: String?,
-    @PrimaryKey
-    var idEvent: String,
+    var idEvent: String?,
     var idHomeTeam: String?,
     var idLeague: String?,
     var idSoccerXML: String?,
@@ -63,7 +58,5 @@ data class EventDetail(
     var strTweet1: String?,
     var strTweet2: String?,
     var strTweet3: String?,
-    var strVideo: String?,
-    var isAlarm: String?,
-    var isFavorite: Boolean?
+    var strVideo: String?
 )

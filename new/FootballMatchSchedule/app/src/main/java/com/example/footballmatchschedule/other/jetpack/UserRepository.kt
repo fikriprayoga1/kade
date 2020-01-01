@@ -3,6 +3,8 @@ package com.example.footballmatchschedule.other.jetpack
 import androidx.lifecycle.LiveData
 import com.example.footballmatchschedule.model.RetrofitResponse
 import com.example.footballmatchschedule.model.apiresponse.*
+import com.example.footballmatchschedule.model.database.EventDatabase
+import com.example.footballmatchschedule.model.database.TeamDatabase
 import com.example.footballmatchschedule.other.helper.ResponseListener
 import com.example.footballmatchschedule.other.helper.TagHelper
 import retrofit2.Call
@@ -10,27 +12,27 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class UserRepository(private val webservice: Webservice, private val userDao: UserDao) {
-    fun createEvent(eventDetail: EventDetail) {
-        userDao.createEvent(eventDetail)
+    fun createEvent(eventDatabase: EventDatabase) {
+        userDao.createEvent(eventDatabase)
 
     }
 
-    fun readEvent(idEvent: String) : List<EventDetail> {
+    fun readEvent(idEvent: String): List<EventDatabase> {
         return userDao.readEvent(idEvent)
 
     }
 
-    fun readFavoriteEvent(): LiveData<List<EventDetail>> {
+    fun readFavoriteEvent(): LiveData<List<EventDatabase>> {
         return userDao.readFavoriteEvent()
 
     }
 
-    fun readAlarmEvent(): LiveData<List<EventDetail>> {
+    fun readAlarmEvent(): LiveData<List<EventDatabase>> {
         return userDao.readAlarmEvent()
 
     }
 
-    fun readFavoriteTeam(): LiveData<List<TeamDetail>> {
+    fun readFavoriteTeam(): LiveData<List<TeamDatabase>> {
         return userDao.readFavoriteTeam()
 
     }

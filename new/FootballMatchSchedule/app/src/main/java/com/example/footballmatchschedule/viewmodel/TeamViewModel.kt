@@ -6,6 +6,7 @@ import android.widget.ArrayAdapter
 import androidx.lifecycle.ViewModel
 import com.example.footballmatchschedule.model.apiresponse.LeagueDetail
 import com.example.footballmatchschedule.model.apiresponse.TeamDetail
+import com.example.footballmatchschedule.model.database.TeamDatabase
 import com.example.footballmatchschedule.other.helper.ResponseListener
 import com.example.footballmatchschedule.other.jetpack.UserRepository
 import com.example.footballmatchschedule.other.recyclerviewadapter.TeamRecyclerViewAdapter
@@ -42,8 +43,11 @@ class TeamViewModel : ViewModel() {
 
         if (teamList != null) {
             for (i in teamList.indices) {
-                teamObject = TeamRecyclerViewAdapter.TeamObject(teamList[i])
-                teamObjects.add(teamObject)
+                if (teamList[i].idTeam != null) {
+                    teamObject = TeamRecyclerViewAdapter.TeamObject(getTeamObject(teamList[i]))
+                    teamObjects.add(teamObject)
+
+                }
 
             }
 
@@ -84,6 +88,16 @@ class TeamViewModel : ViewModel() {
     fun requestSearchTeam(responseListener: ResponseListener, keyword: String?) {
         val keyword2 = keyword ?: ""
         userRepository.requestSearchTeam(responseListener, keyword2)
+
+    }
+
+    private fun getTeamObject(teamDetail: TeamDetail): TeamDatabase {
+        return TeamDatabase(
+            teamDetail.idTeam!!,
+            null,
+            teamDetail.strTeamBadge,
+            teamDetail.strTeam
+        )
 
     }
 

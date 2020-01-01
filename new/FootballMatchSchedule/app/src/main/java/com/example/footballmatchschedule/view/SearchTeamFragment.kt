@@ -14,14 +14,15 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.apiresponse.TeamDetail
-import com.example.footballmatchschedule.other.recyclerviewadapter.SearchTeamRecyclerViewAdapter
+import com.example.footballmatchschedule.model.database.TeamDatabase
+import com.example.footballmatchschedule.other.recyclerviewadapter.TeamRecyclerViewAdapter
 import com.example.footballmatchschedule.viewmodel.SearchTeamViewModel
 import kotlinx.android.synthetic.main.search_team_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class SearchTeamFragment : Fragment() {
-    lateinit var searchTeamAdapter: SearchTeamRecyclerViewAdapter
+    lateinit var teamAdapter: TeamRecyclerViewAdapter
 
     companion object {
         fun newInstance() = SearchTeamFragment()
@@ -84,11 +85,11 @@ class SearchTeamFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        searchTeamAdapter = SearchTeamRecyclerViewAdapter(
+        teamAdapter = TeamRecyclerViewAdapter(
             context!!,
-            viewModel.getSearchTeamObjects(),
-            object : SearchTeamRecyclerViewAdapter.SearchTeamListener {
-                override fun itemDetail(teamDetail: TeamDetail) {
+            viewModel.getTeamObjects(),
+            object : TeamRecyclerViewAdapter.TeamListener {
+                override fun itemDetail(teamDatabase: TeamDatabase) {
 
                 }
 
@@ -103,7 +104,7 @@ class SearchTeamFragment : Fragment() {
                 LinearLayoutManager.VERTICAL
             )
         )
-        recyclerView_search_team_fragment_1.adapter = searchTeamAdapter
+        recyclerView_search_team_fragment_1.adapter = teamAdapter
 
     }
 
@@ -123,8 +124,8 @@ class SearchTeamFragment : Fragment() {
                     "start"
                 )
 
-                withContext(Dispatchers.Default) { viewModel.initSearchTeamList(it) }
-                searchTeamAdapter.notifyDataSetChanged()
+                withContext(Dispatchers.Default) { viewModel.initTeamList(it) }
+                teamAdapter.notifyDataSetChanged()
 
                 val loadingStatus1 = withContext(Dispatchers.Default) {
                     (activity as MainActivity).viewModel.updateLoading(false)

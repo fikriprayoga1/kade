@@ -1,14 +1,9 @@
 package com.example.footballmatchschedule.model.apiresponse
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-
-@Entity
 data class TeamDetail(
     var idLeague: String?,
     var idSoccerXML: String?,
-    @PrimaryKey
-    var idTeam: String,
+    var idTeam: String?,
     var intFormedYear: String?,
     var intLoved: String?,
     var intStadiumCapacity: String?,
@@ -55,6 +50,5 @@ data class TeamDetail(
     var strTeamShort: String?,
     var strTwitter: String?,
     var strWebsite: String?,
-    var strYoutube: String?,
-    var isFavorite: Boolean?
+    var strYoutube: String?
 )

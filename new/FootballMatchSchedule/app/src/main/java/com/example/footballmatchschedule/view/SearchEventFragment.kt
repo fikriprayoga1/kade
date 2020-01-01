@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.apiresponse.EventDetail
+import com.example.footballmatchschedule.model.database.EventDatabase
 import com.example.footballmatchschedule.other.recyclerviewadapter.EventRecyclerViewAdapter
 import com.example.footballmatchschedule.viewmodel.SearchEventViewModel
 import kotlinx.android.synthetic.main.search_event_fragment.*
@@ -88,8 +89,8 @@ class SearchEventFragment : Fragment() {
             context!!,
             viewModel.getEventObjects(),
             object : EventRecyclerViewAdapter.EventListener {
-                override fun itemDetail(eventDetail: EventDetail) {
-                    selectedItemListener(eventDetail)
+                override fun itemDetail(eventDatabase: EventDatabase) {
+                    selectedItemListener(eventDatabase)
 
                 }
 
@@ -148,7 +149,7 @@ class SearchEventFragment : Fragment() {
 
     }
 
-    private fun selectedItemListener(eventDetail: EventDetail) {
+    private fun selectedItemListener(eventDatabase: EventDatabase) {
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
                 val loadingStatus0 =
@@ -165,7 +166,7 @@ class SearchEventFragment : Fragment() {
                 )
 
                 withContext(Dispatchers.Default) {
-                    viewModel.getMainActivity().viewModel.setSelectedEvent(eventDetail)
+                    viewModel.getMainActivity().viewModel.setSelectedEvent(eventDatabase)
                 }
 
                 viewModel.getMainActivity()

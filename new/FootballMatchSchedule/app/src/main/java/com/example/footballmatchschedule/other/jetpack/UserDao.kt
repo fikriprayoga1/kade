@@ -5,39 +5,38 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
-import androidx.room.Update
-import com.example.footballmatchschedule.model.apiresponse.EventDetail
-import com.example.footballmatchschedule.model.apiresponse.TeamDetail
+import com.example.footballmatchschedule.model.database.EventDatabase
+import com.example.footballmatchschedule.model.database.TeamDatabase
 
 @Dao
 interface UserDao {
     // Event ---------------------------------------------------------------------------------------
     @Insert(onConflict = REPLACE)
-    fun createEvent(eventDetail: EventDetail)
+    fun createEvent(eventDatabase: EventDatabase)
 
-    @Query("SELECT * FROM eventdetail WHERE isFavorite = 1")
-    fun readFavoriteEvent() : LiveData<List<EventDetail>>
+    @Query("SELECT * FROM eventDatabase WHERE isFavorite = 1")
+    fun readFavoriteEvent() : LiveData<List<EventDatabase>>
 
-    @Query("SELECT * FROM eventdetail WHERE isAlarm IS NOT NULL")
-    fun readAlarmEvent() : LiveData<List<EventDetail>>
+    @Query("SELECT * FROM eventDatabase WHERE isAlarm IS NOT NULL")
+    fun readAlarmEvent() : LiveData<List<EventDatabase>>
 
-    @Query("SELECT * FROM eventdetail WHERE idEvent = :idEvent")
-    fun readEvent(idEvent: String) : List<EventDetail>
+    @Query("SELECT * FROM eventDatabase WHERE idEvent = :idEvent")
+    fun readEvent(idEvent: String) : List<EventDatabase>
 
-    @Query("DELETE FROM eventdetail WHERE idEvent = :idEvent")
+    @Query("DELETE FROM eventDatabase WHERE idEvent = :idEvent")
     fun deleteEvent(idEvent: String)
 
     // Team ----------------------------------------------------------------------------------------
     @Insert(onConflict = REPLACE)
-    fun createTeam(teamDetail: TeamDetail)
+    fun createTeam(teamDatabase: TeamDatabase)
 
-    @Query("SELECT * FROM teamdetail WHERE isFavorite = 1")
-    fun readFavoriteTeam() : LiveData<List<TeamDetail>>
+    @Query("SELECT * FROM teamDatabase WHERE isFavorite = 1")
+    fun readFavoriteTeam() : LiveData<List<TeamDatabase>>
 
-    @Query("SELECT * FROM teamdetail WHERE idTeam = :idTeam")
-    fun readTeam(idTeam: String) : List<TeamDetail>
+    @Query("SELECT * FROM teamDatabase WHERE idTeam = :idTeam")
+    fun readTeam(idTeam: String) : List<TeamDatabase>
 
-    @Query("DELETE FROM teamdetail WHERE idTeam = :idTeam")
+    @Query("DELETE FROM teamDatabase WHERE idTeam = :idTeam")
     fun deleteTeam(idTeam: String)
 
 }

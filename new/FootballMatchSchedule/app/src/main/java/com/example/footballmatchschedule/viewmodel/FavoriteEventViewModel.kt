@@ -3,6 +3,7 @@ package com.example.footballmatchschedule.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.footballmatchschedule.model.apiresponse.EventDetail
+import com.example.footballmatchschedule.model.database.EventDatabase
 import com.example.footballmatchschedule.other.jetpack.UserRepository
 import com.example.footballmatchschedule.other.recyclerviewadapter.EventRecyclerViewAdapter
 import com.example.footballmatchschedule.view.MainActivity
@@ -13,7 +14,7 @@ class FavoriteEventViewModel : ViewModel() {
     // 2
     private lateinit var mainActivity: MainActivity
     // 3
-    private var favoriteEvent: LiveData<List<EventDetail>>? = null
+    private var favoriteEvent: LiveData<List<EventDatabase>>? = null
     // 4
     private val eventObjects: MutableList<EventRecyclerViewAdapter.EventObject> = ArrayList()
     // 5
@@ -29,9 +30,9 @@ class FavoriteEventViewModel : ViewModel() {
         }
 
     }
-    fun getFavoriteEvent(): LiveData<List<EventDetail>>? { return favoriteEvent }
+    fun getFavoriteEvent(): LiveData<List<EventDatabase>>? { return favoriteEvent }
 
-    fun initEventList(eventList: List<EventDetail>?) {
+    fun initEventList(eventList: List<EventDatabase>?) {
         eventObjects.clear()
 
         if (eventList != null) {

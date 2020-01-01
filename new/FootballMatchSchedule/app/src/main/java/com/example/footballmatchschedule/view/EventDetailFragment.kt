@@ -1,7 +1,6 @@
 package com.example.footballmatchschedule.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,26 +9,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
-import androidx.work.Data
-import androidx.work.OneTimeWorkRequest
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
 import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.RetrofitResponse
-import com.example.footballmatchschedule.model.apiresponse.EventDetail
 import com.example.footballmatchschedule.model.apiresponse.TeamDetail
-import com.example.footballmatchschedule.other.helper.AlarmWorker
+import com.example.footballmatchschedule.model.database.EventDatabase
 import com.example.footballmatchschedule.other.helper.ResponseListener
-import com.example.footballmatchschedule.other.helper.TagHelper
 import com.example.footballmatchschedule.viewmodel.EventDetailViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.event_detail_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.time.DateTimeException
-import java.time.Duration
-import java.util.*
-import java.util.concurrent.TimeUnit
 
 
 class EventDetailFragment : Fragment() {
@@ -75,27 +64,62 @@ class EventDetailFragment : Fragment() {
 
                 val dataSource = (activity as MainActivity).viewModel.getSelectedEvent()
 
-                imageButton_event_detail_fragment_1_1_2.visibility =
-                    withContext(Dispatchers.Default) { viewModel.getAlarmVisibility(dataSource) }
+                // alarm_icon
+                withContext(Dispatchers.Default) {
+                    if (viewModel.isNextDate(dataSource)) {
+                        withContext(Dispatchers.Main) {
+                            imageButton_event_detail_fragment_1_1_2.visibility = View.VISIBLE
+                        }
+                        if (viewModel.isAlarm(dataSource.idEvent)) {
+                            withContext(Dispatchers.Main) {
+                                imageButton_event_detail_fragment_1_1_2.setImageResource(R.drawable.ic_notifications_accent_24dp)
+
+                            }
+
+                        }
+
+
+                    } else {
+                        imageButton_event_detail_fragment_1_1_2.visibility = View.GONE
+
+                    }
+
+                }
+
+                // favorite_icon
+                withContext(Dispatchers.Default) {
+                    if (viewModel.isFavorite(dataSource)) {
+                        withContext(Dispatchers.Main) {
+                            imageButton_event_detail_fragment_1_1_10.setImageResource(
+                                R.drawable.ic_favorite_red_24dp
+                            )
+                        }
+
+                    }
+
+                }
 
                 textView_event_detail_fragment_1_1_1.text =
                     withContext(Dispatchers.Default) { viewModel.getDate(dataSource.dateEvent) }
-                viewModel.requestTeamLogo(object :
-                    ResponseListener {
-                    override fun retrofitResponse(retrofitResponse: RetrofitResponse) {
-                        imageResponseHandler(retrofitResponse, true)
+                withContext(Dispatchers.IO) {
+                    viewModel.requestTeamLogo(object :
+                        ResponseListener {
+                        override fun retrofitResponse(retrofitResponse: RetrofitResponse) {
+                            imageResponseHandler(retrofitResponse, true)
 
-                    }
+                        }
 
-                }, dataSource.idHomeTeam)
-                viewModel.requestTeamLogo(object :
-                    ResponseListener {
-                    override fun retrofitResponse(retrofitResponse: RetrofitResponse) {
-                        imageResponseHandler(retrofitResponse, false)
+                    }, dataSource.idHomeTeam)
+                    viewModel.requestTeamLogo(object :
+                        ResponseListener {
+                        override fun retrofitResponse(retrofitResponse: RetrofitResponse) {
+                            imageResponseHandler(retrofitResponse, false)
 
-                    }
+                        }
 
-                }, dataSource.idAwayTeam)
+                    }, dataSource.idAwayTeam)
+
+                }
                 textView_event_detail_fragment_1_1_5.text = dataSource.intHomeScore
                 textView_event_detail_fragment_1_1_7.text = dataSource.intAwayScore
                 textView_event_detail_fragment_1_1_4.text = dataSource.strHomeTeam
@@ -126,29 +150,6 @@ class EventDetailFragment : Fragment() {
                     withContext(Dispatchers.Default) { viewModel.getNameList2(dataSource.strHomeLineupSubstitutes) }
                 textView_fragment_event_detail_1_11_4.text =
                     withContext(Dispatchers.Default) { viewModel.getNameList2(dataSource.strAwayLineupSubstitutes) }
-
-                withContext(Dispatchers.Default) {
-                    if (viewModel.isAlarm(dataSource.idEvent)) {
-                        withContext(Dispatchers.Main) {
-                            imageButton_event_detail_fragment_1_1_2.setImageResource(R.drawable.ic_notifications_accent_24dp)
-
-                        }
-
-                    }
-
-                }
-
-                withContext(Dispatchers.Default) {
-                    if (viewModel.isFavorite(dataSource.idEvent)) {
-                        withContext(Dispatchers.Main) {
-                            imageButton_event_detail_fragment_1_1_10.setImageResource(
-                                R.drawable.ic_favorite_red_24dp
-                            )
-                        }
-
-                    }
-
-                }
 
                 imageButton_event_detail_fragment_1_1_2.setOnClickListener {
                     alarmClickListener(dataSource)
@@ -229,7 +230,7 @@ class EventDetailFragment : Fragment() {
 
     }
 
-    private fun alarmClickListener(eventDetail: EventDetail) {
+    private fun alarmClickListener(eventDatabase: EventDatabase) {
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
                 val loadingStatus0 =
@@ -246,25 +247,28 @@ class EventDetailFragment : Fragment() {
                 )
 
                 withContext(Dispatchers.Default) {
-                    if (viewModel.isAlarm(eventDetail.idEvent)) {
+                    if (viewModel.isNextDate(eventDatabase)) {
+                        if (viewModel.isAlarm(eventDatabase.idEvent)) {
 
-                        viewModel.setAlarm(false, eventDetail, context!!)
-                        withContext(Dispatchers.Main) {
-                            imageButton_event_detail_fragment_1_1_2.setImageResource(
-                                R.drawable.ic_notifications_none_accent_24dp
-                            )
+                            viewModel.setAlarm(false, eventDatabase, context!!)
+                            withContext(Dispatchers.Main) {
+                                imageButton_event_detail_fragment_1_1_2.setImageResource(
+                                    R.drawable.ic_notifications_none_accent_24dp
+                                )
+                            }
+
+                        } else {
+                            viewModel.setAlarm(true, eventDatabase, context!!)
+                            withContext(Dispatchers.Main) {
+                                imageButton_event_detail_fragment_1_1_2.setImageResource(
+                                    R.drawable.ic_notifications_accent_24dp
+                                )
+                            }
+
                         }
 
                     } else {
-
-
-                        viewModel.setAlarm(true, eventDetail, context!!)
-                        withContext(Dispatchers.Main) {
-                            imageButton_event_detail_fragment_1_1_2.setImageResource(
-                                R.drawable.ic_notifications_accent_24dp
-                            )
-                        }
-
+                        (activity as MainActivity).popUp("Event date is expired")
                     }
 
                 }
@@ -286,7 +290,7 @@ class EventDetailFragment : Fragment() {
 
     }
 
-    private fun favoriteClickListener(eventDetail: EventDetail) {
+    private fun favoriteClickListener(eventDatabase: EventDatabase) {
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
                 val loadingStatus0 =
@@ -303,8 +307,8 @@ class EventDetailFragment : Fragment() {
                 )
 
                 withContext(Dispatchers.Default) {
-                    if (viewModel.isFavorite(eventDetail.idEvent)) {
-                        viewModel.setFavorite(false, eventDetail)
+                    if (viewModel.isFavorite(eventDatabase)) {
+                        viewModel.setFavorite(false, eventDatabase)
                         withContext(Dispatchers.Main) {
                             imageButton_event_detail_fragment_1_1_10.setImageResource(
                                 R.drawable.ic_favorite_border_red_24dp
@@ -312,7 +316,7 @@ class EventDetailFragment : Fragment() {
                         }
 
                     } else {
-                        viewModel.setFavorite(true, eventDetail)
+                        viewModel.setFavorite(true, eventDatabase)
                         withContext(Dispatchers.Main) {
                             imageButton_event_detail_fragment_1_1_10.setImageResource(
                                 R.drawable.ic_favorite_red_24dp

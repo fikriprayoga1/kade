@@ -2,6 +2,7 @@ package com.example.footballmatchschedule.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.example.footballmatchschedule.model.apiresponse.EventDetail
+import com.example.footballmatchschedule.model.database.EventDatabase
 import com.example.footballmatchschedule.other.jetpack.UserRepository
 import com.example.footballmatchschedule.other.recyclerviewadapter.EventRecyclerViewAdapter
 import com.example.footballmatchschedule.view.MainActivity
@@ -32,8 +33,11 @@ class SearchEventViewModel : ViewModel() {
 
         if (it != null) {
             for (i in it.indices) {
-                eventObject = EventRecyclerViewAdapter.EventObject(it[i])
-                eventObjects.add(eventObject)
+                if (it[i].idEvent != null) {
+                    eventObject = EventRecyclerViewAdapter.EventObject(getEventObject(it[i]))
+                    eventObjects.add(eventObject)
+
+                }
 
             }
 
@@ -43,6 +47,37 @@ class SearchEventViewModel : ViewModel() {
 
     fun getMainActivity(): MainActivity {
         return mainActivity
+    }
+
+    private fun getEventObject(eventDetail: EventDetail): EventDatabase {
+        return EventDatabase(eventDetail.dateEvent,
+            eventDetail.idEvent!!,
+            eventDetail.strHomeTeam,
+            eventDetail.strAwayTeam,
+            eventDetail.intHomeScore,
+            eventDetail.intAwayScore,
+            eventDetail.idHomeTeam,
+            eventDetail.idAwayTeam,
+            eventDetail.intHomeShots,
+            eventDetail.intAwayShots,
+            eventDetail.strHomeGoalDetails,
+            eventDetail.strAwayGoalDetails,
+            eventDetail.strHomeLineupGoalkeeper,
+            eventDetail.strAwayLineupGoalkeeper,
+            eventDetail.strHomeLineupDefense,
+            eventDetail.strAwayLineupDefense,
+            eventDetail.strHomeLineupMidfield,
+            eventDetail.strAwayLineupMidfield,
+            eventDetail.strHomeLineupForward,
+            eventDetail.strAwayLineupForward,
+            eventDetail.strHomeLineupSubstitutes,
+            eventDetail.strAwayLineupSubstitutes,
+            eventDetail.strLeague,
+            eventDetail.strEvent,
+            null,
+            null
+        )
+
     }
 
 }

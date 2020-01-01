@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.room.Room
 import com.example.footballmatchschedule.model.apiresponse.EventDetail
 import com.example.footballmatchschedule.model.apiresponse.TeamDetail
+import com.example.footballmatchschedule.model.database.EventDatabase
+import com.example.footballmatchschedule.model.database.TeamDatabase
 import com.example.footballmatchschedule.other.jetpack.UserDatabase
 import com.example.footballmatchschedule.other.jetpack.UserRepository
 import com.example.footballmatchschedule.other.jetpack.Webservice
@@ -28,9 +30,9 @@ class MainActivityViewModel : ViewModel() {
     // 7
     private val searchTeamList = MutableLiveData<List<TeamDetail>>()
     // 8
-    private lateinit var selectedEvent: EventDetail
+    private lateinit var selectedEvent: EventDatabase
     // 9
-    private lateinit var selectedTeam: TeamDetail
+    private lateinit var selectedTeam: TeamDatabase
 
     fun init(context: Context) {
         if (userRepository == null) {
@@ -102,18 +104,18 @@ class MainActivityViewModel : ViewModel() {
         return hasFragmentBackstack[fragmentName] ?: false
     }
 
-    fun setSelectedEvent(selectedEvent: EventDetail) {
+    fun setSelectedEvent(selectedEvent: EventDatabase) {
         this.selectedEvent = selectedEvent
 
     }
 
-    fun getSelectedEvent(): EventDetail { return selectedEvent }
+    fun getSelectedEvent(): EventDatabase { return selectedEvent }
 
-    fun setSelectedTeam(selectedTeam: TeamDetail) {
+    fun setSelectedTeam(selectedTeam: TeamDatabase) {
         this.selectedTeam = selectedTeam
 
     }
 
-    fun getSelectedTeam(): TeamDetail { return selectedTeam }
+    fun getSelectedTeam(): TeamDatabase { return selectedTeam }
 
 }

@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.footballmatchschedule.model.apiresponse.EventDetail
-import com.example.footballmatchschedule.model.apiresponse.TeamDetail
+import com.example.footballmatchschedule.model.database.TeamDatabase
+import com.example.footballmatchschedule.model.database.EventDatabase
 
-@Database(entities = [EventDetail::class, TeamDetail::class], version = 1, exportSchema = false)
+@Database(entities = [EventDatabase::class, TeamDatabase::class], version = 1, exportSchema = false)
 abstract class UserDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
 

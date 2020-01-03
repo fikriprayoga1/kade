@@ -1,16 +1,27 @@
 package com.example.footballmatchschedule.view
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.footballmatchschedule.R
+import com.example.footballmatchschedule.model.database.TeamDatabase
+import com.example.footballmatchschedule.other.recyclerviewadapter.TeamRecyclerViewAdapter
 import com.example.footballmatchschedule.viewmodel.FavoriteTeamViewModel
+import kotlinx.android.synthetic.main.favorite_team_fragment.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class FavoriteTeamFragment : Fragment() {
+    private lateinit var teamAdapter: TeamRecyclerViewAdapter
 
     companion object {
         fun newInstance() = FavoriteTeamFragment()
@@ -28,7 +39,158 @@ class FavoriteTeamFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(FavoriteTeamViewModel::class.java)
-        // TODO: Use the ViewModel
+
+        lifecycleScope.launchWhenStarted {
+            if (lifecycle.currentState >= Lifecycle.State.STARTED) {
+                val loadingStatus0 =
+                    withContext(Dispatchers.Default) {
+                        (activity as MainActivity).viewModel.updateLoading(
+                            true
+                        )
+                    }
+                (activity as MainActivity).updateLoading(
+                    loadingStatus0,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "start"
+                )
+                withContext(Dispatchers.Default) {
+                    viewModel.init(
+                        (activity as MainActivity).viewModel.getUserRepository(),
+                        (activity as MainActivity)
+                    )
+
+                }
+                initRecyclerView()
+                viewModel.getFavoriteTeam()?.observe(this@FavoriteTeamFragment, Observer {
+                    eventHandler(it)
+
+                })
+
+
+                val loadingStatus1 = withContext(Dispatchers.Default) {
+                    (activity as MainActivity).viewModel.updateLoading(false)
+                }
+                (activity as MainActivity).updateLoading(
+                    loadingStatus1,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "stop"
+                )
+
+            }
+
+        }
+
+    }
+
+    private fun initRecyclerView() {
+        teamAdapter = TeamRecyclerViewAdapter(
+            context!!,
+            viewModel.getTeamObjects(),
+            object : TeamRecyclerViewAdapter.TeamListener {
+                override fun itemDetail(teamDatabase: TeamDatabase) {
+                    selectedItemListener(teamDatabase)
+
+                }
+
+            })
+        val mLayoutManager = LinearLayoutManager(context)
+
+        recyclerView_fragment_favorite_team_1.layoutManager = mLayoutManager
+        recyclerView_fragment_favorite_team_1.itemAnimator = DefaultItemAnimator()
+        recyclerView_fragment_favorite_team_1.addItemDecoration(
+            DividerItemDecoration(
+                activity,
+                LinearLayoutManager.VERTICAL
+            )
+        )
+        recyclerView_fragment_favorite_team_1.adapter = teamAdapter
+
+    }
+
+    private fun eventHandler(teamList: List<TeamDatabase>?) {
+        lifecycleScope.launchWhenStarted {
+            if (lifecycle.currentState >= Lifecycle.State.STARTED) {
+                val loadingStatus0 =
+                    withContext(Dispatchers.Default) {
+                        (activity as MainActivity).viewModel.updateLoading(
+                            true
+                        )
+                    }
+                (activity as MainActivity).updateLoading(
+                    loadingStatus0,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "start"
+                )
+
+                withContext(Dispatchers.Default) {
+                    viewModel.initTeamList(teamList)
+                    withContext(Dispatchers.Main) {
+                        teamAdapter.notifyDataSetChanged()
+
+                    }
+
+                }
+
+                val loadingStatus1 =
+                    withContext(Dispatchers.Default) {
+                        (activity as MainActivity).viewModel.updateLoading(
+                            false
+                        )
+                    }
+                (activity as MainActivity).updateLoading(
+                    loadingStatus1,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "stop"
+                )
+
+            }
+
+        }
+
+    }
+
+    private fun selectedItemListener(teamDatabase: TeamDatabase) {
+        lifecycleScope.launchWhenStarted {
+            if (lifecycle.currentState >= Lifecycle.State.STARTED) {
+                val loadingStatus0 =
+                    withContext(Dispatchers.Default) {
+                        (activity as MainActivity).viewModel.updateLoading(
+                            true
+                        )
+                    }
+                (activity as MainActivity).updateLoading(
+                    loadingStatus0,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "start"
+                )
+
+                withContext(Dispatchers.Default) {
+                    viewModel.getMainActivity().viewModel.setSelectedTeam(teamDatabase)
+                    viewModel.getMainActivity().viewModel.setIsFromAPI(false)
+                }
+
+                viewModel.getMainActivity()
+                    .changeFragment2(R.id.frameLayout_activity_main_1, TeamDetailFragment())
+
+                val loadingStatus1 = withContext(Dispatchers.Default) {
+                    (activity as MainActivity).viewModel.updateLoading(false)
+                }
+                (activity as MainActivity).updateLoading(
+                    loadingStatus1,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "stop"
+                )
+
+            }
+
+        }
+
     }
 
 }

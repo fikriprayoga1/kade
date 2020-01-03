@@ -8,7 +8,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface Webservice {
-    //    @Headers("Content-Type: application/json")
     @GET("api/v1/json/1/all_leagues.php")
     fun requestLeague(): Call<League>
 
@@ -28,7 +27,11 @@ interface Webservice {
     fun readSearchTeam(@Query("t") keyword: String): Call<Team>
 
     @GET("api/v1/json/1/lookupteam.php")
-    fun readTeamDetail(@Query("id") id: String): Call<TeamDetail>
+    fun readTeamDetail(@Query("id") id: String): Call<Team>
+
+    @GET("api/v1/json/1/searchplayers.php")
+    fun readPlayerList(@Query("t") teamName: String): Call<Player>
+
 
     companion object Factory {
         fun create(): Webservice {

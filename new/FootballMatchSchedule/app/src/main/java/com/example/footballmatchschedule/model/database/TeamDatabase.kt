@@ -5,9 +5,13 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class TeamDatabase(
-    @PrimaryKey
-    var idTeam: String,
+    @PrimaryKey(autoGenerate = true)
+    var id: Int,
+    var idTeam: String?,
     var isFavorite: Boolean?,
     var strTeamBadge: String?,
-    var strTeam: String?
+    var strTeam: String?,
+    var intFormedYear: String?,
+    var strStadium: String?,
+    var strDescriptionEN: String?
 )

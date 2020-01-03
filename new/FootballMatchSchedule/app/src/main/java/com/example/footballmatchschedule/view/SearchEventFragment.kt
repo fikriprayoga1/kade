@@ -167,6 +167,7 @@ class SearchEventFragment : Fragment() {
 
                 withContext(Dispatchers.Default) {
                     viewModel.getMainActivity().viewModel.setSelectedEvent(eventDatabase)
+                    viewModel.getMainActivity().viewModel.setIsFromAPI(true)
                 }
 
                 viewModel.getMainActivity()

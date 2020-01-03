@@ -62,5 +62,7 @@ dependencies {
     kapt "android.arch.lifecycle:compiler:1.1.1"
     // UI Compatible
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0-rc03'
+    // Justify Text
+    implementation 'com.codesgood:justifiedtextview:1.1.0'
 
 }

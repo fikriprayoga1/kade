@@ -17,8 +17,18 @@ class UserRepository(private val webservice: Webservice, private val userDao: Us
 
     }
 
+    fun createTeam(teamDatabase: TeamDatabase) {
+        userDao.createTeam(teamDatabase)
+
+    }
+
     fun readEvent(idEvent: String): List<EventDatabase> {
         return userDao.readEvent(idEvent)
+
+    }
+
+    fun readTeam(idTeam: String): List<TeamDatabase> {
+        return userDao.readTeam(idTeam)
 
     }
 
@@ -37,8 +47,23 @@ class UserRepository(private val webservice: Webservice, private val userDao: Us
 
     }
 
-    fun deleteEvent(idEvent: String) {
-        userDao.deleteEvent(idEvent)
+    fun updateEvent(eventDatabase: EventDatabase) {
+        userDao.createEvent(eventDatabase)
+
+    }
+
+    fun updateTeam(teamDatabase: TeamDatabase) {
+        userDao.updateTeam(teamDatabase)
+
+    }
+
+    fun deleteEvent(eventDatabase: EventDatabase) {
+        userDao.deleteEvent(eventDatabase)
+
+    }
+
+    fun deleteTeam(teamDatabase: TeamDatabase) {
+        userDao.deleteTeam(teamDatabase)
 
     }
 
@@ -370,8 +395,8 @@ class UserRepository(private val webservice: Webservice, private val userDao: Us
         var isSuccess = false
         var message: String
 
-        webservice.readTeamDetail(id).enqueue(object : Callback<TeamDetail> {
-            override fun onFailure(call: Call<TeamDetail>, t: Throwable) {
+        webservice.readTeamDetail(id).enqueue(object : Callback<Team> {
+            override fun onFailure(call: Call<Team>, t: Throwable) {
                 TagHelper().writeTag(
                     this.javaClass.name,
                     Thread.currentThread().stackTrace[2].lineNumber,
@@ -393,8 +418,60 @@ class UserRepository(private val webservice: Webservice, private val userDao: Us
             }
 
             override fun onResponse(
-                call: Call<TeamDetail>,
-                response: Response<TeamDetail>
+                call: Call<Team>,
+                response: Response<Team>
+            ) {
+                val rb = response.body()
+                if (rb != null) {
+                    isSuccess = true
+                    message = "Request response is OK"
+
+                } else {
+                    message = "Response body is null"
+                }
+
+                responseListener.retrofitResponse(
+                    RetrofitResponse(
+                        isSuccess,
+                        message,
+                        rb
+                    )
+                )
+
+            }
+        })
+
+    }
+
+    fun requestPlayerList(responseListener: ResponseListener, teamName: String) {
+        var isSuccess = false
+        var message: String
+
+        webservice.readPlayerList(teamName).enqueue(object : Callback<Player> {
+            override fun onFailure(call: Call<Player>, t: Throwable) {
+                TagHelper().writeTag(
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    t.message
+                )
+                TagHelper().writeTag(
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    t.cause.toString()
+                )
+                responseListener.retrofitResponse(
+                    RetrofitResponse(
+                        isSuccess,
+                        "onFailure, requestPlayerList, UserRepository",
+                        null
+                    )
+                )
+
+            }
+
+            override fun onResponse(
+                call: Call<Player>,
+                response: Response<Player>
             ) {
                 val rb = response.body()
                 if (rb != null) {

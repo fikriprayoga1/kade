@@ -1,9 +1,7 @@
 package com.example.footballmatchschedule.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.example.footballmatchschedule.model.apiresponse.EventDetail
 import com.example.footballmatchschedule.model.apiresponse.TeamDetail
-import com.example.footballmatchschedule.model.database.EventDatabase
 import com.example.footballmatchschedule.model.database.TeamDatabase
 import com.example.footballmatchschedule.other.jetpack.UserRepository
 import com.example.footballmatchschedule.other.recyclerviewadapter.TeamRecyclerViewAdapter
@@ -30,11 +28,8 @@ class SearchTeamViewModel : ViewModel() {
 
         if (teamList != null) {
             for (i in teamList.indices) {
-                if (teamList[i].idTeam != null) {
-                    teamObject = TeamRecyclerViewAdapter.TeamObject(getTeamObject(teamList[i]))
-                    teamObjects.add(teamObject)
-
-                }
+                teamObject = TeamRecyclerViewAdapter.TeamObject(getTeamObject(teamList[i]))
+                teamObjects.add(teamObject)
 
             }
 
@@ -52,10 +47,14 @@ class SearchTeamViewModel : ViewModel() {
 
     private fun getTeamObject(teamDetail: TeamDetail): TeamDatabase {
         return TeamDatabase(
+            0,
             teamDetail.idTeam!!,
             null,
             teamDetail.strTeamBadge,
-            teamDetail.strTeam
+            teamDetail.strTeam,
+            teamDetail.intFormedYear,
+            teamDetail.strStadium,
+            teamDetail.strDescriptionEN
         )
 
     }

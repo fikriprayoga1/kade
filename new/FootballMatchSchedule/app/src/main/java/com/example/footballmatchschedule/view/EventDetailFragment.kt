@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.RetrofitResponse
-import com.example.footballmatchschedule.model.apiresponse.TeamDetail
+import com.example.footballmatchschedule.model.apiresponse.Team
 import com.example.footballmatchschedule.model.database.EventDatabase
 import com.example.footballmatchschedule.other.helper.ResponseListener
 import com.example.footballmatchschedule.viewmodel.EventDetailViewModel
@@ -66,11 +66,8 @@ class EventDetailFragment : Fragment() {
 
                 // alarm_icon
                 withContext(Dispatchers.Default) {
-                    if (viewModel.isNextDate(dataSource)) {
-                        withContext(Dispatchers.Main) {
-                            imageButton_event_detail_fragment_1_1_2.visibility = View.VISIBLE
-                        }
-                        if (viewModel.isAlarm(dataSource.idEvent)) {
+                    if (viewModel.isNextDateAndHasIdEvent(dataSource)) {
+                        if (viewModel.isAlarm(dataSource)) {
                             withContext(Dispatchers.Main) {
                                 imageButton_event_detail_fragment_1_1_2.setImageResource(R.drawable.ic_notifications_accent_24dp)
 
@@ -88,19 +85,28 @@ class EventDetailFragment : Fragment() {
 
                 // favorite_icon
                 withContext(Dispatchers.Default) {
-                    if (viewModel.isFavorite(dataSource)) {
-                        withContext(Dispatchers.Main) {
-                            imageButton_event_detail_fragment_1_1_10.setImageResource(
-                                R.drawable.ic_favorite_red_24dp
-                            )
+                    if (viewModel.hasIdEvent(dataSource)) {
+                        if (viewModel.isFavorite(dataSource)) {
+                            withContext(Dispatchers.Main) {
+                                imageButton_event_detail_fragment_1_1_10.setImageResource(
+                                    R.drawable.ic_favorite_red_24dp
+                                )
+                            }
+
                         }
 
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            imageButton_event_detail_fragment_1_1_10.visibility = View.GONE
+                        }
                     }
 
                 }
 
-                textView_event_detail_fragment_1_1_1.text =
-                    withContext(Dispatchers.Default) { viewModel.getDate(dataSource.dateEvent) }
+                textView_event_detail_fragment_1_1_1.text = withContext(Dispatchers.Default) {
+                    viewModel.getDate(dataSource.dateEvent)
+
+                }
                 withContext(Dispatchers.IO) {
                     viewModel.requestTeamLogo(object :
                         ResponseListener {
@@ -151,11 +157,13 @@ class EventDetailFragment : Fragment() {
                 textView_fragment_event_detail_1_11_4.text =
                     withContext(Dispatchers.Default) { viewModel.getNameList2(dataSource.strAwayLineupSubstitutes) }
 
+                // alarm_button
                 imageButton_event_detail_fragment_1_1_2.setOnClickListener {
                     alarmClickListener(dataSource)
 
                 }
 
+                // favorite_button
                 imageButton_event_detail_fragment_1_1_10.setOnClickListener {
                     favoriteClickListener(dataSource)
 
@@ -194,20 +202,24 @@ class EventDetailFragment : Fragment() {
                 )
 
                 withContext(Dispatchers.Default) {
-                    val teamDetailData = retrofitResponse.responseBody as TeamDetail
-                    val imageLink = teamDetailData.strTeamBadge
-                    if (imageLink != null) {
-                        val imageView: ImageView = if (isHome) {
-                            imageView_event_detail_fragment_1_1_3
-                        } else {
-                            imageView_event_detail_fragment_1_1_8
+                    val team = retrofitResponse.responseBody as Team
+                    val teamDetailDataList = team.teams
+                    if (teamDetailDataList != null) {
+                        val imageLink = teamDetailDataList[0].strTeamBadge
+                        if (imageLink != null) {
+                            val imageView: ImageView = if (isHome) {
+                                imageView_event_detail_fragment_1_1_3
+                            } else {
+                                imageView_event_detail_fragment_1_1_8
 
-                        }
-                        withContext(Dispatchers.Main) {
-                            Picasso.get()
-                                .load(imageLink)
-                                .resize(100, 100)
-                                .into(imageView)
+                            }
+                            withContext(Dispatchers.Main) {
+                                Picasso.get()
+                                    .load(imageLink)
+                                    .resize(100, 100)
+                                    .into(imageView)
+                            }
+
                         }
 
                     }
@@ -248,7 +260,7 @@ class EventDetailFragment : Fragment() {
 
                 withContext(Dispatchers.Default) {
                     if (viewModel.isNextDate(eventDatabase)) {
-                        if (viewModel.isAlarm(eventDatabase.idEvent)) {
+                        if (viewModel.isAlarm(eventDatabase)) {
 
                             viewModel.setAlarm(false, eventDatabase, context!!)
                             withContext(Dispatchers.Main) {

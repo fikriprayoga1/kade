@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.work.WorkManager
-import com.example.footballmatchschedule.model.apiresponse.EventDetail
 import com.example.footballmatchschedule.model.database.EventDatabase
 import com.example.footballmatchschedule.other.jetpack.UserRepository
 import com.example.footballmatchschedule.other.recyclerviewadapter.EventRecyclerViewAdapter
@@ -50,8 +49,9 @@ class AlarmViewModel : ViewModel() {
                 val sourceDate = eventList[i].dateEvent
                 if (sourceDate != null) {
                     val inputFormat = SimpleDateFormat("yyyy-MM-dd")
-                    val eventDate = inputFormat.parse(sourceDate).time
-                    if (eventDate > nowDate) {
+                    val eventDate = inputFormat.parse(sourceDate)!!
+                    val eventDateLong = eventDate.time
+                    if (eventDateLong > nowDate) {
                         eventObject = EventRecyclerViewAdapter.EventObject(eventList[i])
                         eventObjects.add(eventObject)
 
@@ -59,10 +59,10 @@ class AlarmViewModel : ViewModel() {
                         WorkManager.getInstance(context)
                             .cancelWorkById(UUID.fromString(eventList[i].isAlarm))
                         if (eventList[i].isFavorite != null) {
-                            setAlarmNull(eventList[i], eventList[i].isFavorite)
+                            setAlarmNull(eventList[i])
 
                         } else {
-                            userRepository!!.deleteEvent(eventList[i].idEvent)
+                            userRepository!!.deleteEvent(eventList[i])
                         }
 
                     }
@@ -83,9 +83,11 @@ class AlarmViewModel : ViewModel() {
         return eventObjects
     }
 
-    private fun setAlarmNull(eventDatabase: EventDatabase, isFavorite: Boolean?) {
-        userRepository!!.createEvent(
-            EventDatabase(eventDatabase.dateEvent,
+    private fun setAlarmNull(eventDatabase: EventDatabase) {
+        userRepository!!.updateEvent(
+            EventDatabase(
+                eventDatabase.id,
+                eventDatabase.dateEvent,
                 eventDatabase.idEvent,
                 eventDatabase.strHomeTeam,
                 eventDatabase.strAwayTeam,
@@ -110,7 +112,7 @@ class AlarmViewModel : ViewModel() {
                 eventDatabase.strLeague,
                 eventDatabase.strEvent,
                 null,
-                isFavorite
+                eventDatabase.isFavorite
             )
         )
 

@@ -43,11 +43,8 @@ class TeamViewModel : ViewModel() {
 
         if (teamList != null) {
             for (i in teamList.indices) {
-                if (teamList[i].idTeam != null) {
-                    teamObject = TeamRecyclerViewAdapter.TeamObject(getTeamObject(teamList[i]))
-                    teamObjects.add(teamObject)
-
-                }
+                teamObject = TeamRecyclerViewAdapter.TeamObject(getTeamObject(teamList[i]))
+                teamObjects.add(teamObject)
 
             }
 
@@ -93,10 +90,14 @@ class TeamViewModel : ViewModel() {
 
     private fun getTeamObject(teamDetail: TeamDetail): TeamDatabase {
         return TeamDatabase(
+            0,
             teamDetail.idTeam!!,
             null,
             teamDetail.strTeamBadge,
-            teamDetail.strTeam
+            teamDetail.strTeam,
+            teamDetail.intFormedYear,
+            teamDetail.strStadium,
+            teamDetail.strDescriptionEN
         )
 
     }

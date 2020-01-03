@@ -11,7 +11,7 @@
     <string name="a8">Goal Keeper</string>
     <string name="a9">Defense</string>
     <string name="a10">Midfield</string>
-    <string name="a11">Forward</string>
+    <string name="a11">player_position</string>
     <string name="a12">Substitutes</string>
     <string name="a13">Last Match</string>
     <string name="a14">Next Match</string>
@@ -20,15 +20,16 @@
     <string name="a17">Team</string>
     <string name="a18">Search . . .</string>
     <string name="a19">Alarm</string>
-    <string name="a20">Camp Nou</string>
+    <string name="a20">stadium_name</string>
     <string name="a21">Description</string>
     <string name="a22">Weight(Kg)</string>
     <string name="a23">Height(m)</string>
-    <string name="a24">66</string>
+    <string name="a24">0</string>
     <string name="a25">ImageView</string>
     <string name="a26">alarm_icon</string>
     <string name="a27">team_logo</string>
     <string name="a28">favorite_icon</string>
+    <string name="a29">player_image</string>
 
     <string name="channel_name">Football Match Schedule</string>
     <string name="channel_description">Best football schedule app</string>

@@ -29,11 +29,8 @@ class NMEViewModel : ViewModel() {
 
         if (eventList != null) {
             for (i in eventList.indices) {
-                if (eventList[i].idEvent != null) {
-                    nmeObject = EventRecyclerViewAdapter.EventObject(getEventObject(eventList[i]))
-                    nmeObjects.add(nmeObject)
-
-                }
+                nmeObject = EventRecyclerViewAdapter.EventObject(getEventObject(eventList[i]))
+                nmeObjects.add(nmeObject)
 
             }
 
@@ -55,8 +52,10 @@ class NMEViewModel : ViewModel() {
     }
 
     private fun getEventObject(eventDetail: EventDetail): EventDatabase {
-        return EventDatabase(eventDetail.dateEvent,
-            eventDetail.idEvent!!,
+        return EventDatabase(
+            0,
+            eventDetail.dateEvent,
+            eventDetail.idEvent,
             eventDetail.strHomeTeam,
             eventDetail.strAwayTeam,
             eventDetail.intHomeScore,

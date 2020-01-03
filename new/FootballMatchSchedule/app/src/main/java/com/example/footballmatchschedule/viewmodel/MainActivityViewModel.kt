@@ -5,8 +5,8 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.room.Room
 import com.example.footballmatchschedule.model.apiresponse.EventDetail
+import com.example.footballmatchschedule.model.apiresponse.PlayerDetail
 import com.example.footballmatchschedule.model.apiresponse.TeamDetail
 import com.example.footballmatchschedule.model.database.EventDatabase
 import com.example.footballmatchschedule.model.database.TeamDatabase
@@ -33,10 +33,15 @@ class MainActivityViewModel : ViewModel() {
     private lateinit var selectedEvent: EventDatabase
     // 9
     private lateinit var selectedTeam: TeamDatabase
+    // 10
+    private lateinit var selectedPlayer: PlayerDetail
+    // 11
+    private var isFromAPI = true
 
     fun init(context: Context) {
         if (userRepository == null) {
-            userRepository = UserRepository(Webservice.create(), UserDatabase.getInstance(context).userDao())
+            userRepository =
+                UserRepository(Webservice.create(), UserDatabase.getInstance(context).userDao())
 
         }
 
@@ -109,13 +114,33 @@ class MainActivityViewModel : ViewModel() {
 
     }
 
-    fun getSelectedEvent(): EventDatabase { return selectedEvent }
+    fun getSelectedEvent(): EventDatabase {
+        return selectedEvent
+    }
 
     fun setSelectedTeam(selectedTeam: TeamDatabase) {
         this.selectedTeam = selectedTeam
 
     }
 
-    fun getSelectedTeam(): TeamDatabase { return selectedTeam }
+    fun getSelectedTeam(): TeamDatabase {
+        return selectedTeam
+    }
+
+    fun setIsFromAPI(isFromAPI: Boolean) {
+        this.isFromAPI = isFromAPI
+    }
+
+    fun getIsFromAPI(): Boolean {
+        return isFromAPI
+    }
+
+    fun setSelectedPlayer(playerDetail: PlayerDetail) {
+        this.selectedPlayer = playerDetail
+    }
+
+    fun getSelectedPlayer(): PlayerDetail {
+        return selectedPlayer
+    }
 
 }

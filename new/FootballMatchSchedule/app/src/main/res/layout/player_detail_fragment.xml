@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".view.PlayerDetailFragment">
 
     <!--1-->
@@ -17,6 +18,7 @@
             android:id="@+id/imageView_player_detail_fragment_1_1"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:contentDescription="@string/a29"
             android:background="@color/colorPrimary"
             android:src="@drawable/ic_bug_report_black_24dp"
             app:layout_constraintTop_toTopOf="parent" />
@@ -99,8 +101,8 @@
             app:layout_constraintTop_toBottomOf="@+id/textView_player_detail_fragment_1_2" />
 
         <!--1_8-->
-        <TextView
-            android:id="@+id/textView_player_detail_fragment_1_8"
+        <com.codesgood.views.JustifiedTextView
+            android:id="@+id/justifiedTextView_player_detail_fragment_1_8"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"

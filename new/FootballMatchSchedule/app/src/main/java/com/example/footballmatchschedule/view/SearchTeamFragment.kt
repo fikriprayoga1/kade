@@ -90,6 +90,7 @@ class SearchTeamFragment : Fragment() {
             viewModel.getTeamObjects(),
             object : TeamRecyclerViewAdapter.TeamListener {
                 override fun itemDetail(teamDatabase: TeamDatabase) {
+                    selectedItemListener(teamDatabase)
 
                 }
 
@@ -146,6 +147,46 @@ class SearchTeamFragment : Fragment() {
     override fun onDestroy() {
         (activity as MainActivity).viewModel.setHasFragmentBackstack("SearchTeam", false)
         super.onDestroy()
+    }
+
+    private fun selectedItemListener(teamDatabase: TeamDatabase) {
+        lifecycleScope.launchWhenStarted {
+            if (lifecycle.currentState >= Lifecycle.State.STARTED) {
+                val loadingStatus0 =
+                    withContext(Dispatchers.Default) {
+                        (activity as MainActivity).viewModel.updateLoading(
+                            true
+                        )
+                    }
+                (activity as MainActivity).updateLoading(
+                    loadingStatus0,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "start"
+                )
+
+                withContext(Dispatchers.Default) {
+                    viewModel.getMainActivity().viewModel.setSelectedTeam(teamDatabase)
+                    viewModel.getMainActivity().viewModel.setIsFromAPI(true)
+                }
+
+                viewModel.getMainActivity()
+                    .changeFragment2(R.id.frameLayout_activity_main_1, TeamDetailFragment())
+
+                val loadingStatus1 = withContext(Dispatchers.Default) {
+                    (activity as MainActivity).viewModel.updateLoading(false)
+                }
+                (activity as MainActivity).updateLoading(
+                    loadingStatus1,
+                    this.javaClass.name,
+                    Thread.currentThread().stackTrace[2].lineNumber,
+                    "stop"
+                )
+
+            }
+
+        }
+
     }
 
 }

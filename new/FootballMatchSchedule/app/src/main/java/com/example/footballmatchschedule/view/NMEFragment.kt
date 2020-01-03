@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.RetrofitResponse
 import com.example.footballmatchschedule.model.apiresponse.Event
-import com.example.footballmatchschedule.model.apiresponse.EventDetail
 import com.example.footballmatchschedule.model.database.EventDatabase
 import com.example.footballmatchschedule.other.helper.ResponseListener
 import com.example.footballmatchschedule.other.recyclerviewadapter.EventRecyclerViewAdapter
@@ -215,6 +214,7 @@ class NMEFragment : Fragment() {
 
                 withContext(Dispatchers.Default) {
                     viewModel.getMainActivity().viewModel.setSelectedEvent(eventDatabase)
+                    viewModel.getMainActivity().viewModel.setIsFromAPI(true)
                 }
 
                 viewModel.getMainActivity()

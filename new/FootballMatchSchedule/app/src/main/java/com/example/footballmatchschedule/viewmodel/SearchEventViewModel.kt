@@ -33,11 +33,8 @@ class SearchEventViewModel : ViewModel() {
 
         if (it != null) {
             for (i in it.indices) {
-                if (it[i].idEvent != null) {
-                    eventObject = EventRecyclerViewAdapter.EventObject(getEventObject(it[i]))
-                    eventObjects.add(eventObject)
-
-                }
+                eventObject = EventRecyclerViewAdapter.EventObject(getEventObject(it[i]))
+                eventObjects.add(eventObject)
 
             }
 
@@ -50,7 +47,9 @@ class SearchEventViewModel : ViewModel() {
     }
 
     private fun getEventObject(eventDetail: EventDetail): EventDatabase {
-        return EventDatabase(eventDetail.dateEvent,
+        return EventDatabase(
+            0,
+            eventDetail.dateEvent,
             eventDetail.idEvent!!,
             eventDetail.strHomeTeam,
             eventDetail.strAwayTeam,

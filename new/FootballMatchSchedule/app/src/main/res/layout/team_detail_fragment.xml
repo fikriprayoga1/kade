@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".view.TeamDetailFragment">
 
     <!--1-->
@@ -21,8 +22,20 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <!--1_1_1-->
+            <ImageButton
+                android:id="@+id/imageButton_team_detail_fragment_1_1_1"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/black0"
+                android:src="@drawable/ic_favorite_border_red_24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!--1_1_2-->
             <ImageView
-                android:id="@+id/imageView_team_detail_fragment_1_1_1"
+                android:id="@+id/imageView_team_detail_fragment_1_1_2"
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:layout_marginTop="25dp"
@@ -31,9 +44,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!--1_1_2-->
+            <!--1_1_3-->
             <TextView
-                android:id="@+id/textView_team_detail_fragment_1_1_2"
+                android:id="@+id/textView_team_detail_fragment_1_1_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -43,11 +56,11 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView_team_detail_fragment_1_1_1" />
+                app:layout_constraintTop_toBottomOf="@+id/imageView_team_detail_fragment_1_1_2" />
 
-            <!--1_1_3-->
+            <!--1_1_4-->
             <TextView
-                android:id="@+id/textView_team_detail_fragment_1_1_3"
+                android:id="@+id/textView_team_detail_fragment_1_1_4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/a1"
@@ -55,23 +68,23 @@
                 android:textSize="6pt"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView_team_detail_fragment_1_1_2" />
+                app:layout_constraintTop_toBottomOf="@+id/textView_team_detail_fragment_1_1_3" />
 
-            <!--1_1_4-->
+            <!--1_1_5-->
             <TextView
-                android:id="@+id/textView_team_detail_fragment_1_1_4"
+                android:id="@+id/textView_team_detail_fragment_1_1_5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/a20"
                 android:textColor="@color/background"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView_team_detail_fragment_1_1_3" />
+                app:layout_constraintTop_toBottomOf="@+id/textView_team_detail_fragment_1_1_4" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!--1_2-->
-        <TextView
-            android:id="@+id/textView_team_detail_fragment_1_2"
+        <com.codesgood.views.JustifiedTextView
+            android:id="@+id/justifiedTextView_team_detail_fragment_1_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -88,17 +101,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_team_detail_fragment_1_2" />
-
-        <!--1_4-->
-        <ImageView
-            android:id="@+id/imageView_team_detail_fragment_1_4"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:src="@drawable/ic_favorite_border_red_24dp"
-            app:layout_constraintEnd_toEndOf="@+id/constraintLayout_team_detail_fragment_1_1"
-            app:layout_constraintTop_toTopOf="@+id/constraintLayout_team_detail_fragment_1_1" />
+            app:layout_constraintTop_toBottomOf="@+id/justifiedTextView_team_detail_fragment_1_2" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

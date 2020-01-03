@@ -5,9 +5,10 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class EventDatabase(
+    @PrimaryKey(autoGenerate = true)
+    var id: Int,
     var dateEvent: String?,
-    @PrimaryKey
-    var idEvent: String,
+    var idEvent: String?,
     var strHomeTeam: String?,
     var strAwayTeam: String?,
     var intHomeScore: String?,

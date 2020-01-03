@@ -1,42 +1,45 @@
 package com.example.footballmatchschedule.other.jetpack
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy.REPLACE
-import androidx.room.Query
+import androidx.room.*
 import com.example.footballmatchschedule.model.database.EventDatabase
 import com.example.footballmatchschedule.model.database.TeamDatabase
 
 @Dao
 interface UserDao {
     // Event ---------------------------------------------------------------------------------------
-    @Insert(onConflict = REPLACE)
+    @Insert
     fun createEvent(eventDatabase: EventDatabase)
 
     @Query("SELECT * FROM eventDatabase WHERE isFavorite = 1")
-    fun readFavoriteEvent() : LiveData<List<EventDatabase>>
+    fun readFavoriteEvent(): LiveData<List<EventDatabase>>
 
     @Query("SELECT * FROM eventDatabase WHERE isAlarm IS NOT NULL")
-    fun readAlarmEvent() : LiveData<List<EventDatabase>>
+    fun readAlarmEvent(): LiveData<List<EventDatabase>>
 
     @Query("SELECT * FROM eventDatabase WHERE idEvent = :idEvent")
-    fun readEvent(idEvent: String) : List<EventDatabase>
+    fun readEvent(idEvent: String): List<EventDatabase>
 
-    @Query("DELETE FROM eventDatabase WHERE idEvent = :idEvent")
-    fun deleteEvent(idEvent: String)
+    @Update
+    fun updateEvent(eventDatabase: EventDatabase)
+
+    @Delete
+    fun deleteEvent(eventDatabase: EventDatabase)
 
     // Team ----------------------------------------------------------------------------------------
-    @Insert(onConflict = REPLACE)
+    @Insert
     fun createTeam(teamDatabase: TeamDatabase)
 
     @Query("SELECT * FROM teamDatabase WHERE isFavorite = 1")
-    fun readFavoriteTeam() : LiveData<List<TeamDatabase>>
+    fun readFavoriteTeam(): LiveData<List<TeamDatabase>>
 
     @Query("SELECT * FROM teamDatabase WHERE idTeam = :idTeam")
-    fun readTeam(idTeam: String) : List<TeamDatabase>
+    fun readTeam(idTeam: String): List<TeamDatabase>
 
-    @Query("DELETE FROM teamDatabase WHERE idTeam = :idTeam")
-    fun deleteTeam(idTeam: String)
+    @Update
+    fun updateTeam(teamDatabase: TeamDatabase)
+
+    @Delete
+    fun deleteTeam(teamDatabase: TeamDatabase)
 
 }

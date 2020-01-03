@@ -111,12 +111,21 @@ class EventDetailViewModel : ViewModel() {
 
     }
 
-    fun isAlarm(idEvent: String): Boolean {
-        val eventData = userRepository.readEvent(idEvent)
+    fun isAlarm(eventDatabase: EventDatabase): Boolean {
         var mAlarm = false
+        if (getMainActivity().viewModel.getIsFromAPI()) {
+            val eventData = userRepository.readEvent(eventDatabase.idEvent!!)
 
-        for (i in eventData.indices) {
-            if (eventData[i].isAlarm != null) {
+            for (i in eventData.indices) {
+                if (eventData[i].isAlarm != null) {
+                    mAlarm = true
+
+                }
+
+            }
+
+        } else {
+            if (eventDatabase.isAlarm != null) {
                 mAlarm = true
 
             }
@@ -124,6 +133,34 @@ class EventDetailViewModel : ViewModel() {
         }
 
         return mAlarm
+
+    }
+
+    fun isNextDateAndHasIdEvent(eventDatabase: EventDatabase): Boolean {
+        if (eventDatabase.idEvent != null) {
+            val sourceDate = eventDatabase.dateEvent
+            return if (sourceDate != null) {
+                val inputFormat = SimpleDateFormat("yyyy-MM-dd")
+                val eventDate = inputFormat.parse(sourceDate)
+                if (eventDate != null) {
+                    val eventDateLong = eventDate.time
+                    val nowDate = Date().time
+                    eventDateLong > nowDate
+
+                } else {
+                    return false
+
+                }
+
+            } else {
+                false
+
+            }
+
+        } else {
+            return false
+
+        }
 
     }
 
@@ -149,12 +186,26 @@ class EventDetailViewModel : ViewModel() {
 
     }
 
-    fun isFavorite(eventDatabase: EventDatabase): Boolean {
-        val eventData = userRepository.readEvent(eventDatabase.idEvent)
-        var mFavorite = false
+    fun hasIdEvent(eventDatabase: EventDatabase): Boolean {
+        return eventDatabase.idEvent != null
 
-        for (i in eventData.indices) {
-            if (eventData[i].isFavorite != null) {
+    }
+
+    fun isFavorite(eventDatabase: EventDatabase): Boolean {
+        var mFavorite = false
+        if (getMainActivity().viewModel.getIsFromAPI()) {
+            val eventData = userRepository.readEvent(eventDatabase.idEvent!!)
+
+            for (i in eventData.indices) {
+                if (eventData[i].isFavorite != null) {
+                    mFavorite = true
+
+                }
+
+            }
+
+        } else {
+            if (eventDatabase.isFavorite != null) {
                 mFavorite = true
 
             }
@@ -166,49 +217,90 @@ class EventDetailViewModel : ViewModel() {
     }
 
     fun setAlarm(isAlarm: Boolean, eventDatabase: EventDatabase, context: Context) {
-        val eventData = userRepository.readEvent(eventDatabase.idEvent)
+        var eventData = emptyList<EventDatabase>()
+        if (getMainActivity().viewModel.getIsFromAPI()) {
+            eventData = userRepository.readEvent(eventDatabase.idEvent!!)
+
+        }
 
         if (isAlarm) {
-            if (eventDatabase.dateEvent != null) {
-                val uploadWorkRequest = OneTimeWorkRequestBuilder<AlarmWorker>()
-                val data = Data.Builder()
-                data.putString("idEvent", eventDatabase.idEvent)
-                data.putString("strLeague", eventDatabase.strLeague)
-                data.putString("strEvent", eventDatabase.strEvent)
+            val uploadWorkRequest = OneTimeWorkRequestBuilder<AlarmWorker>()
+            val data = Data.Builder()
+            data.putString("idEvent", eventDatabase.idEvent)
+            data.putString("strLeague", eventDatabase.strLeague)
+            data.putString("strEvent", eventDatabase.strEvent)
 
-                val inputFormat = SimpleDateFormat("yyyy-MM-dd")
-                val date = inputFormat.parse(eventDatabase.dateEvent)
-                val duration = (date.time - Date().time) / 1000
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd")
+            val date = inputFormat.parse(eventDatabase.dateEvent!!)!!
+            val duration = (date.time - Date().time) / 1000
 
 
-                uploadWorkRequest.setInitialDelay(duration, TimeUnit.SECONDS)
-                uploadWorkRequest.setInputData(data.build())
-                val workRequest = uploadWorkRequest.build()
-                WorkManager.getInstance(context).enqueue(workRequest)
-                val workRequestID = workRequest.id.toString()
+            uploadWorkRequest.setInitialDelay(duration, TimeUnit.SECONDS)
+            uploadWorkRequest.setInputData(data.build())
+            val workRequest = uploadWorkRequest.build()
+            WorkManager.getInstance(context).enqueue(workRequest)
+            val workRequestID = workRequest.id.toString()
 
+            if (getMainActivity().viewModel.getIsFromAPI()) {
                 if (eventData.isNotEmpty()) {
                     for (i in eventData.indices) {
-                        setEventDatabase(eventDatabase, workRequestID, eventData[i].isFavorite)
+                        updateEventDatabase(
+                            eventDatabase,
+                            eventData[i].id,
+                            workRequestID,
+                            eventData[i].isFavorite
+                        )
 
                     }
 
                 } else {
-                    setEventDatabase(eventDatabase, workRequestID, eventDatabase.isFavorite)
+                    createEventDatabase(eventDatabase, workRequestID, null)
 
                 }
 
+            } else {
+                updateEventDatabase(
+                    eventDatabase,
+                    eventDatabase.id,
+                    workRequestID,
+                    eventDatabase.isFavorite
+                )
+
             }
 
+
         } else {
-            for (i in eventData.indices) {
+            if (getMainActivity().viewModel.getIsFromAPI()) {
+                for (i in eventData.indices) {
+                    WorkManager.getInstance(context)
+                        .cancelWorkById(UUID.fromString(eventData[i].isAlarm))
+                    if (eventData[i].isFavorite != null) {
+                        updateEventDatabase(
+                            eventDatabase,
+                            eventData[i].id,
+                            null,
+                            eventData[i].isFavorite
+                        )
+
+                    } else {
+                        userRepository.deleteEvent(eventData[i])
+                    }
+
+                }
+
+            } else {
                 WorkManager.getInstance(context)
-                    .cancelWorkById(UUID.fromString(eventData[i].isAlarm))
-                if (eventData[i].isFavorite != null) {
-                    setEventDatabase(eventDatabase, null, eventData[i].isFavorite)
+                    .cancelWorkById(UUID.fromString(eventDatabase.isAlarm))
+                if (eventDatabase.isFavorite != null) {
+                    updateEventDatabase(
+                        eventDatabase,
+                        eventDatabase.id,
+                        null,
+                        eventDatabase.isFavorite
+                    )
 
                 } else {
-                    userRepository.deleteEvent(eventDatabase.idEvent)
+                    userRepository.deleteEvent(eventDatabase)
                 }
 
             }
@@ -218,27 +310,63 @@ class EventDetailViewModel : ViewModel() {
     }
 
     fun setFavorite(isFavorite: Boolean, eventDatabase: EventDatabase) {
-        val eventData = userRepository.readEvent(eventDatabase.idEvent)
+        var eventData = emptyList<EventDatabase>()
+        if (getMainActivity().viewModel.getIsFromAPI()) {
+            eventData = userRepository.readEvent(eventDatabase.idEvent!!)
+
+        }
 
         if (isFavorite) {
-            if (eventData.isNotEmpty()) {
-                for (i in eventData.indices) {
-                    setEventDatabase(eventDatabase, eventData[i].isAlarm, true)
+            if (getMainActivity().viewModel.getIsFromAPI()) {
+                if (eventData.isNotEmpty()) {
+                    for (i in eventData.indices) {
+                        updateEventDatabase(
+                            eventDatabase,
+                            eventData[i].id,
+                            eventData[i].isAlarm,
+                            true
+                        )
+
+                    }
+
+                } else {
+                    createEventDatabase(eventDatabase, eventDatabase.isAlarm, true)
 
                 }
 
             } else {
-                setEventDatabase(eventDatabase, eventDatabase.isAlarm, true)
+                updateEventDatabase(eventDatabase, eventDatabase.id, eventDatabase.isAlarm, true)
 
             }
 
         } else {
-            for (i in eventData.indices) {
-                if (eventData[i].isAlarm != null) {
-                    setEventDatabase(eventDatabase, eventData[i].isAlarm, null)
+            if (getMainActivity().viewModel.getIsFromAPI()) {
+                for (i in eventData.indices) {
+                    if (eventData[i].isAlarm != null) {
+                        updateEventDatabase(
+                            eventDatabase,
+                            eventData[i].id,
+                            eventData[i].isAlarm,
+                            null
+                        )
+
+                    } else {
+                        userRepository.deleteEvent(eventData[i])
+                    }
+
+                }
+
+            } else {
+                if (eventDatabase.isAlarm != null) {
+                    updateEventDatabase(
+                        eventDatabase,
+                        eventDatabase.id,
+                        eventDatabase.isAlarm,
+                        null
+                    )
 
                 } else {
-                    userRepository.deleteEvent(eventDatabase.idEvent)
+                    userRepository.deleteEvent(eventDatabase)
                 }
 
             }
@@ -247,13 +375,15 @@ class EventDetailViewModel : ViewModel() {
 
     }
 
-    private fun setEventDatabase(
+    private fun updateEventDatabase(
         eventDatabase: EventDatabase,
+        id: Int,
         isAlarm: String?,
         isFavorite: Boolean?
     ) {
-        userRepository.createEvent(
+        userRepository.updateEvent(
             EventDatabase(
+                id,
                 eventDatabase.dateEvent,
                 eventDatabase.idEvent,
                 eventDatabase.strHomeTeam,
@@ -280,6 +410,46 @@ class EventDetailViewModel : ViewModel() {
                 eventDatabase.strEvent,
                 isAlarm,
                 isFavorite
+            )
+        )
+
+    }
+
+    private fun createEventDatabase(
+        eventDatabase: EventDatabase,
+        isAlarm: String?,
+        isFavorite: Boolean?
+    ) {
+        userRepository.createEvent(
+            EventDatabase(
+                0,
+                eventDatabase.dateEvent,
+                eventDatabase.idEvent,
+                eventDatabase.strHomeTeam,
+                eventDatabase.strAwayTeam,
+                eventDatabase.intHomeScore,
+                eventDatabase.intAwayScore,
+                eventDatabase.idHomeTeam,
+                eventDatabase.idAwayTeam,
+                eventDatabase.intHomeShots,
+                eventDatabase.intAwayShots,
+                eventDatabase.strHomeGoalDetails,
+                eventDatabase.strAwayGoalDetails,
+                eventDatabase.strHomeLineupGoalkeeper,
+                eventDatabase.strAwayLineupGoalkeeper,
+                eventDatabase.strHomeLineupDefense,
+                eventDatabase.strAwayLineupDefense,
+                eventDatabase.strHomeLineupMidfield,
+                eventDatabase.strAwayLineupMidfield,
+                eventDatabase.strHomeLineupForward,
+                eventDatabase.strAwayLineupForward,
+                eventDatabase.strHomeLineupSubstitutes,
+                eventDatabase.strAwayLineupSubstitutes,
+                eventDatabase.strLeague,
+                eventDatabase.strEvent,
+                isAlarm,
+                isFavorite
+
             )
         )
 

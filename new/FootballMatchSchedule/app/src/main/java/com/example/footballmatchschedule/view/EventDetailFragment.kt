@@ -77,7 +77,7 @@ class EventDetailFragment : Fragment() {
 
 
                     } else {
-                        imageButton_event_detail_fragment_1_1_2.visibility = View.GONE
+                        withContext(Dispatchers.Main) { imageButton_event_detail_fragment_1_1_2.visibility = View.GONE }
 
                     }
 

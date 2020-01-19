@@ -2,6 +2,7 @@ package com.example.footballmatchschedule.view
 
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -28,27 +29,13 @@ class MainActivity : AppCompatActivity() {
         val thisContext = this
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
-                val loadingStatus0 =
-                    withContext(Dispatchers.Default) { viewModel.updateLoading(true) }
-                updateLoading(
-                    loadingStatus0,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "start"
-                )
+                startLoading()
 
                 withContext(Dispatchers.Default) { viewModel.init(thisContext) }
 
                 changeFragment0(R.id.frameLayout_activity_main_1, HomeFragment())
 
-                val loadingStatus1 =
-                    withContext(Dispatchers.Default) { viewModel.updateLoading(false) }
-                updateLoading(
-                    loadingStatus1,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "stop"
-                )
+                stopLoading()
 
             }
 
@@ -64,15 +51,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun changeFragment1(layout: Int, fragment: Fragment) {
-        supportFragmentManager
-            .beginTransaction()
-            .addToBackStack(null) // detect addbackstack
-            .replace(layout, fragment)
-            .commitAllowingStateLoss()
-
-    }
-
     fun changeFragment2(layout: Int, fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
@@ -82,18 +60,13 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun changeFragment3(layout: Int, fragment: Fragment) {
-        supportFragmentManager
-            .beginTransaction()
-            .addToBackStack(null)
-            .replace(layout, fragment)
-            .commitAllowingStateLoss()
+    fun startLoading() {
+        cardView_activity_main_2.visibility = View.VISIBLE
 
     }
 
-    fun updateLoading(viewStatus: Int, className: String, line: Int, description: String?) {
-        TagHelper().writeTag(className, line, description)
-        cardView_activity_main_2.visibility = viewStatus
+    fun stopLoading() {
+        cardView_activity_main_2.visibility = View.GONE
 
     }
 

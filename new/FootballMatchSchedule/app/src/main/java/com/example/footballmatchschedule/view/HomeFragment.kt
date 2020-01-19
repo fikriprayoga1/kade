@@ -36,29 +36,9 @@ class HomeFragment : Fragment() {
         // Template
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
-                val loadingStatus0 =
-                    withContext(Dispatchers.Default) {
-                        (activity as MainActivity).viewModel.updateLoading(
-                            true
-                        )
-                    }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus0,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "start"
-                )
+                (activity as MainActivity).startLoading()
 
-
-                val loadingStatus1 = withContext(Dispatchers.Default) {
-                    (activity as MainActivity).viewModel.updateLoading(false)
-                }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus1,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "stop"
-                )
+                (activity as MainActivity).stopLoading()
 
             }
 
@@ -67,30 +47,11 @@ class HomeFragment : Fragment() {
 
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
-                val loadingStatus0 =
-                    withContext(Dispatchers.Default) {
-                        (activity as MainActivity).viewModel.updateLoading(
-                            true
-                        )
-                    }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus0,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "start"
-                )
+                (activity as MainActivity).startLoading()
 
                 initScreen()
 
-                val loadingStatus1 = withContext(Dispatchers.Default) {
-                    (activity as MainActivity).viewModel.updateLoading(false)
-                }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus1,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "stop"
-                )
+                (activity as MainActivity).stopLoading()
 
             }
 

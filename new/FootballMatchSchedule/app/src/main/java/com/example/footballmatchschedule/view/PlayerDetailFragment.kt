@@ -36,18 +36,7 @@ class PlayerDetailFragment : Fragment() {
 
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
-                val loadingStatus0 =
-                    withContext(Dispatchers.Default) {
-                        (activity as MainActivity).viewModel.updateLoading(
-                            true
-                        )
-                    }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus0,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "start"
-                )
+                (activity as MainActivity).startLoading()
 
                 val dataSource = (activity as MainActivity).viewModel.getSelectedPlayer()
 
@@ -65,15 +54,7 @@ class PlayerDetailFragment : Fragment() {
                 textView_player_detail_fragment_1_7.text = dataSource.strPosition
                 justifiedTextView_player_detail_fragment_1_8.text = dataSource.strDescriptionEN
 
-                val loadingStatus1 = withContext(Dispatchers.Default) {
-                    (activity as MainActivity).viewModel.updateLoading(false)
-                }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus1,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "stop"
-                )
+                (activity as MainActivity).stopLoading()
 
             }
 

@@ -41,15 +41,7 @@ class EventFragment : Fragment() {
 
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
-                val loadingStatus0 = withContext(Dispatchers.Default) {
-                    (activity as MainActivity).viewModel.updateLoading(true)
-                }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus0,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "start"
-                )
+                (activity as MainActivity).startLoading()
 
                 withContext(Dispatchers.Default) {
                     viewModel.init(
@@ -139,18 +131,7 @@ class EventFragment : Fragment() {
 
                 }
 
-                val loadingStatus1 =
-                    withContext(Dispatchers.Default) {
-                        (activity as MainActivity).viewModel.updateLoading(
-                            false
-                        )
-                    }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus1,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "stop"
-                )
+                (activity as MainActivity).stopLoading()
 
             }
 
@@ -176,18 +157,7 @@ class EventFragment : Fragment() {
     private fun textSubmitListener(query: String?) {
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
-                val loadingStatus0 =
-                    withContext(Dispatchers.Default) {
-                        (activity as MainActivity).viewModel.updateLoading(
-                            true
-                        )
-                    }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus0,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "start"
-                )
+                (activity as MainActivity).startLoading()
 
                 searchView_event_fragment_1.clearFocus()
                 viewModel.getMainActivity().exitKeyboard()
@@ -243,18 +213,7 @@ class EventFragment : Fragment() {
 
                 }
 
-                val loadingStatus1 =
-                    withContext(Dispatchers.Default) {
-                        (activity as MainActivity).viewModel.updateLoading(
-                            false
-                        )
-                    }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus1,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "stop"
-                )
+                (activity as MainActivity).stopLoading()
 
             }
 

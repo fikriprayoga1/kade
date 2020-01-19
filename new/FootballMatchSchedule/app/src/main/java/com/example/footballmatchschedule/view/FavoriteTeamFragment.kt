@@ -42,18 +42,8 @@ class FavoriteTeamFragment : Fragment() {
 
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
-                val loadingStatus0 =
-                    withContext(Dispatchers.Default) {
-                        (activity as MainActivity).viewModel.updateLoading(
-                            true
-                        )
-                    }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus0,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "start"
-                )
+                (activity as MainActivity).startLoading()
+
                 withContext(Dispatchers.Default) {
                     viewModel.init(
                         (activity as MainActivity).viewModel.getUserRepository(),
@@ -68,15 +58,7 @@ class FavoriteTeamFragment : Fragment() {
                 })
 
 
-                val loadingStatus1 = withContext(Dispatchers.Default) {
-                    (activity as MainActivity).viewModel.updateLoading(false)
-                }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus1,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "stop"
-                )
+                (activity as MainActivity).stopLoading()
 
             }
 
@@ -112,18 +94,7 @@ class FavoriteTeamFragment : Fragment() {
     private fun eventHandler(teamList: List<TeamDatabase>?) {
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
-                val loadingStatus0 =
-                    withContext(Dispatchers.Default) {
-                        (activity as MainActivity).viewModel.updateLoading(
-                            true
-                        )
-                    }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus0,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "start"
-                )
+                (activity as MainActivity).startLoading()
 
                 withContext(Dispatchers.Default) {
                     viewModel.initTeamList(teamList)
@@ -134,18 +105,7 @@ class FavoriteTeamFragment : Fragment() {
 
                 }
 
-                val loadingStatus1 =
-                    withContext(Dispatchers.Default) {
-                        (activity as MainActivity).viewModel.updateLoading(
-                            false
-                        )
-                    }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus1,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "stop"
-                )
+                (activity as MainActivity).stopLoading()
 
             }
 
@@ -156,18 +116,7 @@ class FavoriteTeamFragment : Fragment() {
     private fun selectedItemListener(teamDatabase: TeamDatabase) {
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
-                val loadingStatus0 =
-                    withContext(Dispatchers.Default) {
-                        (activity as MainActivity).viewModel.updateLoading(
-                            true
-                        )
-                    }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus0,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "start"
-                )
+                (activity as MainActivity).startLoading()
 
                 withContext(Dispatchers.Default) {
                     viewModel.getMainActivity().viewModel.setSelectedTeam(teamDatabase)
@@ -177,15 +126,7 @@ class FavoriteTeamFragment : Fragment() {
                 viewModel.getMainActivity()
                     .changeFragment2(R.id.frameLayout_activity_main_1, TeamDetailFragment())
 
-                val loadingStatus1 = withContext(Dispatchers.Default) {
-                    (activity as MainActivity).viewModel.updateLoading(false)
-                }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus1,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "stop"
-                )
+                (activity as MainActivity).stopLoading()
 
             }
 

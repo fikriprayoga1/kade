@@ -46,18 +46,7 @@ class TeamFragment : Fragment() {
 
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
-                val loadingStatus0 =
-                    withContext(Dispatchers.Default) {
-                        (activity as MainActivity).viewModel.updateLoading(
-                            true
-                        )
-                    }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus0,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "start"
-                )
+                (activity as MainActivity).startLoading()
 
                 withContext(Dispatchers.Default) {
                     viewModel.init(
@@ -127,18 +116,7 @@ class TeamFragment : Fragment() {
     private fun spinnerListener(leagueName: String) {
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
-                val loadingStatus0 =
-                    withContext(Dispatchers.Default) {
-                        (activity as MainActivity).viewModel.updateLoading(
-                            true
-                        )
-                    }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus0,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "start"
-                )
+                (activity as MainActivity).startLoading()
 
                 withContext(Dispatchers.IO) {
                     viewModel.requestTeamList(object :
@@ -180,15 +158,7 @@ class TeamFragment : Fragment() {
 
                 }
 
-                val loadingStatus1 = withContext(Dispatchers.Default) {
-                    (activity as MainActivity).viewModel.updateLoading(false)
-                }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus1,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "stop"
-                )
+                (activity as MainActivity).stopLoading()
 
             }
 
@@ -217,18 +187,7 @@ class TeamFragment : Fragment() {
 
                 }
 
-                val loadingStatus1 =
-                    withContext(Dispatchers.Default) {
-                        (activity as MainActivity).viewModel.updateLoading(
-                            false
-                        )
-                    }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus1,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "stop"
-                )
+                (activity as MainActivity).stopLoading()
 
             }
 
@@ -239,18 +198,7 @@ class TeamFragment : Fragment() {
     private fun textSubmitListener(query: String?) {
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
-                val loadingStatus0 =
-                    withContext(Dispatchers.Default) {
-                        (activity as MainActivity).viewModel.updateLoading(
-                            true
-                        )
-                    }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus0,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "start"
-                )
+                (activity as MainActivity).startLoading()
 
                 searchView_team_fragment_1.clearFocus()
                 viewModel.getMainActivity().exitKeyboard()
@@ -334,18 +282,7 @@ class TeamFragment : Fragment() {
 
                 }
 
-                val loadingStatus1 =
-                    withContext(Dispatchers.Default) {
-                        (activity as MainActivity).viewModel.updateLoading(
-                            false
-                        )
-                    }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus1,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "stop"
-                )
+                (activity as MainActivity).stopLoading()
 
             }
 
@@ -356,18 +293,7 @@ class TeamFragment : Fragment() {
     private fun selectedItemListener(teamDatabase: TeamDatabase) {
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
-                val loadingStatus0 =
-                    withContext(Dispatchers.Default) {
-                        (activity as MainActivity).viewModel.updateLoading(
-                            true
-                        )
-                    }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus0,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "start"
-                )
+                (activity as MainActivity).startLoading()
 
                 withContext(Dispatchers.Default) {
                     viewModel.getMainActivity().viewModel.setSelectedTeam(teamDatabase)
@@ -377,15 +303,7 @@ class TeamFragment : Fragment() {
                 viewModel.getMainActivity()
                     .changeFragment2(R.id.frameLayout_activity_main_1, TeamDetailFragment())
 
-                val loadingStatus1 = withContext(Dispatchers.Default) {
-                    (activity as MainActivity).viewModel.updateLoading(false)
-                }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus1,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "stop"
-                )
+                (activity as MainActivity).stopLoading()
 
             }
 

@@ -16,26 +16,24 @@ import com.example.footballmatchschedule.other.jetpack.Webservice
 
 class MainActivityViewModel : ViewModel() {
     // 1
-    private var loadingQueue: Short = 0
-    // 2
     private val queueInit: Short = 0
-    // 3
+    // 2
     private var userRepository: UserRepository? = null
-    // 4
+    // 3
     private var leagueIdHolder = MutableLiveData<String>()
-    // 5
+    // 4
     private val eventList = MutableLiveData<List<EventDetail>>()
-    // 6
+    // 5
     private val hasFragmentBackstack = mutableMapOf<String, Boolean>()
-    // 7
+    // 6
     private val searchTeamList = MutableLiveData<List<TeamDetail>>()
-    // 8
+    // 7
     private lateinit var selectedEvent: EventDatabase
-    // 9
+    // 8
     private lateinit var selectedTeam: TeamDatabase
-    // 10
+    // 9
     private lateinit var selectedPlayer: PlayerDetail
-    // 11
+    // 10
     private var isFromAPI = true
 
     fun init(context: Context) {
@@ -43,21 +41,6 @@ class MainActivityViewModel : ViewModel() {
             userRepository =
                 UserRepository(Webservice.create(), UserDatabase.getInstance(context).userDao())
 
-        }
-
-    }
-
-    fun updateLoading(isStartLoading: Boolean): Int {
-        if (isStartLoading) {
-            loadingQueue++
-        } else {
-            loadingQueue--
-        }
-
-        return if (loadingQueue == getQueueInit()) {
-            View.GONE
-        } else {
-            View.VISIBLE
         }
 
     }

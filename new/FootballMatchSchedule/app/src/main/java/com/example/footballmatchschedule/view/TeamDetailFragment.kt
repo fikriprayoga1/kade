@@ -47,18 +47,7 @@ class TeamDetailFragment : Fragment() {
 
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
-                val loadingStatus0 =
-                    withContext(Dispatchers.Default) {
-                        (activity as MainActivity).viewModel.updateLoading(
-                            true
-                        )
-                    }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus0,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "start"
-                )
+                (activity as MainActivity).startLoading()
 
                 withContext(Dispatchers.Default) {
                     viewModel.init(
@@ -131,18 +120,7 @@ class TeamDetailFragment : Fragment() {
     private fun favoriteClickListener(teamDatabase: TeamDatabase) {
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
-                val loadingStatus0 =
-                    withContext(Dispatchers.Default) {
-                        (activity as MainActivity).viewModel.updateLoading(
-                            true
-                        )
-                    }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus0,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "start"
-                )
+                (activity as MainActivity).startLoading()
 
                 withContext(Dispatchers.Default) {
                     if (viewModel.isFavorite(teamDatabase)) {
@@ -165,16 +143,7 @@ class TeamDetailFragment : Fragment() {
 
                 }
 
-
-                val loadingStatus1 = withContext(Dispatchers.Default) {
-                    (activity as MainActivity).viewModel.updateLoading(false)
-                }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus1,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "stop"
-                )
+                (activity as MainActivity).stopLoading()
 
             }
 
@@ -210,18 +179,7 @@ class TeamDetailFragment : Fragment() {
     private fun selectedItemListener(playerDetail: PlayerDetail) {
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
-                val loadingStatus0 =
-                    withContext(Dispatchers.Default) {
-                        (activity as MainActivity).viewModel.updateLoading(
-                            true
-                        )
-                    }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus0,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "start"
-                )
+                (activity as MainActivity).startLoading()
 
                 withContext(Dispatchers.Default) {
                     viewModel.getMainActivity().viewModel.setSelectedPlayer(playerDetail)
@@ -230,15 +188,7 @@ class TeamDetailFragment : Fragment() {
                 viewModel.getMainActivity()
                     .changeFragment2(R.id.frameLayout_activity_main_1, PlayerDetailFragment())
 
-                val loadingStatus1 = withContext(Dispatchers.Default) {
-                    (activity as MainActivity).viewModel.updateLoading(false)
-                }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus1,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "stop"
-                )
+                (activity as MainActivity).stopLoading()
 
             }
 
@@ -266,18 +216,7 @@ class TeamDetailFragment : Fragment() {
 
                 }
 
-                val loadingStatus1 =
-                    withContext(Dispatchers.Default) {
-                        (activity as MainActivity).viewModel.updateLoading(
-                            false
-                        )
-                    }
-                (activity as MainActivity).updateLoading(
-                    loadingStatus1,
-                    this.javaClass.name,
-                    Thread.currentThread().stackTrace[2].lineNumber,
-                    "stop"
-                )
+                (activity as MainActivity).stopLoading()
 
             }
 

@@ -1,33 +1,35 @@
 <resources>
     <string name="app_name">Football Match Schedule</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-    <string name="s1">Thursday, 25 October 2018</string>
-    <string name="s2">vs</string>
-    <string name="s3">00</string>
-    <string name="s4">Barcelona</string>
-    <string name="s5">Shots</string>
-    <string name="s6">Mohamed Salah</string>
-    <string name="s7">Goals</string>
-    <string name="s8">Goal Keeper</string>
-    <string name="s9">Defense</string>
-    <string name="s10">Midfield</string>
-    <string name="s11">Forward</string>
-    <string name="s12">Substitutes</string>
-    <string name="s13">Last Match</string>
-    <string name="s14">Next Match</string>
-    <string name="s15">Event</string>
-    <string name="s16">Favorite</string>
-    <string name="s17">Team</string>
-    <string name="s18">Search . . .</string>
-    <string name="s19">Alarm</string>
-    <string name="s20">Camp Nou</string>
-    <string name="s21">Description</string>
-    <string name="s22">Weight(Kg)</string>
-    <string name="s23">Height(m)</string>
-    <string name="s24">66</string>
+    <string name="a1">date</string>
+    <string name="a2">vs</string>
+    <string name="a3">shots_count</string>
+    <string name="a4">team_name</string>
+    <string name="a5">Shots</string>
+    <string name="a6">players_name</string>
+    <string name="a7">Goals</string>
+    <string name="a8">Goal Keeper</string>
+    <string name="a9">Defense</string>
+    <string name="a10">Midfield</string>
+    <string name="a11">player_position</string>
+    <string name="a12">Substitutes</string>
+    <string name="a13">Last Match</string>
+    <string name="a14">Next Match</string>
+    <string name="a15">Event</string>
+    <string name="a16">Favorite</string>
+    <string name="a17">Team</string>
+    <string name="a18">Search . . .</string>
+    <string name="a19">Alarm</string>
+    <string name="a20">stadium_name</string>
+    <string name="a21">Description</string>
+    <string name="a22">Weight(Kg)</string>
+    <string name="a23">Height(m)</string>
+    <string name="a24">0</string>
+    <string name="a25">ImageView</string>
+    <string name="a26">alarm_icon</string>
+    <string name="a27">team_logo</string>
+    <string name="a28">favorite_icon</string>
+    <string name="a29">player_image</string>
 
     <string name="channel_name">Football Match Schedule</string>
     <string name="channel_description">Best football schedule app</string>

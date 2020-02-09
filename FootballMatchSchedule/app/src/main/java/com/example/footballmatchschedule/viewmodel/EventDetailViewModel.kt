@@ -6,9 +6,9 @@ import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.footballmatchschedule.model.database.EventDatabase
-import com.example.footballmatchschedule.other.helper.AlarmWorker
-import com.example.footballmatchschedule.other.helper.ResponseListener
-import com.example.footballmatchschedule.other.jetpack.UserRepository
+import com.example.footballmatchschedule.util.helper.AlarmWorker
+import com.example.footballmatchschedule.util.helper.ResponseListener
+import com.example.footballmatchschedule.util.jetpack.UserRepository
 import com.example.footballmatchschedule.view.MainActivity
 import java.text.SimpleDateFormat
 import java.util.*

@@ -1,4 +1,4 @@
-package com.example.footballmatchschedule.other.helper
+package com.example.footballmatchschedule.util.helper
 
 import com.example.footballmatchschedule.model.RetrofitResponse
 

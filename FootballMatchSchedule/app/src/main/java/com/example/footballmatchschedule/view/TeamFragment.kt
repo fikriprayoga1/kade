@@ -17,8 +17,8 @@ import com.example.footballmatchschedule.model.RetrofitResponse
 import com.example.footballmatchschedule.model.apiresponse.League
 import com.example.footballmatchschedule.model.apiresponse.Team
 import com.example.footballmatchschedule.model.database.TeamDatabase
-import com.example.footballmatchschedule.other.helper.ResponseListener
-import com.example.footballmatchschedule.other.recyclerviewadapter.TeamRecyclerViewAdapter
+import com.example.footballmatchschedule.util.helper.ResponseListener
+import com.example.footballmatchschedule.util.recyclerviewadapter.TeamRecyclerViewAdapter
 import com.example.footballmatchschedule.viewmodel.TeamViewModel
 import kotlinx.android.synthetic.main.team_fragment.*
 import kotlinx.coroutines.Dispatchers

@@ -7,9 +7,9 @@ import androidx.lifecycle.ViewModel
 import com.example.footballmatchschedule.model.apiresponse.LeagueDetail
 import com.example.footballmatchschedule.model.apiresponse.TeamDetail
 import com.example.footballmatchschedule.model.database.TeamDatabase
-import com.example.footballmatchschedule.other.helper.ResponseListener
-import com.example.footballmatchschedule.other.jetpack.UserRepository
-import com.example.footballmatchschedule.other.recyclerviewadapter.TeamRecyclerViewAdapter
+import com.example.footballmatchschedule.util.helper.ResponseListener
+import com.example.footballmatchschedule.util.jetpack.UserRepository
+import com.example.footballmatchschedule.util.recyclerviewadapter.TeamRecyclerViewAdapter
 import com.example.footballmatchschedule.view.MainActivity
 
 class TeamViewModel : ViewModel() {

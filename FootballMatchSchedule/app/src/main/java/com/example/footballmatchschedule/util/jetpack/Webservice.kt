@@ -1,4 +1,4 @@
-package com.example.footballmatchschedule.other.jetpack
+package com.example.footballmatchschedule.util.jetpack
 
 import com.example.footballmatchschedule.model.apiresponse.*
 import retrofit2.Call

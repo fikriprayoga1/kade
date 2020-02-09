@@ -1,4 +1,4 @@
-package com.example.footballmatchschedule.other.jetpack
+package com.example.footballmatchschedule.util.jetpack
 
 import android.content.Context
 import androidx.room.Database

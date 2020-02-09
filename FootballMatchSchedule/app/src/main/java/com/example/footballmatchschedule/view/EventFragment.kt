@@ -13,7 +13,7 @@ import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.RetrofitResponse
 import com.example.footballmatchschedule.model.apiresponse.League
 import com.example.footballmatchschedule.model.apiresponse.SearchEvent
-import com.example.footballmatchschedule.other.helper.ResponseListener
+import com.example.footballmatchschedule.util.helper.ResponseListener
 import com.example.footballmatchschedule.viewmodel.EventViewModel
 import kotlinx.android.synthetic.main.event_fragment.*
 import kotlinx.coroutines.Dispatchers

@@ -1,4 +1,4 @@
-package com.example.footballmatchschedule.other.recyclerviewadapter
+package com.example.footballmatchschedule.util.recyclerviewadapter
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -9,26 +9,25 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.footballmatchschedule.R
-import com.example.footballmatchschedule.model.apiresponse.TeamDetail
-import com.example.footballmatchschedule.model.database.TeamDatabase
+import com.example.footballmatchschedule.model.apiresponse.PlayerDetail
 import com.squareup.picasso.Picasso
-import java.text.SimpleDateFormat
 
-class TeamRecyclerViewAdapter(
+class PlayerRecyclerViewAdapter(
     internal var context: Context
-    , private var teamObject: List<TeamObject>
-    , private var teamListener: TeamListener
-) : RecyclerView.Adapter<TeamRecyclerViewAdapter.MyViewHolder>() {
+    , private var playerObject: List<PlayerObject>
+    , private var playerListener: PlayerListener
+) : RecyclerView.Adapter<PlayerRecyclerViewAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var mLogo: ImageView = view.findViewById(R.id.imageView_item_team_1)
-        var mTeamName: TextView = view.findViewById(R.id.textView_item_team_2)
+        var mPlayerImage: ImageView = view.findViewById(R.id.imageView_player_item_1)
+        var mPlayerName: TextView = view.findViewById(R.id.textView_player_item_2)
+        var mPlayerPosition: TextView = view.findViewById(R.id.textView_player_item_3)
 
     }
 
     // this method for build view
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val itemLayout = R.layout.item_team
+        val itemLayout = R.layout.item_player
         val itemView = LayoutInflater.from(parent.context)
             .inflate(itemLayout, parent, false)
         return MyViewHolder(itemView)
@@ -37,17 +36,18 @@ class TeamRecyclerViewAdapter(
     // this method for init item in every view item
     @SuppressLint("SimpleDateFormat")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val mTeamDatabase = teamObject[position].teamDatabase
+        val mPlayerDetail = playerObject[position].playerDetail
 
         Picasso.get()
-            .load(mTeamDatabase.strTeamBadge)
+            .load(mPlayerDetail.strThumb)
             .resize(100, 100)
-            .into(holder.mLogo)
+            .into(holder.mPlayerImage)
 
-        holder.mTeamName.text = mTeamDatabase.strTeam
+        holder.mPlayerName.text = mPlayerDetail.strPlayer
+        holder.mPlayerPosition.text = mPlayerDetail.strPosition
 
         holder.itemView.setOnClickListener {
-            teamListener.itemDetail(mTeamDatabase)
+            playerListener.itemDetail(mPlayerDetail)
 
         }
 
@@ -58,7 +58,7 @@ class TeamRecyclerViewAdapter(
         var itemCount = 0
 
         try {
-            val itemSize = teamObject.size
+            val itemSize = playerObject.size
             itemCount = itemSize
         } catch (e: Exception) {
         }
@@ -67,12 +67,12 @@ class TeamRecyclerViewAdapter(
     }
 
     // this interface for handle more button pressed
-    interface TeamListener {
-        fun itemDetail(teamDatabase: TeamDatabase)
+    interface PlayerListener {
+        fun itemDetail(playerDetail: PlayerDetail)
 
     }
 
     // this class is object of item in recyclerview
-    class TeamObject(var teamDatabase: TeamDatabase)
+    class PlayerObject(var playerDetail: PlayerDetail)
 
 }

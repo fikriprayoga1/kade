@@ -14,12 +14,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.footballmatchschedule.R
-import com.example.footballmatchschedule.model.apiresponse.EventDetail
 import com.example.footballmatchschedule.model.database.EventDatabase
-import com.example.footballmatchschedule.other.recyclerviewadapter.EventRecyclerViewAdapter
+import com.example.footballmatchschedule.util.recyclerviewadapter.EventRecyclerViewAdapter
 import com.example.footballmatchschedule.viewmodel.AlarmViewModel
 import kotlinx.android.synthetic.main.alarm_fragment.*
-import kotlinx.android.synthetic.main.favorite_event_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

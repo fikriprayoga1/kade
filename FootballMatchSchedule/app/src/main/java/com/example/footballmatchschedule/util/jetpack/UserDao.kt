@@ -1,4 +1,4 @@
-package com.example.footballmatchschedule.other.jetpack
+package com.example.footballmatchschedule.util.jetpack
 
 import androidx.lifecycle.LiveData
 import androidx.room.*

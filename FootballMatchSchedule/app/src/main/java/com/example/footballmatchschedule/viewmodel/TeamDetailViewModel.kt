@@ -3,9 +3,9 @@ package com.example.footballmatchschedule.viewmodel
 import androidx.lifecycle.ViewModel
 import com.example.footballmatchschedule.model.apiresponse.PlayerDetail
 import com.example.footballmatchschedule.model.database.TeamDatabase
-import com.example.footballmatchschedule.other.helper.ResponseListener
-import com.example.footballmatchschedule.other.jetpack.UserRepository
-import com.example.footballmatchschedule.other.recyclerviewadapter.PlayerRecyclerViewAdapter
+import com.example.footballmatchschedule.util.helper.ResponseListener
+import com.example.footballmatchschedule.util.jetpack.UserRepository
+import com.example.footballmatchschedule.util.recyclerviewadapter.PlayerRecyclerViewAdapter
 import com.example.footballmatchschedule.view.MainActivity
 
 class TeamDetailViewModel : ViewModel() {

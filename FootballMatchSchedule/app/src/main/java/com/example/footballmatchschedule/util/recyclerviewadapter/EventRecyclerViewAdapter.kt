@@ -1,4 +1,4 @@
-package com.example.footballmatchschedule.other.recyclerviewadapter
+package com.example.footballmatchschedule.util.recyclerviewadapter
 
 import android.annotation.SuppressLint
 import android.content.Context

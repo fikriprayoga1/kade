@@ -1,12 +1,12 @@
-package com.example.footballmatchschedule.other.jetpack
+package com.example.footballmatchschedule.util.jetpack
 
 import androidx.lifecycle.LiveData
 import com.example.footballmatchschedule.model.RetrofitResponse
 import com.example.footballmatchschedule.model.apiresponse.*
 import com.example.footballmatchschedule.model.database.EventDatabase
 import com.example.footballmatchschedule.model.database.TeamDatabase
-import com.example.footballmatchschedule.other.helper.ResponseListener
-import com.example.footballmatchschedule.other.helper.TagHelper
+import com.example.footballmatchschedule.util.helper.ResponseListener
+import com.example.footballmatchschedule.util.helper.TagHelper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

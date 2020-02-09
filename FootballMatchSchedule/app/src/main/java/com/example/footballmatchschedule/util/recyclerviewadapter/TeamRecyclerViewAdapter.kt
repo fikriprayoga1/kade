@@ -1,4 +1,4 @@
-package com.example.footballmatchschedule.other.recyclerviewadapter
+package com.example.footballmatchschedule.util.recyclerviewadapter
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -9,25 +9,24 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.footballmatchschedule.R
-import com.example.footballmatchschedule.model.apiresponse.PlayerDetail
+import com.example.footballmatchschedule.model.database.TeamDatabase
 import com.squareup.picasso.Picasso
 
-class PlayerRecyclerViewAdapter(
+class TeamRecyclerViewAdapter(
     internal var context: Context
-    , private var playerObject: List<PlayerObject>
-    , private var playerListener: PlayerListener
-) : RecyclerView.Adapter<PlayerRecyclerViewAdapter.MyViewHolder>() {
+    , private var teamObject: List<TeamObject>
+    , private var teamListener: TeamListener
+) : RecyclerView.Adapter<TeamRecyclerViewAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var mPlayerImage: ImageView = view.findViewById(R.id.imageView_player_item_1)
-        var mPlayerName: TextView = view.findViewById(R.id.textView_player_item_2)
-        var mPlayerPosition: TextView = view.findViewById(R.id.textView_player_item_3)
+        var mLogo: ImageView = view.findViewById(R.id.imageView_item_team_1)
+        var mTeamName: TextView = view.findViewById(R.id.textView_item_team_2)
 
     }
 
     // this method for build view
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val itemLayout = R.layout.item_player
+        val itemLayout = R.layout.item_team
         val itemView = LayoutInflater.from(parent.context)
             .inflate(itemLayout, parent, false)
         return MyViewHolder(itemView)
@@ -36,18 +35,17 @@ class PlayerRecyclerViewAdapter(
     // this method for init item in every view item
     @SuppressLint("SimpleDateFormat")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val mPlayerDetail = playerObject[position].playerDetail
+        val mTeamDatabase = teamObject[position].teamDatabase
 
         Picasso.get()
-            .load(mPlayerDetail.strThumb)
+            .load(mTeamDatabase.strTeamBadge)
             .resize(100, 100)
-            .into(holder.mPlayerImage)
+            .into(holder.mLogo)
 
-        holder.mPlayerName.text = mPlayerDetail.strPlayer
-        holder.mPlayerPosition.text = mPlayerDetail.strPosition
+        holder.mTeamName.text = mTeamDatabase.strTeam
 
         holder.itemView.setOnClickListener {
-            playerListener.itemDetail(mPlayerDetail)
+            teamListener.itemDetail(mTeamDatabase)
 
         }
 
@@ -58,7 +56,7 @@ class PlayerRecyclerViewAdapter(
         var itemCount = 0
 
         try {
-            val itemSize = playerObject.size
+            val itemSize = teamObject.size
             itemCount = itemSize
         } catch (e: Exception) {
         }
@@ -67,12 +65,12 @@ class PlayerRecyclerViewAdapter(
     }
 
     // this interface for handle more button pressed
-    interface PlayerListener {
-        fun itemDetail(playerDetail: PlayerDetail)
+    interface TeamListener {
+        fun itemDetail(teamDatabase: TeamDatabase)
 
     }
 
     // this class is object of item in recyclerview
-    class PlayerObject(var playerDetail: PlayerDetail)
+    class TeamObject(var teamDatabase: TeamDatabase)
 
 }

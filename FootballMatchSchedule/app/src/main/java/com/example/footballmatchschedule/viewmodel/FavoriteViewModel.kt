@@ -3,7 +3,7 @@ package com.example.footballmatchschedule.viewmodel
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.ViewModel
-import com.example.footballmatchschedule.other.helper.ViewPagerAdapter
+import com.example.footballmatchschedule.util.helper.ViewPagerAdapter
 import com.example.footballmatchschedule.view.FavoriteEventFragment
 import com.example.footballmatchschedule.view.FavoriteTeamFragment
 

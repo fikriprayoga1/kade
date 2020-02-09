@@ -13,7 +13,7 @@ import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.RetrofitResponse
 import com.example.footballmatchschedule.model.apiresponse.Team
 import com.example.footballmatchschedule.model.database.EventDatabase
-import com.example.footballmatchschedule.other.helper.ResponseListener
+import com.example.footballmatchschedule.util.helper.ResponseListener
 import com.example.footballmatchschedule.viewmodel.EventDetailViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.event_detail_fragment.*

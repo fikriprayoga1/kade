@@ -16,8 +16,8 @@ import com.example.footballmatchschedule.model.RetrofitResponse
 import com.example.footballmatchschedule.model.apiresponse.Player
 import com.example.footballmatchschedule.model.apiresponse.PlayerDetail
 import com.example.footballmatchschedule.model.database.TeamDatabase
-import com.example.footballmatchschedule.other.helper.ResponseListener
-import com.example.footballmatchschedule.other.recyclerviewadapter.PlayerRecyclerViewAdapter
+import com.example.footballmatchschedule.util.helper.ResponseListener
+import com.example.footballmatchschedule.util.recyclerviewadapter.PlayerRecyclerViewAdapter
 import com.example.footballmatchschedule.viewmodel.TeamDetailViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.event_detail_fragment.*

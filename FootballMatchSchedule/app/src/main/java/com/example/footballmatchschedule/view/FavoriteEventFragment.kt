@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.database.EventDatabase
-import com.example.footballmatchschedule.other.recyclerviewadapter.EventRecyclerViewAdapter
+import com.example.footballmatchschedule.util.recyclerviewadapter.EventRecyclerViewAdapter
 import com.example.footballmatchschedule.viewmodel.FavoriteEventViewModel
 import kotlinx.android.synthetic.main.favorite_event_fragment.*
 import kotlinx.coroutines.Dispatchers

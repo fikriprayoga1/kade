@@ -1,7 +1,6 @@
 package com.example.footballmatchschedule.viewmodel
 
 import android.content.Context
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,9 +9,9 @@ import com.example.footballmatchschedule.model.apiresponse.PlayerDetail
 import com.example.footballmatchschedule.model.apiresponse.TeamDetail
 import com.example.footballmatchschedule.model.database.EventDatabase
 import com.example.footballmatchschedule.model.database.TeamDatabase
-import com.example.footballmatchschedule.other.jetpack.UserDatabase
-import com.example.footballmatchschedule.other.jetpack.UserRepository
-import com.example.footballmatchschedule.other.jetpack.Webservice
+import com.example.footballmatchschedule.util.jetpack.UserDatabase
+import com.example.footballmatchschedule.util.jetpack.UserRepository
+import com.example.footballmatchschedule.util.jetpack.Webservice
 
 class MainActivityViewModel : ViewModel() {
     // 1

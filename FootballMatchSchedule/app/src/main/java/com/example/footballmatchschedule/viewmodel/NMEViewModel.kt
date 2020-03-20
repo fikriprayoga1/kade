@@ -6,21 +6,20 @@ import com.example.footballmatchschedule.model.database.EventDatabase
 import com.example.footballmatchschedule.util.helper.ResponseListener
 import com.example.footballmatchschedule.util.jetpack.UserRepository
 import com.example.footballmatchschedule.util.recyclerviewadapter.EventRecyclerViewAdapter
-import com.example.footballmatchschedule.view.MainActivity
+import com.example.footballmatchschedule.MainActivity
 
 class NMEViewModel : ViewModel() {
     // 1
     private lateinit var userRepository: UserRepository
+
     // 2
-    private lateinit var mainActivity: MainActivity
-    // 3
     private val nmeObjects: MutableList<EventRecyclerViewAdapter.EventObject> = ArrayList()
-    // 4
+
+    // 3
     private lateinit var nmeObject: EventRecyclerViewAdapter.EventObject
 
-    fun init(userRepository: UserRepository, mainActivity: MainActivity) {
+    fun init(userRepository: UserRepository) {
         this.userRepository = userRepository
-        this.mainActivity = mainActivity
 
     }
 
@@ -41,10 +40,6 @@ class NMEViewModel : ViewModel() {
     fun requestEventList(responseListener: ResponseListener, id: String) {
         userRepository.requestNMEList(id, responseListener)
 
-    }
-
-    fun getMainActivity(): MainActivity {
-        return mainActivity
     }
 
     fun getEventObjects(): MutableList<EventRecyclerViewAdapter.EventObject> {

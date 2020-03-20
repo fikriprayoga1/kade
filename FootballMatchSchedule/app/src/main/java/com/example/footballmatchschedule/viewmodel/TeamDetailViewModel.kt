@@ -6,26 +6,22 @@ import com.example.footballmatchschedule.model.database.TeamDatabase
 import com.example.footballmatchschedule.util.helper.ResponseListener
 import com.example.footballmatchschedule.util.jetpack.UserRepository
 import com.example.footballmatchschedule.util.recyclerviewadapter.PlayerRecyclerViewAdapter
-import com.example.footballmatchschedule.view.MainActivity
+import com.example.footballmatchschedule.MainActivity
+import com.example.footballmatchschedule.util.helper.FMSHelper
 
 class TeamDetailViewModel : ViewModel() {
     // 1
     private lateinit var userRepository: UserRepository
+
     // 2
-    private lateinit var mainActivity: MainActivity
-    // 3
     private val playerObjects: MutableList<PlayerRecyclerViewAdapter.PlayerObject> = ArrayList()
-    // 4
+
+    // 3
     private lateinit var playerObject: PlayerRecyclerViewAdapter.PlayerObject
 
-    fun init(userRepository: UserRepository, mainActivity: MainActivity) {
+    fun init(userRepository: UserRepository) {
         this.userRepository = userRepository
-        this.mainActivity = mainActivity
 
-    }
-
-    fun getMainActivity(): MainActivity {
-        return mainActivity
     }
 
     fun hasIdEvent(teamDatabase: TeamDatabase): Boolean {
@@ -36,8 +32,8 @@ class TeamDetailViewModel : ViewModel() {
     fun isFavorite(teamDatabase: TeamDatabase): Boolean {
         var mFavorite = false
 
-        if (getMainActivity().viewModel.getIsFromAPI()) {
-            val teamData = userRepository.readTeam(teamDatabase.idTeam!!)
+        if (FMSHelper.getIsFromAPI()) {
+            val teamData = userRepository.databaseHandler.readTeam(teamDatabase.idTeam!!)
 
             for (i in teamData.indices) {
                 if (teamData[i].isFavorite != null) {
@@ -62,8 +58,8 @@ class TeamDetailViewModel : ViewModel() {
     fun setFavorite(isFavorite: Boolean, teamDatabase: TeamDatabase) {
         var teamData = emptyList<TeamDatabase>()
 
-        if (getMainActivity().viewModel.getIsFromAPI()) {
-            teamData = userRepository.readTeam(teamDatabase.idTeam!!)
+        if (FMSHelper.getIsFromAPI()) {
+            teamData = userRepository.databaseHandler.readTeam(teamDatabase.idTeam!!)
 
         }
 
@@ -71,14 +67,14 @@ class TeamDetailViewModel : ViewModel() {
             createTeamDatabase(teamDatabase)
 
         } else {
-            if (getMainActivity().viewModel.getIsFromAPI()) {
+            if (FMSHelper.getIsFromAPI()) {
                 for (i in teamData.indices) {
-                    userRepository.deleteTeam(teamData[i])
+                    userRepository.databaseHandler.deleteTeam(teamData[i])
 
                 }
 
             } else {
-                userRepository.deleteTeam(teamDatabase)
+                userRepository.databaseHandler.deleteTeam(teamDatabase)
 
             }
 
@@ -87,7 +83,7 @@ class TeamDetailViewModel : ViewModel() {
     }
 
     private fun createTeamDatabase(teamDatabase: TeamDatabase) {
-        userRepository.createTeam(
+        userRepository.databaseHandler.createTeam(
             TeamDatabase(
                 0,
                 teamDatabase.idTeam,

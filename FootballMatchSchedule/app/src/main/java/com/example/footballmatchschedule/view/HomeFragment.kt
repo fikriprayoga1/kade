@@ -8,11 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
+import com.example.footballmatchschedule.MainActivity
 import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.home_fragment.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 
 class HomeFragment : Fragment() {

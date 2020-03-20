@@ -5,26 +5,26 @@ import androidx.lifecycle.ViewModel
 import com.example.footballmatchschedule.model.database.TeamDatabase
 import com.example.footballmatchschedule.util.jetpack.UserRepository
 import com.example.footballmatchschedule.util.recyclerviewadapter.TeamRecyclerViewAdapter
-import com.example.footballmatchschedule.view.MainActivity
+import com.example.footballmatchschedule.MainActivity
 
 class FavoriteTeamViewModel : ViewModel() {
     // 1
     private var userRepository: UserRepository? = null
+
     // 2
-    private lateinit var mainActivity: MainActivity
-    // 3
     private var favoriteTeam: LiveData<List<TeamDatabase>>? = null
-    // 4
+
+    // 3
     private val teamObjects: MutableList<TeamRecyclerViewAdapter.TeamObject> = ArrayList()
-    // 5
+
+    // 4
     private lateinit var teamObject: TeamRecyclerViewAdapter.TeamObject
 
-    fun init(userRepository: UserRepository, mainActivity: MainActivity) {
+    fun init(userRepository: UserRepository) {
         this.userRepository = userRepository
-        this.mainActivity = mainActivity
 
         if (favoriteTeam == null) {
-            favoriteTeam = userRepository.readFavoriteTeam()
+            favoriteTeam = userRepository.databaseHandler.readFavoriteTeam()
 
         }
 
@@ -46,10 +46,6 @@ class FavoriteTeamViewModel : ViewModel() {
 
         }
 
-    }
-
-    fun getMainActivity(): MainActivity {
-        return mainActivity
     }
 
     fun getTeamObjects(): MutableList<TeamRecyclerViewAdapter.TeamObject> {

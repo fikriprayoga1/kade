@@ -9,7 +9,8 @@ import com.example.footballmatchschedule.model.database.EventDatabase
 import com.example.footballmatchschedule.util.helper.AlarmWorker
 import com.example.footballmatchschedule.util.helper.ResponseListener
 import com.example.footballmatchschedule.util.jetpack.UserRepository
-import com.example.footballmatchschedule.view.MainActivity
+import com.example.footballmatchschedule.MainActivity
+import com.example.footballmatchschedule.util.helper.FMSHelper
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -17,12 +18,9 @@ import java.util.concurrent.TimeUnit
 class EventDetailViewModel : ViewModel() {
     // 1
     private lateinit var userRepository: UserRepository
-    // 2
-    private lateinit var mainActivity: MainActivity
 
-    fun init(userRepository: UserRepository, mainActivity: MainActivity) {
+    fun init(userRepository: UserRepository) {
         this.userRepository = userRepository
-        this.mainActivity = mainActivity
 
     }
 
@@ -90,10 +88,6 @@ class EventDetailViewModel : ViewModel() {
 
     }
 
-    fun getMainActivity(): MainActivity {
-        return mainActivity
-    }
-
     fun getDate(inputData: String?): String {
         var date = ""
 
@@ -113,8 +107,8 @@ class EventDetailViewModel : ViewModel() {
 
     fun isAlarm(eventDatabase: EventDatabase): Boolean {
         var mAlarm = false
-        if (getMainActivity().viewModel.getIsFromAPI()) {
-            val eventData = userRepository.readEvent(eventDatabase.idEvent!!)
+        if (FMSHelper.getIsFromAPI()) {
+            val eventData = userRepository.databaseHandler.readEvent(eventDatabase.idEvent!!)
 
             for (i in eventData.indices) {
                 if (eventData[i].isAlarm != null) {
@@ -193,8 +187,8 @@ class EventDetailViewModel : ViewModel() {
 
     fun isFavorite(eventDatabase: EventDatabase): Boolean {
         var mFavorite = false
-        if (getMainActivity().viewModel.getIsFromAPI()) {
-            val eventData = userRepository.readEvent(eventDatabase.idEvent!!)
+        if (FMSHelper.getIsFromAPI()) {
+            val eventData = userRepository.databaseHandler.readEvent(eventDatabase.idEvent!!)
 
             for (i in eventData.indices) {
                 if (eventData[i].isFavorite != null) {
@@ -218,8 +212,8 @@ class EventDetailViewModel : ViewModel() {
 
     fun setAlarm(isAlarm: Boolean, eventDatabase: EventDatabase, context: Context) {
         var eventData = emptyList<EventDatabase>()
-        if (getMainActivity().viewModel.getIsFromAPI()) {
-            eventData = userRepository.readEvent(eventDatabase.idEvent!!)
+        if (FMSHelper.getIsFromAPI()) {
+            eventData = userRepository.databaseHandler.readEvent(eventDatabase.idEvent!!)
 
         }
 
@@ -241,7 +235,7 @@ class EventDetailViewModel : ViewModel() {
             WorkManager.getInstance(context).enqueue(workRequest)
             val workRequestID = workRequest.id.toString()
 
-            if (getMainActivity().viewModel.getIsFromAPI()) {
+            if (FMSHelper.getIsFromAPI()) {
                 if (eventData.isNotEmpty()) {
                     for (i in eventData.indices) {
                         updateEventDatabase(
@@ -270,7 +264,7 @@ class EventDetailViewModel : ViewModel() {
 
 
         } else {
-            if (getMainActivity().viewModel.getIsFromAPI()) {
+            if (FMSHelper.getIsFromAPI()) {
                 for (i in eventData.indices) {
                     WorkManager.getInstance(context)
                         .cancelWorkById(UUID.fromString(eventData[i].isAlarm))
@@ -283,7 +277,7 @@ class EventDetailViewModel : ViewModel() {
                         )
 
                     } else {
-                        userRepository.deleteEvent(eventData[i])
+                        userRepository.databaseHandler.deleteEvent(eventData[i])
                     }
 
                 }
@@ -300,7 +294,7 @@ class EventDetailViewModel : ViewModel() {
                     )
 
                 } else {
-                    userRepository.deleteEvent(eventDatabase)
+                    userRepository.databaseHandler.deleteEvent(eventDatabase)
                 }
 
             }
@@ -311,13 +305,13 @@ class EventDetailViewModel : ViewModel() {
 
     fun setFavorite(isFavorite: Boolean, eventDatabase: EventDatabase) {
         var eventData = emptyList<EventDatabase>()
-        if (getMainActivity().viewModel.getIsFromAPI()) {
-            eventData = userRepository.readEvent(eventDatabase.idEvent!!)
+        if (FMSHelper.getIsFromAPI()) {
+            eventData = userRepository.databaseHandler.readEvent(eventDatabase.idEvent!!)
 
         }
 
         if (isFavorite) {
-            if (getMainActivity().viewModel.getIsFromAPI()) {
+            if (FMSHelper.getIsFromAPI()) {
                 if (eventData.isNotEmpty()) {
                     for (i in eventData.indices) {
                         updateEventDatabase(
@@ -340,7 +334,7 @@ class EventDetailViewModel : ViewModel() {
             }
 
         } else {
-            if (getMainActivity().viewModel.getIsFromAPI()) {
+            if (FMSHelper.getIsFromAPI()) {
                 for (i in eventData.indices) {
                     if (eventData[i].isAlarm != null) {
                         updateEventDatabase(
@@ -351,7 +345,7 @@ class EventDetailViewModel : ViewModel() {
                         )
 
                     } else {
-                        userRepository.deleteEvent(eventData[i])
+                        userRepository.databaseHandler.deleteEvent(eventData[i])
                     }
 
                 }
@@ -366,7 +360,7 @@ class EventDetailViewModel : ViewModel() {
                     )
 
                 } else {
-                    userRepository.deleteEvent(eventDatabase)
+                    userRepository.databaseHandler.deleteEvent(eventDatabase)
                 }
 
             }
@@ -381,7 +375,7 @@ class EventDetailViewModel : ViewModel() {
         isAlarm: String?,
         isFavorite: Boolean?
     ) {
-        userRepository.updateEvent(
+        userRepository.databaseHandler.updateEvent(
             EventDatabase(
                 id,
                 eventDatabase.dateEvent,
@@ -420,7 +414,7 @@ class EventDetailViewModel : ViewModel() {
         isAlarm: String?,
         isFavorite: Boolean?
     ) {
-        userRepository.createEvent(
+        userRepository.databaseHandler.createEvent(
             EventDatabase(
                 0,
                 eventDatabase.dateEvent,

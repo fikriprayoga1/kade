@@ -10,21 +10,20 @@ import com.example.footballmatchschedule.model.database.TeamDatabase
 import com.example.footballmatchschedule.util.helper.ResponseListener
 import com.example.footballmatchschedule.util.jetpack.UserRepository
 import com.example.footballmatchschedule.util.recyclerviewadapter.TeamRecyclerViewAdapter
-import com.example.footballmatchschedule.view.MainActivity
+import com.example.footballmatchschedule.MainActivity
 
 class TeamViewModel : ViewModel() {
     // 1
     private lateinit var userRepository: UserRepository
+
     // 2
-    private lateinit var mainActivity: MainActivity
-    // 3
     private val teamObjects: MutableList<TeamRecyclerViewAdapter.TeamObject> = ArrayList()
-    // 4
+
+    // 3
     private lateinit var teamObject: TeamRecyclerViewAdapter.TeamObject
 
-    fun init(userRepository: UserRepository, mainActivity: MainActivity) {
+    fun init(userRepository: UserRepository) {
         this.userRepository = userRepository
-        this.mainActivity = mainActivity
 
     }
 
@@ -54,10 +53,6 @@ class TeamViewModel : ViewModel() {
 
     fun getTeamObjects(): MutableList<TeamRecyclerViewAdapter.TeamObject> {
         return teamObjects
-    }
-
-    fun getMainActivity(): MainActivity {
-        return mainActivity
     }
 
     fun addSpinner(it: List<LeagueDetail>?, context: Context): ArrayAdapter<String> {

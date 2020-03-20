@@ -11,22 +11,19 @@ import com.example.footballmatchschedule.util.helper.ResponseListener
 import com.example.footballmatchschedule.util.helper.ViewPagerAdapter
 import com.example.footballmatchschedule.util.jetpack.UserRepository
 import com.example.footballmatchschedule.view.LMEFragment
-import com.example.footballmatchschedule.view.MainActivity
+import com.example.footballmatchschedule.MainActivity
 import com.example.footballmatchschedule.view.NMEFragment
 
 class EventViewModel : ViewModel() {
     // 1
     private lateinit var userRepository: UserRepository
     // 2
-    private lateinit var mainActivity: MainActivity
-    // 3
     private val spinnerNameList = ArrayList<String>()
-    // 4
+    // 3
     private val spinnerIdList = ArrayList<String>()
 
-    fun init(userRepository: UserRepository, mainActivity: MainActivity) {
+    fun init(userRepository: UserRepository) {
         this.userRepository = userRepository
-        this.mainActivity = mainActivity
 
     }
 
@@ -74,10 +71,6 @@ class EventViewModel : ViewModel() {
 
     fun getLeagueIdList(position: Int): String {
         return spinnerIdList[position]
-    }
-
-    fun getMainActivity(): MainActivity {
-        return mainActivity
     }
 
     fun requestSearchEvent(keyword: String?, responseListener: ResponseListener) {

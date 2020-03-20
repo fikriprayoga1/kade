@@ -12,11 +12,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.footballmatchschedule.MainActivity
 import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.RetrofitResponse
 import com.example.footballmatchschedule.model.apiresponse.League
 import com.example.footballmatchschedule.model.apiresponse.Team
 import com.example.footballmatchschedule.model.database.TeamDatabase
+import com.example.footballmatchschedule.util.helper.FMSHelper
 import com.example.footballmatchschedule.util.helper.ResponseListener
 import com.example.footballmatchschedule.util.recyclerviewadapter.TeamRecyclerViewAdapter
 import com.example.footballmatchschedule.viewmodel.TeamViewModel
@@ -50,8 +52,7 @@ class TeamFragment : Fragment() {
 
                 withContext(Dispatchers.Default) {
                     viewModel.init(
-                        (activity as MainActivity).viewModel.getUserRepository(),
-                        (activity as MainActivity)
+                        FMSHelper.getUserRepository()
                     )
 
                 }
@@ -145,14 +146,14 @@ class TeamFragment : Fragment() {
                         val ab = retrofitResponse.responseBody as League
                         val aa = viewModel.addSpinner(
                             ab.leagues,
-                            viewModel.getMainActivity()
+                            (activity as MainActivity)
                         )
 
                         withContext(Dispatchers.Main) { spinner_team_fragment_2_1.adapter = aa }
 
                     } else {
                         withContext(Dispatchers.Main) {
-                            viewModel.getMainActivity().popUp(retrofitResponse.message)
+                            (activity as MainActivity).popUp(retrofitResponse.message)
                         }
                     }
 
@@ -180,7 +181,7 @@ class TeamFragment : Fragment() {
 
                     } else {
                         withContext(Dispatchers.Main) {
-                            viewModel.getMainActivity()
+                            (activity as MainActivity)
                                 .popUp(retrofitResponse.message)
                         }
                     }
@@ -201,7 +202,7 @@ class TeamFragment : Fragment() {
                 (activity as MainActivity).startLoading()
 
                 searchView_team_fragment_1.clearFocus()
-                viewModel.getMainActivity().exitKeyboard()
+                (activity as MainActivity).exitKeyboard()
                 viewModel.requestSearchTeam(object :
                     ResponseListener {
                     override fun retrofitResponse(retrofitResponse: RetrofitResponse) {
@@ -249,18 +250,17 @@ class TeamFragment : Fragment() {
 
                 withContext(Dispatchers.Default) {
                     if (retrofitResponse.isSuccess) {
-                        if (!viewModel.getMainActivity().viewModel.getHasFragmentBackstack(
+                        if (!FMSHelper.getHasFragmentBackstack(
                                 "SearchTeam"
                             )
                         ) {
                             withContext(Dispatchers.Main) {
-                                viewModel.getMainActivity().changeFragment2(
+                                (activity as MainActivity).changeFragment2(
                                     R.id.constraintLayout_team_fragment_2,
                                     SearchTeamFragment()
                                 )
                             }
-                            viewModel.getMainActivity()
-                                .viewModel.setHasFragmentBackstack(
+                            FMSHelper.setHasFragmentBackstack(
                                 "SearchTeam",
                                 true
                             )
@@ -270,13 +270,12 @@ class TeamFragment : Fragment() {
                         val searchTeam =
                             retrofitResponse.responseBody as Team
                         withContext(Dispatchers.Main) {
-                            viewModel.getMainActivity()
-                                .viewModel.setSearchTeamList(searchTeam.teams)
+                            FMSHelper.setSearchTeamList(searchTeam.teams)
                         }
 
                     } else {
                         withContext(Dispatchers.Main) {
-                            viewModel.getMainActivity().popUp(retrofitResponse.message)
+                            (activity as MainActivity).popUp(retrofitResponse.message)
                         }
                     }
 
@@ -296,11 +295,11 @@ class TeamFragment : Fragment() {
                 (activity as MainActivity).startLoading()
 
                 withContext(Dispatchers.Default) {
-                    viewModel.getMainActivity().viewModel.setSelectedTeam(teamDatabase)
-                    viewModel.getMainActivity().viewModel.setIsFromAPI(true)
+                    FMSHelper.setSelectedTeam(teamDatabase)
+                    FMSHelper.setIsFromAPI(true)
                 }
 
-                viewModel.getMainActivity()
+                (activity as MainActivity)
                     .changeFragment2(R.id.frameLayout_activity_main_1, TeamDetailFragment())
 
                 (activity as MainActivity).stopLoading()

@@ -12,9 +12,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.footballmatchschedule.MainActivity
 import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.apiresponse.EventDetail
 import com.example.footballmatchschedule.model.database.EventDatabase
+import com.example.footballmatchschedule.util.helper.FMSHelper
 import com.example.footballmatchschedule.util.recyclerviewadapter.EventRecyclerViewAdapter
 import com.example.footballmatchschedule.viewmodel.SearchEventViewModel
 import kotlinx.android.synthetic.main.search_event_fragment.*
@@ -48,13 +50,12 @@ class SearchEventFragment : Fragment() {
 
                 withContext(Dispatchers.Default) {
                     viewModel.init(
-                        (activity as MainActivity).viewModel.getUserRepository(),
-                        (activity as MainActivity)
+                        FMSHelper.getUserRepository()
                     )
 
                 }
                 initRecyclerView()
-                (activity as MainActivity).viewModel.getEventList()
+                FMSHelper.getEventList()
                     ?.observe(thisContext, Observer { searchDataHolderListener(it) })
 
                 (activity as MainActivity).stopLoading()
@@ -91,7 +92,7 @@ class SearchEventFragment : Fragment() {
     }
 
     override fun onDestroy() {
-        (activity as MainActivity).viewModel.setHasFragmentBackstack("Event", false)
+        FMSHelper.setHasFragmentBackstack("Event", false)
         super.onDestroy()
     }
 
@@ -117,11 +118,11 @@ class SearchEventFragment : Fragment() {
                 (activity as MainActivity).startLoading()
 
                 withContext(Dispatchers.Default) {
-                    viewModel.getMainActivity().viewModel.setSelectedEvent(eventDatabase)
-                    viewModel.getMainActivity().viewModel.setIsFromAPI(true)
+                    FMSHelper.setSelectedEvent(eventDatabase)
+                    FMSHelper.setIsFromAPI(true)
                 }
 
-                viewModel.getMainActivity()
+                (activity as MainActivity)
                     .changeFragment2(R.id.frameLayout_activity_main_1, EventDetailFragment())
 
                 (activity as MainActivity).stopLoading()

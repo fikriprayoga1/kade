@@ -11,11 +11,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.footballmatchschedule.MainActivity
 import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.RetrofitResponse
 import com.example.footballmatchschedule.model.apiresponse.Player
 import com.example.footballmatchschedule.model.apiresponse.PlayerDetail
 import com.example.footballmatchschedule.model.database.TeamDatabase
+import com.example.footballmatchschedule.util.helper.FMSHelper
 import com.example.footballmatchschedule.util.helper.ResponseListener
 import com.example.footballmatchschedule.util.recyclerviewadapter.PlayerRecyclerViewAdapter
 import com.example.footballmatchschedule.viewmodel.TeamDetailViewModel
@@ -51,13 +53,12 @@ class TeamDetailFragment : Fragment() {
 
                 withContext(Dispatchers.Default) {
                     viewModel.init(
-                        (activity as MainActivity).viewModel.getUserRepository(),
-                        (activity as MainActivity)
+                        FMSHelper.getUserRepository()
                     )
 
                 }
 
-                val dataSource = (activity as MainActivity).viewModel.getSelectedTeam()
+                val dataSource = FMSHelper.getSelectedTeam()
 
                 // favorite_icon
                 withContext(Dispatchers.Default) {
@@ -182,10 +183,10 @@ class TeamDetailFragment : Fragment() {
                 (activity as MainActivity).startLoading()
 
                 withContext(Dispatchers.Default) {
-                    viewModel.getMainActivity().viewModel.setSelectedPlayer(playerDetail)
+                    FMSHelper.setSelectedPlayer(playerDetail)
                 }
 
-                viewModel.getMainActivity()
+                (activity as MainActivity)
                     .changeFragment2(R.id.frameLayout_activity_main_1, PlayerDetailFragment())
 
                 (activity as MainActivity).stopLoading()
@@ -209,7 +210,7 @@ class TeamDetailFragment : Fragment() {
 
                     } else {
                         withContext(Dispatchers.Main) {
-                            viewModel.getMainActivity()
+                            (activity as MainActivity)
                                 .popUp(retrofitResponse.message)
                         }
                     }

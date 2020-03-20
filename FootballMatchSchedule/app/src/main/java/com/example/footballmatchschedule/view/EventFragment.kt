@@ -9,10 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
+import com.example.footballmatchschedule.MainActivity
 import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.RetrofitResponse
 import com.example.footballmatchschedule.model.apiresponse.League
 import com.example.footballmatchschedule.model.apiresponse.SearchEvent
+import com.example.footballmatchschedule.util.helper.FMSHelper
 import com.example.footballmatchschedule.util.helper.ResponseListener
 import com.example.footballmatchschedule.viewmodel.EventViewModel
 import kotlinx.android.synthetic.main.event_fragment.*
@@ -45,8 +47,7 @@ class EventFragment : Fragment() {
 
                 withContext(Dispatchers.Default) {
                     viewModel.init(
-                        (activity as MainActivity).viewModel.getUserRepository(),
-                        (activity as MainActivity)
+                        FMSHelper.getUserRepository()
                     )
 
                 }
@@ -119,13 +120,13 @@ class EventFragment : Fragment() {
                 withContext(Dispatchers.Default) {
                     if (retrofitResponse.isSuccess) {
                         val ab = retrofitResponse.responseBody as League
-                        val aa = viewModel.addSpinner(ab.leagues, viewModel.getMainActivity())
+                        val aa = viewModel.addSpinner(ab.leagues, (activity as MainActivity))
 
                         withContext(Dispatchers.Main) { spinner_event_fragment_2_1.adapter = aa }
 
                     } else {
                         withContext(Dispatchers.Main) {
-                            viewModel.getMainActivity().popUp(retrofitResponse.message)
+                            (activity as MainActivity).popUp(retrofitResponse.message)
                         }
                     }
 
@@ -142,7 +143,7 @@ class EventFragment : Fragment() {
     private fun spinnerListener(position: Int) {
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
-                (activity as MainActivity).viewModel.setLeagueIdHolder(
+                FMSHelper.setLeagueIdHolder(
                     viewModel.getLeagueIdList(
                         position
                     )
@@ -160,7 +161,7 @@ class EventFragment : Fragment() {
                 (activity as MainActivity).startLoading()
 
                 searchView_event_fragment_1.clearFocus()
-                viewModel.getMainActivity().exitKeyboard()
+                (activity as MainActivity).exitKeyboard()
                 viewModel.requestSearchEvent(query, object :
                     ResponseListener {
                     override fun retrofitResponse(retrofitResponse: RetrofitResponse) {
@@ -182,23 +183,21 @@ class EventFragment : Fragment() {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
                 withContext(Dispatchers.Default) {
                     if (retrofitResponse.isSuccess) {
-                        if (!viewModel.getMainActivity().viewModel.getHasFragmentBackstack(
+                        if (!FMSHelper.getHasFragmentBackstack(
                                 "SearchEvent"
                             )
                         ) {
                             withContext(Dispatchers.Main) {
-                                viewModel.getMainActivity().changeFragment2(
+                                (activity as MainActivity).changeFragment2(
                                     R.id.constraintLayout_event_fragment_2,
                                     SearchEventFragment()
                                 )
 
                                 val searchTeam =
                                     retrofitResponse.responseBody as SearchEvent
-                                viewModel.getMainActivity()
-                                    .viewModel.setEventList(searchTeam.event)
+                                FMSHelper.setEventList(searchTeam.event)
                             }
-                            viewModel.getMainActivity()
-                                .viewModel.setHasFragmentBackstack(
+                            FMSHelper.setHasFragmentBackstack(
                                 "SearchEvent",
                                 true
                             )
@@ -207,7 +206,7 @@ class EventFragment : Fragment() {
 
                     } else {
                         withContext(Dispatchers.Main) {
-                            viewModel.getMainActivity().popUp(retrofitResponse.message)
+                            (activity as MainActivity).popUp(retrofitResponse.message)
                         }
                     }
 

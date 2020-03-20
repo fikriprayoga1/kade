@@ -12,8 +12,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.footballmatchschedule.MainActivity
 import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.database.TeamDatabase
+import com.example.footballmatchschedule.util.helper.FMSHelper
 import com.example.footballmatchschedule.util.recyclerviewadapter.TeamRecyclerViewAdapter
 import com.example.footballmatchschedule.viewmodel.FavoriteTeamViewModel
 import kotlinx.android.synthetic.main.favorite_team_fragment.*
@@ -46,8 +48,7 @@ class FavoriteTeamFragment : Fragment() {
 
                 withContext(Dispatchers.Default) {
                     viewModel.init(
-                        (activity as MainActivity).viewModel.getUserRepository(),
-                        (activity as MainActivity)
+                        FMSHelper.getUserRepository()
                     )
 
                 }
@@ -119,11 +120,11 @@ class FavoriteTeamFragment : Fragment() {
                 (activity as MainActivity).startLoading()
 
                 withContext(Dispatchers.Default) {
-                    viewModel.getMainActivity().viewModel.setSelectedTeam(teamDatabase)
-                    viewModel.getMainActivity().viewModel.setIsFromAPI(false)
+                    FMSHelper.setSelectedTeam(teamDatabase)
+                    FMSHelper.setIsFromAPI(false)
                 }
 
-                viewModel.getMainActivity()
+                (activity as MainActivity)
                     .changeFragment2(R.id.frameLayout_activity_main_1, TeamDetailFragment())
 
                 (activity as MainActivity).stopLoading()

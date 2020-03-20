@@ -7,7 +7,7 @@ import androidx.work.WorkManager
 import com.example.footballmatchschedule.model.database.EventDatabase
 import com.example.footballmatchschedule.util.jetpack.UserRepository
 import com.example.footballmatchschedule.util.recyclerviewadapter.EventRecyclerViewAdapter
-import com.example.footballmatchschedule.view.MainActivity
+import com.example.footballmatchschedule.MainActivity
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -15,21 +15,21 @@ import kotlin.collections.ArrayList
 class AlarmViewModel : ViewModel() {
     // 1
     private var userRepository: UserRepository? = null
+
     // 2
-    private lateinit var mainActivity: MainActivity
-    // 3
     private var alarmEvent: LiveData<List<EventDatabase>>? = null
-    // 4
+
+    // 3
     private val eventObjects: MutableList<EventRecyclerViewAdapter.EventObject> = ArrayList()
-    // 5
+
+    // 4
     private lateinit var eventObject: EventRecyclerViewAdapter.EventObject
 
-    fun init(userRepository: UserRepository, mainActivity: MainActivity) {
+    fun init(userRepository: UserRepository) {
         this.userRepository = userRepository
-        this.mainActivity = mainActivity
 
         if (alarmEvent == null) {
-            alarmEvent = userRepository.readAlarmEvent()
+            alarmEvent = userRepository.databaseHandler.readAlarmEvent()
 
         }
 
@@ -62,7 +62,7 @@ class AlarmViewModel : ViewModel() {
                             setAlarmNull(eventList[i])
 
                         } else {
-                            userRepository!!.deleteEvent(eventList[i])
+                            userRepository!!.databaseHandler.deleteEvent(eventList[i])
                         }
 
                     }
@@ -75,16 +75,12 @@ class AlarmViewModel : ViewModel() {
 
     }
 
-    fun getMainActivity(): MainActivity {
-        return mainActivity
-    }
-
     fun getEventObjects(): MutableList<EventRecyclerViewAdapter.EventObject> {
         return eventObjects
     }
 
     private fun setAlarmNull(eventDatabase: EventDatabase) {
-        userRepository!!.updateEvent(
+        userRepository!!.databaseHandler.updateEvent(
             EventDatabase(
                 eventDatabase.id,
                 eventDatabase.dateEvent,

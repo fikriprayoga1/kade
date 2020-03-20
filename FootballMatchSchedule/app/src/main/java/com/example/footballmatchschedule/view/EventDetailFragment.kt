@@ -9,10 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
+import com.example.footballmatchschedule.MainActivity
 import com.example.footballmatchschedule.R
 import com.example.footballmatchschedule.model.RetrofitResponse
 import com.example.footballmatchschedule.model.apiresponse.Team
 import com.example.footballmatchschedule.model.database.EventDatabase
+import com.example.footballmatchschedule.util.helper.FMSHelper
 import com.example.footballmatchschedule.util.helper.ResponseListener
 import com.example.footballmatchschedule.viewmodel.EventDetailViewModel
 import com.squareup.picasso.Picasso
@@ -46,13 +48,12 @@ class EventDetailFragment : Fragment() {
 
                 withContext(Dispatchers.Default) {
                     viewModel.init(
-                        (activity as MainActivity).viewModel.getUserRepository(),
-                        (activity as MainActivity)
+                        FMSHelper.getUserRepository()
                     )
 
                 }
 
-                val dataSource = (activity as MainActivity).viewModel.getSelectedEvent()
+                val dataSource = FMSHelper.getSelectedEvent()
 
                 // alarm_icon
                 withContext(Dispatchers.Default) {
@@ -67,7 +68,9 @@ class EventDetailFragment : Fragment() {
 
 
                     } else {
-                        withContext(Dispatchers.Main) { imageButton_event_detail_fragment_1_1_2.visibility = View.GONE }
+                        withContext(Dispatchers.Main) {
+                            imageButton_event_detail_fragment_1_1_2.visibility = View.GONE
+                        }
 
                     }
 

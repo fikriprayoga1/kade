@@ -1,4 +1,4 @@
-package com.example.footballmatchschedule.view
+package com.example.footballmatchschedule
 
 import android.content.Context
 import android.os.Bundle
@@ -10,29 +10,26 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
-import com.example.footballmatchschedule.R
-import com.example.footballmatchschedule.viewmodel.MainActivityViewModel
+import com.example.footballmatchschedule.util.helper.FMSHelper
+import com.example.footballmatchschedule.view.HomeFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
-
-    lateinit var viewModel: MainActivityViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        viewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
 
-        val thisContext = this
         lifecycleScope.launchWhenStarted {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
                 startLoading()
 
-                withContext(Dispatchers.Default) { viewModel.init(thisContext) }
+                withContext(Dispatchers.Default) { FMSHelper.init(this@MainActivity) }
 
-                changeFragment0(R.id.frameLayout_activity_main_1, HomeFragment())
+                changeFragment0(R.id.frameLayout_activity_main_1,
+                    HomeFragment()
+                )
 
                 stopLoading()
 

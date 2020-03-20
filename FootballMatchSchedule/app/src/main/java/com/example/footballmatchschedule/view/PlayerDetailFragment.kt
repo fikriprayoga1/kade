@@ -8,12 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
+import com.example.footballmatchschedule.MainActivity
 import com.example.footballmatchschedule.R
+import com.example.footballmatchschedule.util.helper.FMSHelper
 import com.example.footballmatchschedule.viewmodel.PlayerDetailViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.player_detail_fragment.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class PlayerDetailFragment : Fragment() {
 
@@ -38,7 +38,7 @@ class PlayerDetailFragment : Fragment() {
             if (lifecycle.currentState >= Lifecycle.State.STARTED) {
                 (activity as MainActivity).startLoading()
 
-                val dataSource = (activity as MainActivity).viewModel.getSelectedPlayer()
+                val dataSource = FMSHelper.getSelectedPlayer()
 
                 Picasso.get()
                     .load(dataSource.strThumb)

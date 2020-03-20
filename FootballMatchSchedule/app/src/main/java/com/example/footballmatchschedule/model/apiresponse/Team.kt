@@ -1,5 +1,5 @@
 package com.example.footballmatchschedule.model.apiresponse
 
 data class Team(
-    var teams: List<TeamDetail>?
+    val teams: List<TeamDetail>?
 )
